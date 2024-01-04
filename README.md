@@ -1,5 +1,46 @@
 # Klockan-Frontend
 
+___
+
+# Getting Started
+
+Follow these steps to clone the repository and set up the project on your local environment.
+
+## Prerequisites
+
+Make sure you have the following software installed:
+- Angular CLI (16.2.x)
+- Node.js (^16.14.0 || ^18.10.0)
+- TypeScript (>=4.9.3 <5.2.0)
+
+Angular Official Documentation - [Version Support Status](https://angular.io/guide/versions)
+
+
+## Cloning the Repository
+
+1. Open a terminal.
+2. Clone the repository using the following Git command: `git clone https://github.com/JU-DEV-LatamBootcamp/Klockan-Frontend.git`
+
+3. Change into the project directory: `cd Klockan-Frontend`
+
+## Installing Dependencies
+
+1. Inside the project directory, install the dependencies: `npm install`
+
+## Running the Application
+
+1. Start the development server with the Angular CLI: `ng serve`
+
+2. Open a browser and go to `http://localhost:4200` to see the running application.
+
+## Testing the Application
+
+1. To execute the unit tests for components and services: `ng test`
+
+2. Open a browser and go to `http://localhost:9876`
+
+### Refer to the `package.json` file for other useful scripts.
+
 ---
 
 # Project Folder Structure
