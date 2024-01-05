@@ -6,17 +6,21 @@ import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
 import { CoreModule } from './core/core.module';
 import { HomeModule } from './modules/home/home.module';
+import { LoginComponent } from './modules/auth/components/login/login.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     CoreModule,
     HomeModule,
+    LoginComponent,
     StoreModule.forRoot({}, {}),
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
