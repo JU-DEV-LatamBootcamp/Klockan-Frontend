@@ -86,4 +86,18 @@ export class RegisterComponent {
       console.log('Form submitted successfully!');
     }
   }
+
+  autenticacion(context: string) {
+    switch (context) {
+      case 'facebook':
+        this.thirdpartyAuth.facebookAuth();
+        break;
+      case 'google':
+        this.thirdpartyAuth.googleAuth();
+        break;
+      case 'twitter':
+        this.thirdpartyAuth.twitterAuth();
+        break;
+    }
+  }
 }
