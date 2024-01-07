@@ -1,1 +1,52 @@
-<p>register works!</p>
+<h2 id="klockan" (click)="navigate('home')">Klockan</h2>
+
+<div class="form-container">
+  <div>
+    <h1>Registrarse</h1>
+  </div>
+  <form class="form" (ngSubmit)="onSubmit()" >
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input type="email" matInput [formControl]="emailFormControl" />
+      <mat-error
+        *ngIf="
+          emailFormControl.hasError('email') &&
+          !emailFormControl.hasError('required')
+        "
+      >
+        Please enter a valid email.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input type="password" matInput [formControl]="passwordFormControl" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Repeat password</mat-label>
+      <input
+        type="password"
+        matInput
+        [formControl]="repeatPasswordFormControl"
+      />
+      <mat-error *ngIf="repeatPasswordFormControl.hasError('mismatch')">
+        Passwords do not match.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-checkbox [formControl]="checkboxFormControl" color="primary"
+      >Acepto los terminos y condiciones de uso</mat-checkbox
+    >
+
+    <mat-error
+      *ngIf="isFormSubmitted && checkboxFormControl.hasError('required')"
+    >
+      This checkbox is required.
+    </mat-error>
+
+    <button mat-flat-button color="primary" class="form-submit-btn">
+      Registrarse
+    </button>
+  </form>
+</div>
