@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { ThirdPartyAuthService } from '../../services/third-party-auth.service';
 import { Router } from '@angular/router';
+import { LoginModel } from '../../models/LoginModel';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -33,6 +34,19 @@ export class LoginComponent {
 
   usernameFormControl = new FormControl('', [Validators.required, Validators.minLength(6)]);
   passwordFormControl = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]);
+
+  login(){
+    let username = this.usernameFormControl.value!;
+    let password = this.passwordFormControl.value!;
+    let loginModel : LoginModel = new LoginModel(username, password);
+    this.service.login(loginModel).subscribe((data : any) => {
+      console.info(data);
+      localStorage.setItem('token', data.token);
+      this.router.navigate(['home']);
+    }, (error : any) => {
+      console.warn(error);
+    });
+  }
 
   autenticacion(context : string){
     switch(context){
