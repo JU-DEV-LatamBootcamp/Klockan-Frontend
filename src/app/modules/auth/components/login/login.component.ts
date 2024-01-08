@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {MatButtonModule} from '@angular/material/button';
-import {MatInputModule} from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
 import {
   FormControl,
   FormGroupDirective,
@@ -9,47 +9,100 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { ThirdPartyAuthService } from '../../services/third-party-auth.service';
 import { Router } from '@angular/router';
 import { LoginModel } from '../../models/LoginModel';
+
+/**
+ * Componente que representa la interfaz de inicio de sesión.
+ *
+ * Este componente permite a los usuarios ingresar sus credenciales para iniciar sesión.
+ * También incluye la opción de autenticación de terceros a través de plataformas como Facebook, Google y Twitter.
+ *
+ * @example
+ * <app-login></app-login>
+ *
+ * @see {@link AuthService} - Servicio para manejar la autenticación del usuario.
+ * @see {@link ThirdPartyAuthService} - Servicio para manejar la autenticación de terceros.
+ */
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.sass'],
   standalone: true,
-  imports: [MatButtonModule,FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, CommonModule],
-  providers: [AuthService, ThirdPartyAuthService]
+  imports: [
+    MatButtonModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    CommonModule,
+  ],
+  providers: [AuthService, ThirdPartyAuthService],
 })
-
-
-
 export class LoginComponent {
+  /**
+   * Constructor del componente de inicio de sesión.
+   *
+   * @param {AuthService} service - Servicio de autenticación de usuario.
+   * @param {ThirdPartyAuthService} thirdpartyAuth - Servicio de autenticación de terceros.
+   * @param {Router} router - Servicio de navegación entre vistas.
+   */
+  constructor(
+    private service: AuthService,
+    private thirdpartyAuth: ThirdPartyAuthService,
+    private router: Router
+  ) {}
+  /**
+   * Control del formulario para el nombre de usuario.
+   * @type {FormControl}
+   */
+  usernameFormControl: FormControl = new FormControl('', [
+    Validators.required,
+    Validators.minLength(6),
+  ]);
+  /**
+   * Control del formulario para la contraseña.
+   * @type {FormControl}
+   */
+  passwordFormControl: FormControl = new FormControl('', [
+    Validators.required,
+    Validators.minLength(8),
+    Validators.maxLength(16),
+  ]);
 
-  constructor(private service : AuthService, private thirdpartyAuth : ThirdPartyAuthService, private router : Router) { 
-    
-  }
-
-  usernameFormControl = new FormControl('', [Validators.required, Validators.minLength(6)]);
-  passwordFormControl = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]);
-
-  login(){
+  /**
+   * Método llamado al intentar iniciar sesión.
+   *
+   * Recoge los valores del nombre de usuario y la contraseña,
+   * crea un objeto `LoginModel` y utiliza el servicio `AuthService` para realizar la autenticación.
+   */
+  login(): void {
     let username = this.usernameFormControl.value!;
     let password = this.passwordFormControl.value!;
-    let loginModel : LoginModel = new LoginModel(username, password);
-    this.service.login(loginModel).subscribe((data : any) => {
-      console.info(data);
-      localStorage.setItem('token', data.token);
-      this.router.navigate(['home']);
-    }, (error : any) => {
-      console.warn(error);
-    });
+    let loginModel: LoginModel = new LoginModel(username, password);
+    this.service.login(loginModel).subscribe(
+      (data: any) => {
+        console.info(data);
+        localStorage.setItem('token', data.token);
+        this.router.navigate(['home']);
+      },
+      (error: any) => {
+        console.warn(error);
+      }
+    );
   }
-
-  autenticacion(context : string){
-    switch(context){
+  /**
+   * Método para navegar a otra vista.
+   *
+   * @param {string} param - Ruta de navegación.
+   */
+  autenticacion(context: string) {
+    switch (context) {
       case 'facebook':
         this.thirdpartyAuth.facebookAuth();
         break;
@@ -61,7 +114,7 @@ export class LoginComponent {
         break;
     }
   }
-  navigate(param : string){
+  navigate(param: string) {
     this.router.navigate([param]);
   }
 }
