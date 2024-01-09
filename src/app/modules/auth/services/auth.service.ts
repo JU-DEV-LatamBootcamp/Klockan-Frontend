@@ -11,11 +11,11 @@ export class AuthService {
 
   constructor(private http : HttpClient) { }
 
-  register(data : LoginModel){
+  register(data : RegisterModel){
     return this.http.post('http://localhost:3000/api/register', data);
   }
 
-  login(data : RegisterModel){
+  login(data : LoginModel){
     return this.http.post('http://localhost:3000/api/login', data);
   }
 }

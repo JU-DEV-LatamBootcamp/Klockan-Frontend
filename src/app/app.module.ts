@@ -9,6 +9,7 @@ import { HomeModule } from './modules/home/home.module';
 import { LoginComponent } from './modules/auth/components/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+
 @NgModule({
   declarations: [
     AppComponent,
