@@ -41,6 +41,17 @@ Angular Official Documentation - [Version Support Status](https://angular.io/gui
 
 ### Refer to the `package.json` file for other useful scripts.
 
+
+## Linting
+
+### Running Lint
+
+Our project uses ESLint to enforce a consistent code style and catch errors. To run the linter on your code: `npm run lint`
+
+### Automatically Fixing Lint Issues
+
+Some of the issues reported by the linter can be automatically fixed. To attempt an auto-fix of linting issues, execute the following command: `npm run lint:fix`
+
 ---
 
 # Project Folder Structure
