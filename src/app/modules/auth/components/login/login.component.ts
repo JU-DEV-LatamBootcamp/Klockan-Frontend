@@ -15,6 +15,10 @@ import { AuthService } from '../../services/auth.service';
 import { ThirdPartyAuthService } from '../../services/third-party-auth.service';
 import { Router } from '@angular/router';
 import { LoginModel } from '../../models/LoginModel';
+import { JwksValidationHandler, OAuthService } from 'angular-oauth2-oidc';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/keycloak.enviroment';
+import { authConfig } from 'src/app/shared/config/keycloak.config';
 
 /**
  * Componente que representa la interfaz de inicio de sesión.
@@ -52,11 +56,43 @@ export class LoginComponent {
    * @param {ThirdPartyAuthService} thirdpartyAuth - Servicio de autenticación de terceros.
    * @param {Router} router - Servicio de navegación entre vistas.
    */
+
+  headers: HttpHeaders | undefined;
+  readonly APIUrl = environment.apiBasePath;
+  user: any;
+
   constructor(
     private service: AuthService,
     private thirdpartyAuth: ThirdPartyAuthService,
-    private router: Router
+    private router: Router,
+    private oAuthService: OAuthService,
+    private http: HttpClient
   ) {}
+
+  ngOnInit() {
+    this.configureSingleSingOn();
+    this.setToken();
+  }
+
+  setToken() {
+    const token = this.oAuthService.getAccessToken();
+    sessionStorage.setItem('token', token);
+    this.headers = new HttpHeaders({
+      Authorization: 'Bearer ' + token,
+    });
+    console.log('Bearer Token: ' + token);
+  }
+
+  configureSingleSingOn() {
+    this.oAuthService.configure(authConfig);
+    this.oAuthService.tokenValidationHandler = new JwksValidationHandler();
+    this.oAuthService.loadDiscoveryDocumentAndTryLogin();
+  }
+
+  login() {
+    this.oAuthService.initLoginFlow();
+    this.setToken();
+  }
   /**
    * Control del formulario para el nombre de usuario.
    * @type {FormControl}
@@ -81,21 +117,21 @@ export class LoginComponent {
    * Recoge los valores del nombre de usuario y la contraseña,
    * crea un objeto `LoginModel` y utiliza el servicio `AuthService` para realizar la autenticación.
    */
-  login(): void {
-    let username = this.usernameFormControl.value!;
-    let password = this.passwordFormControl.value!;
-    let loginModel: LoginModel = new LoginModel(username, password);
-    this.service.login(loginModel).subscribe(
-      (data: any) => {
-        console.info(data);
-        localStorage.setItem('token', data.token);
-        this.router.navigate(['home']);
-      },
-      (error: any) => {
-        console.warn(error);
-      }
-    );
-  }
+  // login(): void {
+  //   const username = this.usernameFormControl.value!;
+  //   const password = this.passwordFormControl.value!;
+  //   const loginModel: LoginModel = new LoginModel(username, password);
+  //   this.service.login(loginModel).subscribe(
+  //     (data: any) => {
+  //       console.info(data);
+  //       localStorage.setItem('token', data.token);
+  //       this.router.navigate(['home']);
+  //     },
+  //     (error: any) => {
+  //       console.warn(error);
+  //     }
+  //   );
+  // }
   /**
    * Método para navegar a otra vista.
    *
