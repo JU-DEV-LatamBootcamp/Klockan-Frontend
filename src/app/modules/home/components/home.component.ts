@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { OAuthService, JwksValidationHandler } from 'angular-oauth2-oidc';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { authConfig } from 'src/app/shared/config/keycloak.config';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -16,13 +17,15 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private oAuthService: OAuthService,
-    private http: HttpClient
+    private router : Router    
   ) {}
 
   ngOnInit() {
     this.configureSingleSingOn();
     this.token = this.oAuthService.getAccessToken();
-    console.log(this.token);
+    if(this.token == null){
+      this.router.navigate(['/auth/login']);
+    }
   }
 
   configureSingleSingOn() {
