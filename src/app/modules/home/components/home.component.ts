@@ -20,19 +20,19 @@ export class HomeComponent implements OnInit {
     private router : Router    
   ) {}
 
-  ngOnInit() {
-    this.configureSingleSingOn();
+  async ngOnInit() {
+    await this.configureSingleSingOn();
     this.token = this.oAuthService.getAccessToken();
     if(this.token == null){
       this.router.navigate(['/auth/login']);
     }
   }
 
-  configureSingleSingOn() {
+  async configureSingleSingOn() {
     // Assuming you have authConfig defined somewhere
     this.oAuthService.configure(authConfig);
     this.oAuthService.tokenValidationHandler = new JwksValidationHandler();
-    this.oAuthService.loadDiscoveryDocumentAndTryLogin();
+    await this.oAuthService.loadDiscoveryDocumentAndTryLogin();
   }
 
   logout() {
