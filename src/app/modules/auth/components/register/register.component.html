@@ -1,4 +1,10 @@
-<h2 id="klockan" (click)="navigate('home')">Klockan</h2>
+<h2
+  id="klockan"
+  tabindex="0"
+  (click)="navigate('home')"
+  (keypress)="navigate('home')">
+  Klockan
+</h2>
 
 <section class="register-container">
   <div class="form-container">
@@ -92,7 +98,10 @@
       </div>
     </div>
     <div class="login-link">
-      <p (click)="navigate('/auth/login')">
+      <p
+        tabindex="0"
+        (keypress)="navigate('/auth/login')"
+        (click)="navigate('/auth/login')">
         Ya tienes una cuenta? Inicia tu sesión
       </p>
     </div>

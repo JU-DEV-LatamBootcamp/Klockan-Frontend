@@ -17,13 +17,13 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private oAuthService: OAuthService,
-    private router : Router    
+    private router: Router
   ) {}
 
   async ngOnInit() {
     await this.configureSingleSingOn();
     this.token = this.oAuthService.getAccessToken();
-    if(this.token == null){
+    if (this.token == null) {
       this.router.navigate(['/auth/login']);
     }
   }

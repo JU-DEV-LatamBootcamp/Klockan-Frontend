@@ -2,23 +2,22 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ThirdPartyAuthService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http : HttpClient) { }
-
-  facebookAuth(){
+  facebookAuth() {
     this.http.get('https://localhost:5001/api/auth/facebook').subscribe(res => {
       console.log(res);
     });
   }
-  googleAuth(){
+  googleAuth() {
     this.http.get('https://localhost:5001/api/auth/google').subscribe(res => {
       console.log(res);
     });
   }
-  twitterAuth(){
+  twitterAuth() {
     this.http.get('https://localhost:5001/api/auth/twitter').subscribe(res => {
       console.log(res);
     });

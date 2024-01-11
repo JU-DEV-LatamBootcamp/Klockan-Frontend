@@ -17,9 +17,17 @@ describe('LoginComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LoginComponent],
-      imports: [ReactiveFormsModule, FormsModule, MatInputModule, MatButtonModule],
+      imports: [
+        ReactiveFormsModule,
+        FormsModule,
+        MatInputModule,
+        MatButtonModule,
+      ],
       providers: [
-        { provide: AuthService, useValue: { login: () => of({ token: 'fakeToken' }) } },
+        {
+          provide: AuthService,
+          useValue: { login: () => of({ token: 'fakeToken' }) },
+        },
         { provide: ThirdPartyAuthService, useValue: {} },
         { provide: Router, useValue: {} },
       ],
@@ -47,10 +55,12 @@ describe('LoginComponent', () => {
     component.passwordFormControl.setValue('testPassword');
     component.login();
 
-    expect(authService.login).toHaveBeenCalledWith(new LoginModel('testUser', 'testPassword'));
+    expect(authService.login).toHaveBeenCalledWith(
+      new LoginModel('testUser', 'testPassword')
+    );
   });
 
-   it('should invalidate the form if username is too short', () => {
+  it('should invalidate the form if username is too short', () => {
     component.usernameFormControl.setValue('ab'); // Assuming the minimum length is 3
     expect(component.usernameFormControl.valid).toBe(false);
   });
@@ -72,5 +82,4 @@ describe('LoginComponent', () => {
     expect(component.usernameFormControl.valid).toBe(true);
     expect(component.passwordFormControl.valid).toBe(true);
   });
-
 });
