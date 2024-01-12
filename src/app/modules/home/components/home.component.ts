@@ -6,6 +6,7 @@ import { authConfig } from 'src/app/shared/config/keycloak.config';
 import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
 import { TokenService } from '../services/token.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -13,23 +14,25 @@ import { TokenService } from '../services/token.service';
   styleUrls: ['./home.component.sass'],
 })
 export class HomeComponent implements OnInit {
-
   @ViewChild('sidenav', { static: false }) sidenav: MatSidenav | undefined;
-
 
   token: string | null = null;
   isSidenavOpen = true;
 
+  isLoading = false;
+  apiResponse: any[] = [];
+
   constructor(
     private oAuthService: OAuthService,
     private router: Router,
-    private tokenService : TokenService
+    private tokenService: TokenService,
+    private httpClient: HttpClient
   ) {}
 
-  username : string | null = "Usuario promedio";
+  username: string | null = 'Usuario promedio';
 
   async ngOnInit() {
-    console.log("Entrando al keycloack");
+    console.log('Entrando al keycloack');
     try {
       await this.configureSingleSingOn();
       this.token = this.oAuthService.getAccessToken();
@@ -38,8 +41,7 @@ export class HomeComponent implements OnInit {
         return;
       }
       this.username = this.tokenService.getPreferredUsername(this.token);
-    }	
-    catch(error) {
+    } catch (error) {
       console.log(error);
     }
   }
@@ -60,5 +62,28 @@ export class HomeComponent implements OnInit {
     // Implement your logout logic here, e.g., clear the token and navigate to the login page
     this.oAuthService.logOut();
     // Additional logout logic if needed
+  }
+
+  callApi() {
+    const url = 'http://localhost:5209/WeatherForecast';
+
+    this.isLoading = true;
+
+    if (this.token == null) {
+      console.error('Token not available');
+      return;
+    }
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`,
+    });
+
+    this.httpClient.get(url, { headers }).subscribe((data: any) => {
+      // Handle the API response data
+      console.log('API Response:', data);
+      this.apiResponse = data; // Store the API response array
+      // Reset loading state to false on success
+      this.isLoading = false;
+    });
   }
 }
