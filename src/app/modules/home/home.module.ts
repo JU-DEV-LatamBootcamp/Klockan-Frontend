@@ -9,7 +9,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './components/home.component';
-
+import { MatIconModule } from '@angular/material/icon';
 @NgModule({
   declarations: [HomeComponent],
   imports: [
@@ -20,6 +20,8 @@ import { HomeComponent } from './components/home.component';
     MatSidenavModule,
     MatListModule,
     MatToolbarModule,
+    MatSidenavModule,
+    MatIconModule
   ],
 })
 export class HomeModule {}

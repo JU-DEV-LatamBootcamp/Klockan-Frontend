@@ -62,11 +62,9 @@ export class LoginComponent {
   user: any;
 
   constructor(
-    private service: AuthService,
     private thirdpartyAuth: ThirdPartyAuthService,
     private router: Router,
     private oAuthService: OAuthService,
-    private http: HttpClient
   ) {}
 
   ngOnInit() {
@@ -81,12 +79,15 @@ export class LoginComponent {
       Authorization: 'Bearer ' + token,
     });
     console.log('Bearer Token: ' + token);
+    if (token != null) {
+      this.navigate('/home');
+    }
   }
 
-  configureSingleSingOn() {
+  async configureSingleSingOn() {
     this.oAuthService.configure(authConfig);
     this.oAuthService.tokenValidationHandler = new JwksValidationHandler();
-    this.oAuthService.loadDiscoveryDocumentAndTryLogin();
+    await this.oAuthService.loadDiscoveryDocumentAndTryLogin();
   }
 
   login() {
@@ -137,19 +138,7 @@ export class LoginComponent {
    *
    * @param {string} param - Ruta de navegación.
    */
-  autenticacion(context: string) {
-    switch (context) {
-      case 'facebook':
-        this.thirdpartyAuth.facebookAuth();
-        break;
-      case 'google':
-        this.thirdpartyAuth.googleAuth();
-        break;
-      case 'twitter':
-        this.thirdpartyAuth.twitterAuth();
-        break;
-    }
-  }
+  
   navigate(param: string) {
     this.router.navigate([param]);
   }

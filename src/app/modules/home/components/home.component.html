@@ -3,33 +3,65 @@
     <mat-toolbar>Klockan</mat-toolbar>
     <mat-divider></mat-divider>
     <mat-nav-list>
-      <a mat-list-item routerLink="/home">Home</a>
-      <a mat-list-item routerLink="/home">Courses</a>
-      <a mat-list-item routerLink="/home">Classrooms</a>
-      <a mat-list-item routerLink="/home">Students</a>
+      <a mat-list-item routerLink="/home"> 
+        <div class="inside-list">
+        <mat-icon>home</mat-icon> Home
+        </div>
+      </a>
+      <a mat-list-item routerLink="/home">
+        <div class="inside-list">
+          <mat-icon>school</mat-icon> Courses
+        </div>
+      </a>
+      <a mat-list-item routerLink="/home">
+        <div class="inside-list">
+        <mat-icon>class</mat-icon> Classrooms
+        </div>
+      </a>
+      <a mat-list-item routerLink="/home">
+        <div class="inside-list">
+        <mat-icon>person</mat-icon> Students
+        </div>
+      </a>
     </mat-nav-list>
   </mat-sidenav>
-
   <mat-sidenav-content>
     <!-- TODO: Refactor the sidenav -->
     <!-- <router-outlet></router-outlet> -->
-    <div *ngIf="token">
-      <!-- Content visible when the token exists (user is logged in) -->
-      <div class="content-container">
-        <h1>Welcome to the home page!</h1>
-        <button
-          mat-flat-button
-          color="primary"
-          class="logout-button"
-          (click)="logout()">
-          Logout
-        </button>
-      </div>
-    </div>
+    <div class="content-container">
+      <h1>Welcome to the home page, {{ username }}!</h1>
+      <button
+        mat-flat-button
+        color="primary"
+        class="logout-button"
+        (click)="logout()">
+        Logout
+      </button>
 
-    <div *ngIf="!token">
-      <!-- Content visible when the token does not exist (user is not logged in) -->
-      <p>Please log in to access this page.</p>
+      <button class="sidenav-button" (click)="toggleSidenav()">
+        <ng-container *ngIf="isSidenavOpen; else closedIcon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="16"
+            width="10"
+            viewBox="0 0 320 512">
+            <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+            <path
+              d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
+          </svg>
+        </ng-container>
+        <ng-template #closedIcon>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="16"
+            width="10"
+            viewBox="0 0 320 512">
+            <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+            <path
+              d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z" />
+          </svg>
+        </ng-template>
+      </button>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

@@ -1,10 +1,11 @@
 // home.component.ts
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { OAuthService, JwksValidationHandler } from 'angular-oauth2-oidc';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { authConfig } from 'src/app/shared/config/keycloak.config';
 import { Router } from '@angular/router';
+import { MatSidenav } from '@angular/material/sidenav';
+import { TokenService } from '../services/token.service';
 
 @Component({
   selector: 'app-home',
@@ -12,19 +13,34 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.sass'],
 })
 export class HomeComponent implements OnInit {
-  headers: HttpHeaders | undefined;
+
+  @ViewChild('sidenav', { static: false }) sidenav: MatSidenav | undefined;
+
+
   token: string | null = null;
+  isSidenavOpen = true;
 
   constructor(
     private oAuthService: OAuthService,
-    private router: Router
+    private router: Router,
+    private tokenService : TokenService
   ) {}
 
+  username : string | null = "Usuario promedio";
+
   async ngOnInit() {
-    await this.configureSingleSingOn();
-    this.token = this.oAuthService.getAccessToken();
-    if (this.token == null) {
-      this.router.navigate(['/auth/login']);
+    console.log("Entrando al keycloack");
+    try {
+      await this.configureSingleSingOn();
+      this.token = this.oAuthService.getAccessToken();
+      if (this.token == null) {
+        this.router.navigate(['/auth/login']);
+        return;
+      }
+      this.username = this.tokenService.getPreferredUsername(this.token);
+    }	
+    catch(error) {
+      console.log(error);
     }
   }
 
@@ -33,6 +49,11 @@ export class HomeComponent implements OnInit {
     this.oAuthService.configure(authConfig);
     this.oAuthService.tokenValidationHandler = new JwksValidationHandler();
     await this.oAuthService.loadDiscoveryDocumentAndTryLogin();
+  }
+
+  toggleSidenav() {
+    this.sidenav!.toggle();
+    this.isSidenavOpen = !this.isSidenavOpen;
   }
 
   logout() {
