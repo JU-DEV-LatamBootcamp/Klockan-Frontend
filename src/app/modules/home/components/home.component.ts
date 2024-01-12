@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
 import { TokenService } from '../services/token.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BackendService } from '../services/backend.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-home',
@@ -26,7 +28,7 @@ export class HomeComponent implements OnInit {
     private oAuthService: OAuthService,
     private router: Router,
     private tokenService: TokenService,
-    private httpClient: HttpClient
+    private backendService : BackendService
   ) {}
 
   username: string | null = 'Usuario promedio';
@@ -36,6 +38,7 @@ export class HomeComponent implements OnInit {
     try {
       await this.configureSingleSingOn();
       this.token = this.oAuthService.getAccessToken();
+      console.log(this.token);
       if (this.token == null) {
         this.router.navigate(['/auth/login']);
         return;
@@ -65,25 +68,27 @@ export class HomeComponent implements OnInit {
   }
 
   callApi() {
-    const url = 'http://localhost:5209/WeatherForecast';
-
     this.isLoading = true;
-
     if (this.token == null) {
       console.error('Token not available');
       return;
     }
-
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`,
-    });
-
-    this.httpClient.get(url, { headers }).subscribe((data: any) => {
-      // Handle the API response data
-      console.log('API Response:', data);
-      this.apiResponse = data; // Store the API response array
-      // Reset loading state to false on success
+    try {
+     this.backendService.getBackendData(this.token).subscribe((response) => {
+        this.apiResponse = response as any[];
+        this.isLoading = false;
+      }, (error) => {
+        console.log("////////////////Se ha obtenido un codigo de error///////////////////////");
+        this.isLoading = false;
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Algo salio mal, intenta nuevamente',
+        });
+      }
+        );
+    } catch (error) {
       this.isLoading = false;
-    });
+    }
   }
 }
