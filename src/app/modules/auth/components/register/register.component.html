@@ -9,7 +9,7 @@
 <section class="register-container">
   <div class="form-container">
     <div class="form-header">
-      <h1>Registrarse</h1>
+      <h1>Register</h1>
     </div>
     <form class="form" (ngSubmit)="onSubmit()">
       <mat-form-field>
@@ -41,7 +41,7 @@
       </mat-form-field>
 
       <mat-checkbox [formControl]="checkboxFormControl" color="primary"
-        >Acepto los terminos y condiciones de uso</mat-checkbox
+        >I accept terms of use</mat-checkbox
       >
 
       <mat-error
@@ -50,11 +50,11 @@
       </mat-error>
 
       <button mat-flat-button color="primary" class="form-submit-btn">
-        Registrarse
+        Register
       </button>
     </form>
     <div class="form-footer">
-      <span class="form-footer-text">o registrate con</span>
+      <span class="form-footer-text">or register with</span>
       <div class="social-buttons">
         <button
           mat-icon-button
@@ -102,7 +102,7 @@
         tabindex="0"
         (keypress)="navigate('/auth/login')"
         (click)="navigate('/auth/login')">
-        Ya tienes una cuenta? Inicia tu sesión
+        Do you have an account? Login here!
       </p>
     </div>
   </div>
