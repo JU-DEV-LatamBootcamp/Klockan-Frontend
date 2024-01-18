@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { OAuthService, JwksValidationHandler } from 'angular-oauth2-oidc';
+import { OAuthService } from 'angular-oauth2-oidc';
+import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 import { authConfig } from 'src/app/shared/config/keycloak.config';
 import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';

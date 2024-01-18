@@ -2,7 +2,7 @@ import { AuthConfig } from 'angular-oauth2-oidc';
 import { environment } from 'src/environments/keycloak.enviroment';
 export const authConfig: AuthConfig = {
   // Url of the Identity Provider
-  issuer: 'http://localhost:8080/realms/Atendance_App',
+  issuer: 'http://localhost:8080/realms/Klockan',
 
   // URL of the SPA to redirect the user to after login
   redirectUri: environment.keycloak.redirectUri,
