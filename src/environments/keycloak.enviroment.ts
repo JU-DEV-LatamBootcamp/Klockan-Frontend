@@ -3,10 +3,10 @@ export const environment = {
   apiBasePath: `http://localhost:5037/WeatherForecast`,
   resourceServerId: 'api',
   keycloak: {
-    issuer: 'http://localhost:8080/realms/Atendance_App',
+    issuer: 'http://localhost:8080/realms/Klockan',
     redirectUri: 'http://localhost:4200/',
-    realm: 'Atendance_App',
-    clientId: 'angular_app',
+    realm: 'Klockan',
+    clientId: 'frontend',
     scope: 'openid profile email',
   },
 };
