@@ -6,7 +6,6 @@ import { authConfig } from 'src/app/shared/config/keycloak.config';
 import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
 import { TokenService } from '../services/token.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BackendService } from '../services/backend.service';
 import Swal from 'sweetalert2';
 
@@ -28,17 +27,15 @@ export class HomeComponent implements OnInit {
     private oAuthService: OAuthService,
     private router: Router,
     private tokenService: TokenService,
-    private backendService : BackendService
+    private backendService: BackendService
   ) {}
 
   username: string | null = 'Usuario promedio';
 
   async ngOnInit() {
-    console.log('Entrando al keycloack');
     try {
       await this.configureSingleSingOn();
       this.token = this.oAuthService.getAccessToken();
-      console.log(this.token);
       if (this.token == null) {
         this.router.navigate(['/auth/login']);
         return;
@@ -57,8 +54,9 @@ export class HomeComponent implements OnInit {
   }
 
   toggleSidenav() {
-    this.sidenav!.toggle();
-    this.isSidenavOpen = !this.isSidenavOpen;
+    if (this.sidenav) {
+      this.sidenav.toggle();
+    }
   }
 
   logout() {
@@ -74,19 +72,21 @@ export class HomeComponent implements OnInit {
       return;
     }
     try {
-     this.backendService.getBackendData(this.token).subscribe((response) => {
-        this.apiResponse = response as any[];
-        this.isLoading = false;
-      }, (error) => {
-        console.log("////////////////Se ha obtenido un codigo de error///////////////////////");
-        this.isLoading = false;
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Algo salio mal, intenta nuevamente',
-        });
-      }
-        );
+      this.backendService.getBackendData(this.token).subscribe(
+        response => {
+          this.apiResponse = response as any[];
+          this.isLoading = false;
+        },
+        error => {
+          console.warn('Error calling backend API', error);
+          this.isLoading = false;
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Algo salio mal, intenta nuevamente',
+          });
+        }
+      );
     } catch (error) {
       this.isLoading = false;
     }

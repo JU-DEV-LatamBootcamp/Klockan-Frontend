@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TokenService {
-
-  constructor() { }
-
   getPreferredUsername(jwt: string): string | null {
     if (!jwt) {
       return null;
@@ -15,7 +12,7 @@ export class TokenService {
     try {
       // Divide el token en sus partes
       const tokenParts = jwt.split('.');
-      
+
       // Decodifica la parte del payload (segunda parte)
       const decodedPayload = atob(tokenParts[1]);
 
