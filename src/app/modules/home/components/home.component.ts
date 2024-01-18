@@ -1,5 +1,3 @@
-// home.component.ts
-
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { OAuthService, JwksValidationHandler } from 'angular-oauth2-oidc';
 import { authConfig } from 'src/app/shared/config/keycloak.config';
