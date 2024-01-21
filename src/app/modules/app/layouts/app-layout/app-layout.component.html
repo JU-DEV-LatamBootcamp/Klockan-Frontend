@@ -1,0 +1,95 @@
+<mat-drawer-container class="o-panel-drawer">
+  <!-- TODO: o-panel content -->
+  <mat-drawer
+    class="o-panel-drawer__drawer"
+    #oPanel
+    mode="over"
+    opened="false"
+    position="end">
+    <h2>O-Panel</h2>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt, et
+      accusamus perferendis, minus dignissimos dicta placeat impedit praesentium
+      enim laudantium obcaecati temporibus architecto adipisci ad dolore natus
+      similique vitae suscipit.
+    </p>
+  </mat-drawer>
+
+  <!-- TODO: layout content -->
+  <mat-drawer-content class="panel-drawer__content">
+    <div class="app-layout">
+      <!-- header -->
+      <mat-toolbar>
+        <span>Klockan</span>
+        <span class="example-spacer"></span>
+        <button
+          mat-icon-button
+          class="example-icon favorite-icon"
+          aria-label="Example icon-button with heart icon">
+          <mat-icon>favorite</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          class="example-icon"
+          aria-label="Example icon-button with share icon">
+          <mat-icon>share</mat-icon>
+        </button>
+      </mat-toolbar>
+
+      <!-- TODO: state based on media queries -->
+      <mat-drawer-container class="nav-drawer">
+        <!-- TODO: nav content -->
+        <mat-drawer
+          class="nav-drawer__drawer"
+          #nav
+          mode="side"
+          opened="true"
+          position="start">
+          <h2>Nav</h2>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt, et
+            accusamus perferendis, minus dignissimos dicta placeat impedit
+            praesentium enim laudantium obcaecati temporibus architecto adipisci
+            ad dolore natus similique vitae suscipit.
+          </p>
+        </mat-drawer>
+        <mat-drawer-content class="nav-drawer__content">
+          <mat-drawer-container class="panel-drawer">
+            <!-- TODO: panel content -->
+            <mat-drawer
+              class="panel-drawer__drawer"
+              #panel
+              mode="side"
+              opened="false"
+              position="end">
+              <h2>Panel</h2>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt,
+                et accusamus perferendis, minus dignissimos dicta placeat
+                impedit praesentium enim laudantium obcaecati temporibus
+                architecto adipisci ad dolore natus similique vitae suscipit.
+              </p>
+            </mat-drawer>
+            <!-- TODO: main content -->
+            <mat-drawer-content class="panel-drawer__content">
+              <h2>Main</h2>
+              <button (click)="nav.toggle()" mat-button>Toggle Nav</button>
+              <button (click)="panel.toggle()" mat-button>Toggle Panel</button>
+              <button (click)="oPanel.toggle()" mat-button>
+                Toggle O-Panel
+              </button>
+              <button mat-button (click)="openDialog()">Open dialog</button>
+              <button
+                mat-stroked-button
+                (click)="openSnackBar()"
+                aria-label="Show an example snack-bar">
+                Pop Notification
+              </button>
+              <router-outlet></router-outlet>
+            </mat-drawer-content>
+          </mat-drawer-container>
+        </mat-drawer-content>
+      </mat-drawer-container>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>
