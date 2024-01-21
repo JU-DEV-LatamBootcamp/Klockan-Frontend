@@ -14,7 +14,7 @@ export const authConfig: AuthConfig = {
   // set the scope for the permissions the client should request
   // The first three are defined by OIDC.
 
-  // scope: 'openid profile email',
+  // scope: environment.keycloak.scope,
 
   // Remove the requirement of using Https to simplify the demo
   // THIS SHOULD NOT BE USED IN PRODUCTION

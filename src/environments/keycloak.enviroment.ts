@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  apiBasePath: `http://localhost:5037/WeatherForecast`,
+  apiBasePath: `http://localhost:5209`,
   resourceServerId: 'api',
   keycloak: {
     issuer: 'http://localhost:8080/realms/Klockan',
