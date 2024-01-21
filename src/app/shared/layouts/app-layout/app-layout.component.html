@@ -1,0 +1,111 @@
+<!-- o-panel - layout drawer -->
+<mat-drawer-container
+  class="o-panel-drawer"
+  [hasBackdrop]="!screenSizeService.matchEqualOrBelow('xsmall')">
+  <!-- o-panel content -->
+  <mat-drawer
+    class="o-panel-drawer__drawer"
+    #oPanel
+    mode="over"
+    opened="false"
+    position="end">
+    <h2>O-Panel</h2>
+    <button (click)="toggleOPanel()" mat-button>Toggle O-Panel</button>
+  </mat-drawer>
+
+  <!-- layout content -->
+  <mat-drawer-content class="panel-drawer__content">
+    <div class="app-layout">
+      <!-- header -->
+      <div class="app-layout__header">
+        <mat-toolbar>
+          <span>Klockan</span>
+          <span class="example-spacer"></span>
+          <button
+            mat-icon-button
+            class="example-icon favorite-icon"
+            aria-label="Example icon-button with heart icon">
+            <mat-icon>favorite</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            class="example-icon"
+            aria-label="Example icon-button with share icon">
+            <mat-icon>share</mat-icon>
+          </button>
+        </mat-toolbar>
+      </div>
+
+      <div class="app-layout__content">
+        <!-- sidebar - layout-content drawer -->
+        <mat-drawer-container
+          class="sidebar-drawer"
+          [hasBackdrop]="!screenSizeService.matchEqualOrAbove('large')">
+          <!-- sidebar content -->
+          <mat-drawer
+            class="sidebar-drawer__drawer"
+            #sidebar
+            [opened]="screenSizeService.matchEqualOrAbove('large')"
+            [mode]="
+              !screenSizeService.matchEqualOrAbove('large') ? 'over' : 'side'
+            "
+            position="start">
+            <h2>Sidebar</h2>
+            <button (click)="toggleSidebar()" mat-button>Toggle Sidebar</button>
+          </mat-drawer>
+
+          <!-- layout-content content -->
+          <mat-drawer-content class="sidebar-drawer__content">
+            <!-- panel - main drawer -->
+            <mat-drawer-container
+              class="panel-drawer"
+              [hasBackdrop]="
+                !(
+                  screenSizeService.matchEqualOrAbove('medium') ||
+                  screenSizeService.matchEqualOrBelow('xsmall')
+                )
+              ">
+              <!-- panel content -->
+              <mat-drawer
+                class="panel-drawer__drawer"
+                #panel
+                [mode]="
+                  screenSizeService.matchEqualOrAbove('medium')
+                    ? 'side'
+                    : 'over'
+                "
+                opened="false"
+                position="end">
+                <h2>Panel</h2>
+
+                <button (click)="togglePanel()" mat-button>Toggle Panel</button>
+              </mat-drawer>
+
+              <!-- main content -->
+              <mat-drawer-content class="panel-drawer__content">
+                <h2>Main</h2>
+                <button (click)="toggleSidebar()" mat-button>
+                  Toggle Sidebar
+                </button>
+                <button (click)="togglePanel()" mat-button>Toggle Panel</button>
+                <button (click)="toggleOPanel()" mat-button>
+                  Toggle O-Panel
+                </button>
+                <button mat-button (click)="openDialog()">Open dialog</button>
+                <button
+                  mat-stroked-button
+                  (click)="popNotification()"
+                  aria-label="Show an example snack-bar">
+                  Pop Notification
+                </button>
+
+                <!-- main outlet -->
+                <router-outlet></router-outlet>
+              </mat-drawer-content>
+            </mat-drawer-container>
+          </mat-drawer-content>
+        </mat-drawer-container>
+      </div>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>

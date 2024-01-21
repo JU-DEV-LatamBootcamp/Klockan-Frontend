@@ -7,5 +7,5 @@ import { MatSnackBarRef } from '@angular/material/snack-bar';
   styleUrls: ['./notification.component.sass'],
 })
 export class NotificationComponent {
-  snackBarRef = inject(MatSnackBarRef);
+  notificationRef = inject(MatSnackBarRef);
 }

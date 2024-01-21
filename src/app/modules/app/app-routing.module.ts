@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AppLayoutComponent } from './layouts/app-layout/app-layout.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { AppLayoutComponent } from 'src/app/shared/layouts/app-layout/app-layout.component';
 
 const routes: Routes = [
   {
