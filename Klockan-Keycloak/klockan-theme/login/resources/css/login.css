@@ -1,0 +1,64 @@
+/* Patternfly CSS places a "bg-login.jpg" as the background on this ".login-pf" class.
+   This clashes with the "keycloak-bg.png' background defined on the body below.
+   Therefore the Patternfly background must be set to none. */
+
+   textarea.pf-c-form-control {
+    height: auto;
+  }
+  
+  #kc-header-wrapper{
+    display:none;
+  }
+  
+  #kc-title-login{
+    margin:20px;
+    font-style:bold;
+    
+  }
+  
+  #username{
+    margin-top:10px;
+  }
+  
+  *{
+   font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  
+  #kc-title-login{
+    
+    text-align:center;
+  }
+  
+  
+  #kc-form{
+    align-content:center;
+    margin-top:10%;
+  }
+  
+  
+  
+  
+  #kc-form-wrapper{
+    align-content:center;
+    text-align:center;
+  }
+  
+  #kc-form-wrapper input{
+    align-content:center;
+    margin:15px;
+    height:35px;
+    border-radius:6px;
+    border: 1px solid #d9d0d0;
+  }
+  
+  
+  
+  #kc-login{
+    font-familya:arial;
+    width:170px;
+    color:white;
+    background-color:#78549a;
+  }
+  
+  
