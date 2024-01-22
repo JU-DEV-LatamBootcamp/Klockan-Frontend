@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+  keycloak-server:
+    container_name: keycloak-container
+    image: quay.io/keycloak/keycloak:23.0.4
+    ports:
+      - "8080:8080"
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    volumes:
+      - ./config/:/opt/keycloak/data/import
+    entrypoint: '/opt/keycloak/bin/kc.sh start-dev --import-realm'
+    networks:
+      - klockan-network
+
+networks:
+  klockan-network:
+    driver: bridge
