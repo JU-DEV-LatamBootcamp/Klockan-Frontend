@@ -1,4 +1,4 @@
-# Klockan-Frontend
+# Frontend with Docker Containers
 
 ## Setting up the Frontend Application in a Container:
 
