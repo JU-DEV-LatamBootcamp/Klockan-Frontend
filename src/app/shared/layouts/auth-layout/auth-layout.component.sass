@@ -1,0 +1,34 @@
+@import "./styles"
+
+$content-max-width: 928px
+
+@mixin content-width
+  width: 100%
+  max-width: $content-max-width
+
+.auth-layout
+  width: 100% 
+  display: flex
+  flex-direction: column
+  align-items: center
+  min-height: 100vh
+
+  &__header
+    @include content-width
+
+  &__content
+    @include content-width
+    flex: 1 1 0 
+
+  &__footer
+    @include content-width
+
+.notification__container
+  margin-right: calc((100vw - $content-max-width) / 2) !important
+  margin-bottom: 24px !important
+
+  @media screen and (max-width: $content-max-width)
+    margin-right: 24px !important
+
+  @media screen and (max-width: $screen-max-xsmall)
+    margin: 16px !important

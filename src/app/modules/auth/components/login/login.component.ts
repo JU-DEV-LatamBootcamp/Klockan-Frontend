@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import {
@@ -17,6 +17,9 @@ import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 import { HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/keycloak.enviroment';
 import { authConfig } from 'src/app/shared/config/keycloak.config';
+import { NotificationService } from 'src/app/shared/layouts/auth-layout/services/notification/notification.service';
+import { AuthLayoutModule } from 'src/app/shared/layouts/auth-layout/auth-layout.module';
+import { NotificationComponent } from 'src/app/shared/layouts/auth-layout/components/notification/notification.component';
 
 /**
  * Componente que representa la interfaz de inicio de sesión.
@@ -41,6 +44,7 @@ import { authConfig } from 'src/app/shared/config/keycloak.config';
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
+    AuthLayoutModule,
     ReactiveFormsModule,
     CommonModule,
   ],
@@ -59,18 +63,27 @@ export class LoginComponent implements OnInit {
   readonly APIUrl = environment.apiBasePath;
   user: any;
   token = '';
+  @ViewChild('notification')
+  notificationRef?: TemplateRef<NotificationComponent>;
+
   constructor(
     private thirdpartyAuth: ThirdPartyAuthService,
     private router: Router,
-    private oAuthService: OAuthService
+    private oAuthService: OAuthService,
+    public readonly notificationService: NotificationService
   ) {}
 
-  ngOnInit() {
-    this.configureSingleSingOn();
-    this.setToken();
-    this.token = this.oAuthService.getAccessToken();
-    if (this.token != null) {
-      this.navigate('/home');
+  async ngOnInit() {
+    try {
+      await this.configureSingleSingOn();
+      this.setToken();
+      this.token = this.oAuthService.getAccessToken();
+      if (this.token != null) {
+        this.navigate('/home');
+      }
+    } catch (error) {
+      if (!this.notificationRef) return;
+      this.notificationService.popFromTemplate(this.notificationRef);
     }
   }
 
