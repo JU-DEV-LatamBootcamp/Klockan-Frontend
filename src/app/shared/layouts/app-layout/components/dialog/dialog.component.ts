@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./dialog.component.sass'],
 })
 export class DialogComponent {
-  // TODO:  show close action for sub components
+  // IMPROVEMENT: use directives instead of this component
 }

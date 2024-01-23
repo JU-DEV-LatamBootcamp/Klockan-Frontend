@@ -1,5 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { MatSnackBarRef } from '@angular/material/snack-bar';
+import { Component, Input, inject } from '@angular/core';
 
 @Component({
   selector: 'app-notification',
@@ -7,5 +6,6 @@ import { MatSnackBarRef } from '@angular/material/snack-bar';
   styleUrls: ['./notification.component.sass'],
 })
 export class NotificationComponent {
-  notificationRef = inject(MatSnackBarRef);
+  // IMPROVEMENT: use directives instead of this component
+  @Input('message') message?: string;
 }

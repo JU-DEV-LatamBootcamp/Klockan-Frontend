@@ -19,7 +19,7 @@ export type ScreenSize =
   | 'unknown';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: null,
 })
 export class ScreenSizeService {
   private _screenSize$ = new BehaviorSubject<ScreenSize>('unknown');

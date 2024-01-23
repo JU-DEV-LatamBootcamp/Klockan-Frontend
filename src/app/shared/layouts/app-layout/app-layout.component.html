@@ -9,32 +9,16 @@
     mode="over"
     opened="false"
     position="end">
-    <h2>O-Panel</h2>
-    <button (click)="toggleOPanel()" mat-button>Toggle O-Panel</button>
+    <!-- o-panel outlet -->
+    <ng-template
+      [cdkPortalOutlet]="oPanelBridgeStream.portal$ | async"></ng-template>
   </mat-drawer>
 
   <!-- layout content -->
   <mat-drawer-content class="panel-drawer__content">
     <div class="app-layout">
-      <!-- header -->
-      <div class="app-layout__header">
-        <mat-toolbar>
-          <span>Klockan</span>
-          <span class="example-spacer"></span>
-          <button
-            mat-icon-button
-            class="example-icon favorite-icon"
-            aria-label="Example icon-button with heart icon">
-            <mat-icon>favorite</mat-icon>
-          </button>
-          <button
-            mat-icon-button
-            class="example-icon"
-            aria-label="Example icon-button with share icon">
-            <mat-icon>share</mat-icon>
-          </button>
-        </mat-toolbar>
-      </div>
+      <!-- header outlet -->
+      <ng-content select="[header]"></ng-content>
 
       <div class="app-layout__content">
         <!-- sidebar - layout-content drawer -->
@@ -50,8 +34,8 @@
               !screenSizeService.matchEqualOrAbove('large') ? 'over' : 'side'
             "
             position="start">
-            <h2>Sidebar</h2>
-            <button (click)="toggleSidebar()" mat-button>Toggle Sidebar</button>
+            <!-- sidebar outlet -->
+            <ng-content select="[sidebar]"></ng-content>
           </mat-drawer>
 
           <!-- layout-content content -->
@@ -76,29 +60,15 @@
                 "
                 opened="false"
                 position="end">
-                <h2>Panel</h2>
-
-                <button (click)="togglePanel()" mat-button>Toggle Panel</button>
+                <!-- panel outlet -->
+                <ng-template
+                  [cdkPortalOutlet]="
+                    panelBridgeStream.portal$ | async
+                  "></ng-template>
               </mat-drawer>
 
               <!-- main content -->
               <mat-drawer-content class="panel-drawer__content">
-                <h2>Main</h2>
-                <button (click)="toggleSidebar()" mat-button>
-                  Toggle Sidebar
-                </button>
-                <button (click)="togglePanel()" mat-button>Toggle Panel</button>
-                <button (click)="toggleOPanel()" mat-button>
-                  Toggle O-Panel
-                </button>
-                <button mat-button (click)="openDialog()">Open dialog</button>
-                <button
-                  mat-stroked-button
-                  (click)="popNotification()"
-                  aria-label="Show an example snack-bar">
-                  Pop Notification
-                </button>
-
                 <!-- main outlet -->
                 <router-outlet></router-outlet>
               </mat-drawer-content>

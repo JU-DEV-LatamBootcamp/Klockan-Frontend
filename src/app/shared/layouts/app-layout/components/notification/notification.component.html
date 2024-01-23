@@ -1,16 +1,5 @@
 <div class="notification__content">
-  <p>
-    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab iure debitis
-    praesentium. Quia architecto sit, ipsa deserunt nostrum animi similique
-    accusamus ullam tempore possimus enim at quam facere corporis nesciunt.
-  </p>
+  <span>
+    {{ message }}
+  </span>
 </div>
-
-<span class="notification__actions" matSnackBarActions>
-  <button
-    mat-button
-    matSnackBarAction
-    (click)="notificationRef.dismissWithAction()">
-    Close
-  </button>
-</span>
