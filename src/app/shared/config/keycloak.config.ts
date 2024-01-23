@@ -2,7 +2,7 @@ import { AuthConfig } from 'angular-oauth2-oidc';
 import { environment } from 'src/environments/keycloak.enviroment';
 export const authConfig: AuthConfig = {
   // Url of the Identity Provider
-  issuer: 'http://localhost:8080/realms/Atendance_App',
+  issuer: 'http://localhost:8080/realms/Klockan',
 
   // URL of the SPA to redirect the user to after login
   redirectUri: environment.keycloak.redirectUri,
@@ -14,7 +14,7 @@ export const authConfig: AuthConfig = {
   // set the scope for the permissions the client should request
   // The first three are defined by OIDC.
 
-  // scope: 'openid profile email',
+  // scope: environment.keycloak.scope,
 
   // Remove the requirement of using Https to simplify the demo
   // THIS SHOULD NOT BE USED IN PRODUCTION

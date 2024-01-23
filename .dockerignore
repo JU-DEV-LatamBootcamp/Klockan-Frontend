@@ -1,0 +1,14 @@
+# ignore files when copying files into docker container
+**/node_modules
+**/.git
+**/README.md
+**/LICENSE
+**/npm-debug.log
+**/coverage
+**/.env
+**/.editorconfig
+**/.aws
+**/dist
+**/.vscode
+**/.angular
+**/Klockan-Keycloak
