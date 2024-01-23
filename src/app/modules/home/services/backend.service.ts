@@ -1,13 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
+import { environment } from 'src/environments/keycloak.enviroment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BackendService {
-  url = 'http://localhost:5209/WeatherForecast';
-
   constructor(private http: HttpClient) {}
 
   getBackendData(token: string) {
@@ -15,14 +14,16 @@ export class BackendService {
       Authorization: `Bearer ${token}`,
     });
 
-    return this.http.get(this.url, { headers }).pipe(
-      catchError(error => {
-        if (error.status === 401) {
-          return throwError(() => new Error('No autorizado', error));
-        }
-        return throwError(() => new Error(error));
-      })
-    );
+    return this.http
+      .get(`${environment.apiBasePath}/WeatherForecast`, { headers })
+      .pipe(
+        catchError(error => {
+          if (error.status === 401) {
+            return throwError(() => new Error('No autorizado', error));
+          }
+          return throwError(() => new Error(error));
+        })
+      );
   }
 
   private handleApiError(error: any) {
