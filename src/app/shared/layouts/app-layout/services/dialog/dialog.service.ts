@@ -9,7 +9,7 @@ export class DialogService {
   constructor(private readonly dialog: MatDialog) {}
 
   show<T>(component: ComponentType<T> | TemplateRef<T>) {
-    // TODO: should receive the component and wrap it with the dialog component, if its a small screen then open the component in the panel
+    // IMPROVEMENT: should receive the component and wrap it with the dialog component, if its a small screen then open the component in the panel
     this.dialog.open(component, {
       panelClass: 'dialog__container',
       maxWidth: 'auto',
