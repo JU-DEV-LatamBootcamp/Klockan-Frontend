@@ -1,0 +1,39 @@
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #sidenav mode="side" opened="true">
+      <mat-toolbar>Klockan</mat-toolbar>
+      <mat-divider></mat-divider>
+      <mat-nav-list>
+        <a mat-list-item routerLink="/home">
+          <div class="inside-list"><mat-icon>home</mat-icon> Home</div>
+        </a>
+        <a mat-list-item routerLink="/programs">
+          <div class="sidebar__link-content inside-list">
+            <mat-icon>school</mat-icon> <span>Programs</span>
+          </div>
+        </a>
+        <a mat-list-item routerLink="/home">
+          <div class="inside-list"><mat-icon>school</mat-icon> Courses</div>
+        </a>
+        <a mat-list-item routerLink="/home">
+          <div class="inside-list"><mat-icon>class</mat-icon> Classrooms</div>
+        </a>
+        <a mat-list-item routerLink="/home">
+          <div class="inside-list"><mat-icon>person</mat-icon> Students</div>
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <main>
+            <section class="main-section">
+                <h2>Programs</h2>
+                <button class="button primary">Create program</button>
+            </section>
+            <section>
+                <app-table [headers]="headers" [data]="data" [service]="programService"></app-table>
+            </section>
+        </main>
+      <!-- TODO: Refactor the sidenav -->
+      <!-- <router-outlet></router-outlet> -->
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  

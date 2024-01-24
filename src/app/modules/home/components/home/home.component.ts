@@ -4,8 +4,8 @@ import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 import { authConfig } from 'src/app/shared/config/keycloak.config';
 import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
-import { TokenService } from '../services/token.service';
-import { BackendService } from '../services/backend.service';
+import { TokenService } from '../../services/token.service';
+import { BackendService } from '../../services/backend.service';
 import Swal from 'sweetalert2';
 
 @Component({

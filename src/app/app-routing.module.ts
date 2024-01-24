@@ -22,6 +22,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/home/home.module').then(m => m.HomeModule),
   },
+  {
+    path: 'programs',
+    loadChildren: () =>
+      import('./modules/programs/programs.module').then(m => m.ProgramsModule),
+  },
   { path: '', redirectTo: '', pathMatch: 'full' },
   // IMPROVEMENT: implement a not found page for invalid paths
   { path: '**', redirectTo: '', pathMatch: 'full' },

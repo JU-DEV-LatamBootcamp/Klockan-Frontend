@@ -1,0 +1,21 @@
+<table class="table-primary">
+  <thead>
+    <tr>
+      <th *ngFor="let header of headers">
+        <ng-container *ngIf="header !== 'id'">
+          {{ header | titlecase }}
+        </ng-container>
+      </th>
+      <th *ngIf="headers">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of data">
+      <td *ngFor="let header of headers">{{ item[header.toLowerCase()] }}</td>
+      <td *ngIf="headers">
+        <mat-icon (click)="editarItem(item)">edit</mat-icon>
+        <mat-icon (click)="eliminarItem(item)">delete</mat-icon>
+      </td>
+    </tr>
+  </tbody>
+</table>
