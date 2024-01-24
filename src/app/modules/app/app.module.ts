@@ -12,6 +12,12 @@ import { MatListModule } from '@angular/material/list';
 // components
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ComposedLayoutComponent } from './components/composed-layout/composed-layout.component';
+import { MeetingsComponent } from './pages/meetings/meetings.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { CoursesComponent } from './pages/courses/courses.component';
+import { ProgramsComponent } from './pages/programs/programs.component';
+import { UsersComponent } from './pages/users/users.component';
+import { ClassroomsComponent } from './pages/classrooms/classrooms.component';
 
 @NgModule({
   imports: [
@@ -26,6 +32,6 @@ import { ComposedLayoutComponent } from './components/composed-layout/composed-l
     MatSnackBarModule,
     MatListModule,
   ],
-  declarations: [DashboardComponent, ComposedLayoutComponent],
+  declarations: [DashboardComponent, ComposedLayoutComponent, MeetingsComponent, ProfileComponent, CoursesComponent, ProgramsComponent, UsersComponent, ClassroomsComponent],
 })
 export class AppModule {}
