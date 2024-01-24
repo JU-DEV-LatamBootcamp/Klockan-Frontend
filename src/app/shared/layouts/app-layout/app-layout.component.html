@@ -1,0 +1,81 @@
+<!-- o-panel - layout drawer -->
+<mat-drawer-container
+  class="o-panel-drawer"
+  [hasBackdrop]="!screenSizeService.matchEqualOrBelow('xsmall')">
+  <!-- o-panel content -->
+  <mat-drawer
+    class="o-panel-drawer__drawer"
+    #oPanel
+    mode="over"
+    opened="false"
+    position="end">
+    <!-- o-panel outlet -->
+    <ng-template
+      [cdkPortalOutlet]="oPanelBridgeStream.portal$ | async"></ng-template>
+  </mat-drawer>
+
+  <!-- layout content -->
+  <mat-drawer-content class="panel-drawer__content">
+    <div class="app-layout">
+      <!-- header outlet -->
+      <ng-content select="[header]"></ng-content>
+
+      <div class="app-layout__content">
+        <!-- sidebar - layout-content drawer -->
+        <mat-drawer-container
+          class="sidebar-drawer"
+          [hasBackdrop]="!screenSizeService.matchEqualOrAbove('large')">
+          <!-- sidebar content -->
+          <mat-drawer
+            class="sidebar-drawer__drawer"
+            #sidebar
+            [opened]="screenSizeService.matchEqualOrAbove('large')"
+            [mode]="
+              !screenSizeService.matchEqualOrAbove('large') ? 'over' : 'side'
+            "
+            position="start">
+            <!-- sidebar outlet -->
+            <ng-content select="[sidebar]"></ng-content>
+          </mat-drawer>
+
+          <!-- layout-content content -->
+          <mat-drawer-content class="sidebar-drawer__content">
+            <!-- panel - main drawer -->
+            <mat-drawer-container
+              class="panel-drawer"
+              [hasBackdrop]="
+                !(
+                  screenSizeService.matchEqualOrAbove('medium') ||
+                  screenSizeService.matchEqualOrBelow('xsmall')
+                )
+              ">
+              <!-- panel content -->
+              <mat-drawer
+                class="panel-drawer__drawer"
+                #panel
+                [mode]="
+                  screenSizeService.matchEqualOrAbove('medium')
+                    ? 'side'
+                    : 'over'
+                "
+                opened="false"
+                position="end">
+                <!-- panel outlet -->
+                <ng-template
+                  [cdkPortalOutlet]="
+                    panelBridgeStream.portal$ | async
+                  "></ng-template>
+              </mat-drawer>
+
+              <!-- main content -->
+              <mat-drawer-content class="panel-drawer__content">
+                <!-- main outlet -->
+                <router-outlet></router-outlet>
+              </mat-drawer-content>
+            </mat-drawer-container>
+          </mat-drawer-content>
+        </mat-drawer-container>
+      </div>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>

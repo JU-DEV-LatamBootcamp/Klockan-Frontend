@@ -1,0 +1,80 @@
+@import "./styles"
+
+$panel-width-large: 560px 
+$panel-width-medium: 480px
+$panel-width-xsmall: 100%
+
+@mixin full-screen
+  position: fixed !important
+  left: 0
+  right: 0
+  top: 0
+  bottom: 0
+  
+.app-layout
+  height: 100vh
+  width: 100%
+
+  display: flex
+  flex-direction: column 
+  overflow: hidden
+
+  &__content
+    flex-grow: 1
+
+.sidebar-drawer
+  width: 100%
+  height: 100%
+
+  .mat-drawer-backdrop 
+    @media screen and (max-width: $screen-max-xsmall)
+      @include full-screen
+
+  &__drawer
+    width: 300px 
+
+    @media screen and (max-width: $screen-max-xsmall)
+      @include full-screen
+
+.panel-drawer
+  width: 100%
+  height: 100%
+
+  &__drawer
+    width: 100% 
+    max-width: $panel-width-large
+
+    @media screen and (max-width: $screen-max-medium)
+      max-width: $panel-width-medium
+      
+    @media screen and (max-width: $screen-max-xsmall)
+      @include full-screen
+      max-width: $panel-width-xsmall
+  
+.o-panel-drawer
+  width: 100%
+  height: 100%
+
+  &__drawer
+    width: 100% 
+    max-width: $panel-width-large
+
+    @media screen and (max-width: $screen-max-medium)
+      max-width: $panel-width-medium
+      
+    @media screen and (max-width: $screen-max-xsmall)
+      max-width: $panel-width-xsmall
+
+.dialog__container
+  margin: 0 32px
+  max-width: auto
+
+  @media screen and (max-width: $screen-max-xsmall)
+    margin: 0 16px
+
+.notification__container 
+  margin: 24px !important
+
+  @media screen and (max-width: $screen-max-xsmall)
+    margin: 16px !important
+

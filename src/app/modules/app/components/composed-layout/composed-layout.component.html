@@ -1,0 +1,63 @@
+<app-layout>
+  <div ngProjectAs="[header]">
+    <mat-toolbar class="header">
+      <div class="header__content">
+        <button
+          *ngIf="!screenSizeService.matchEqualOrAbove('large')"
+          mat-icon-button
+          class="example-icon"
+          (click)="sidebarService.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+
+        <span>Klockan</span>
+
+        <span class="header__spacer"></span>
+
+        <button mat-flat-button color="primary" class="logout-button">
+          Logout
+        </button>
+      </div>
+    </mat-toolbar>
+  </div>
+
+  <div ngProjectAs="[sidebar]" class="sidebar">
+    <mat-nav-list>
+      <a mat-list-item routerLink="/app">
+        <div class="sidebar__link-content">
+          <mat-icon>home</mat-icon> <span>Dashboard</span>
+        </div>
+      </a>
+      <a mat-list-item routerLink="/app/programs">
+        <div class="sidebar__link-content">
+          <mat-icon>class</mat-icon> <span>Programs</span>
+        </div>
+      </a>
+      <a mat-list-item routerLink="/app/courses">
+        <div class="sidebar__link-content">
+          <mat-icon>school</mat-icon> <span>Courses</span>
+        </div>
+      </a>
+      <a mat-list-item routerLink="/app/classrooms">
+        <div class="sidebar__link-content">
+          <mat-icon>class</mat-icon> <span>Classrooms</span>
+        </div>
+      </a>
+      <a mat-list-item routerLink="/app/meetings">
+        <div class="sidebar__link-content">
+          <mat-icon>class</mat-icon> <span>Meetings</span>
+        </div>
+      </a>
+      <a mat-list-item routerLink="/app/users">
+        <div class="sidebar__link-content">
+          <mat-icon>group</mat-icon> <span>Users</span>
+        </div>
+      </a>
+      <a mat-list-item routerLink="/app/profile">
+        <div class="sidebar__link-content">
+          <mat-icon>person</mat-icon> <span>Profile</span>
+        </div>
+      </a>
+    </mat-nav-list>
+  </div>
+</app-layout>

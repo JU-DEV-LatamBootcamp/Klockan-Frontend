@@ -1,0 +1,124 @@
+/* You can add global styles to this file, and also import other style files */
+html, body
+  height: 100%
+  margin: 0
+  padding: 0
+
+$primary: #6750A4
+$secondary: #625B71
+$tertiary: #7D5260
+$error: #B3261E
+
+$surface: #FEF7FF
+$surface-bright: #FEF7FF
+$surface-dim: #DED8E1
+
+$primary-container-text: #EADDFF
+$on-primary-container: #21005D
+$on-primary-fixed: #21005D
+$on-primary-fixed-variant: #4F378B
+$primary-container-dim : #4F378B
+$primary-container-text : #D0BCFF
+
+$secondary-container-text: #E8DEF8
+$secondary-container: #1D192B
+$secondary-container-fixed: #1D192B
+$secondary-container-fixed-variant: #4A4458
+
+$tertiary-container: #FFD8E4
+$tertiary-container-fixed: #EFB8C8
+$tertiary-container-fixed-variant: #633B48
+$on-tertiary-container: #31111D
+$on-tertiary-container-fixed-variant: #633B48
+
+$error-container-text: #410E0B
+$error-container: #F9DEDC
+$on-error-container: #410E0B
+
+.primary
+  background-color: $primary
+  color: white
+
+.primary-passive-button
+  background-color: white
+  color: $primary
+
+.primary-container
+  background-color: $primary-container-text
+  color: $on-primary-container
+
+.primary-container-mixed
+  background-color: $on-primary-container
+  color: $primary-container-text
+
+.primary-container-fixed
+  color: $primary
+  background: $primary-container-text
+
+.primary-container-fixed-variant
+  color: $primary-container-text
+  background: $primary-container-dim
+
+.secondary
+  background-color: $secondary
+  color: white
+
+.secondary-passive-button
+  background-color: white
+  color: $secondary
+
+.secondary-container
+  background-color: $secondary-container-text
+  color: $secondary-container
+
+.secondary-container-mixed
+  background-color: $secondary-container
+  color: $secondary-container-text
+
+.secondary-container-fixed
+  color: $secondary
+  background: $secondary-container-text
+
+.secondary-container-fixed-variant
+  color: $secondary-container-text
+  background: $secondary-container-fixed-variant
+
+.tertiary
+  background-color: $tertiary
+  color: white
+
+.tertiary-passive-button
+  background-color: white
+  color: $tertiary
+
+.tertiary-container
+  background-color: $tertiary-container
+  color: $on-tertiary-container
+
+.tertiary-container-mixed
+  background-color: $on-tertiary-container
+  color: $tertiary-container
+
+.tertiary-container-fixed
+  color: $tertiary
+  background: $tertiary-container
+
+.tertiary-container-fixed-variant
+  color: $tertiary-container
+  background: $tertiary-container-fixed-variant
+
+.error
+  background-color: $error
+  color: white
+
+.error-passive-button
+  background-color: white
+  color: $error
+
+.error-container
+  background-color: $error-container-text
+  color: $on-error-container
+
+.error-container-mixed
+  background-color: $on-error-container
+  color: $error-container-text

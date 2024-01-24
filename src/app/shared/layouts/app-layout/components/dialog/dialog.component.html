@@ -1,0 +1,9 @@
+<div class="dialog">
+  <ng-content select="[header]"></ng-content>
+  <mat-dialog-content class="mat-typography">
+    <ng-content select="[content]"></ng-content>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <ng-content select="[actions]"></ng-content>
+  </mat-dialog-actions>
+</div>
