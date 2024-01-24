@@ -13,24 +13,28 @@ export class ProgramsComponent {
   isSidenavOpen = true;
 
   headers = ['id', 'name', 'description'];
-  data : Program[] | Program | null | any = [];
+  data: Program[] | Program | null | any = [];
 
-  constructor(public programService : ProgramService) {
+  constructor(public programService: ProgramService) {
     this.fetchData();
-   }
+  }
 
-   fetchData(){
-      try{
-        this.programService.getPrograms().subscribe((data : Program[] | Program | null) => {
+  fetchData() {
+    try {
+      this.programService.getPrograms().subscribe(
+        (data: Program[] | Program | null) => {
           console.log(data);
           this.data = [data];
-        }, error => {
-          console.log("Something went wrong while trying to retrieve data from API", error);
         },
-        );
-      }catch(error){
-        console.log(error);
-      }
-   }
-
+        error => {
+          console.log(
+            'Something went wrong while trying to retrieve data from API',
+            error
+          );
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }

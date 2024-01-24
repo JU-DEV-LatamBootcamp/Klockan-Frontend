@@ -10,11 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { TableComponent } from 'src/app/shared/components/table/table.component';
 import { MatButtonModule } from '@angular/material/button';
 
-
 @NgModule({
-  declarations: [
-    ProgramsComponent
-  ],
+  declarations: [ProgramsComponent],
   imports: [
     CommonModule,
     ProgramsRoutingModule,
@@ -25,6 +22,6 @@ import { MatButtonModule } from '@angular/material/button';
     MatSidenavModule,
     MatIconModule,
     TableComponent,
-  ]
+  ],
 })
-export class ProgramsModule { }
+export class ProgramsModule {}

@@ -17,10 +17,10 @@ export class TableComponent {
   @Input() service!: BaseService<any>;
 
   editarItem(item: any) {
-    this.service.edit(item)
+    this.service.edit(item);
   }
 
   eliminarItem(item: any) {
-    this.service.delete(item)
+    this.service.delete(item);
   }
 }
