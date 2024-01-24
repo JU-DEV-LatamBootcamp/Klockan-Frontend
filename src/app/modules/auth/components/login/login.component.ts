@@ -79,7 +79,7 @@ export class LoginComponent implements OnInit {
       this.setToken();
       this.token = this.oAuthService.getAccessToken();
       if (this.token != null) {
-        this.navigate('/home');
+        this.navigate('/app/dashboard');
       }
     } catch (error) {
       if (!this.notificationRef) return;
@@ -94,7 +94,7 @@ export class LoginComponent implements OnInit {
       Authorization: 'Bearer ' + token,
     });
     if (token != null) {
-      this.navigate('/home');
+      this.navigate('/app/dashboard');
     }
   }
 
