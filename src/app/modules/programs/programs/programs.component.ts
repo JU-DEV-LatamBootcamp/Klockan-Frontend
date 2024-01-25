@@ -24,7 +24,7 @@ export class ProgramsComponent {
       this.programService.getPrograms().subscribe(
         (data: Program[] | Program | null) => {
           console.log(data);
-          this.data = [data];
+          this.data = data;
         },
         error => {
           console.log(
