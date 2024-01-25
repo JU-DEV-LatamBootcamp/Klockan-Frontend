@@ -6,24 +6,25 @@ import { BaseService } from './base.service';
 import { environment } from 'src/environments/keycloak.enviroment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class ProgramService extends BaseService<Program>{
-
+export class ProgramService extends BaseService<Program> {
   apiProgramsPath = environment.apiProgramsPath;
 
   getPrograms(): Observable<Program[]> {
     const token = this.oAuthService.getAccessToken();
     let headers = super.createHeaders(token);
-    return this.http.get<Program[]>(this.baseRoute + this.apiProgramsPath, {headers});
+    return this.http.get<Program[]>(this.baseRoute + this.apiProgramsPath, {
+      headers,
+    });
   }
 
   override edit(entity: Program): Observable<Program> {
-    alert ('Editing PROGRAM' + entity.name);
+    alert('Editing PROGRAM' + entity.name);
     throw new Error('Method not implemented.');
   }
-  override delete(entity : Program): Observable<Program> {
-    alert ('Deleting PROGRAM' + entity.id);
+  override delete(entity: Program): Observable<Program> {
+    alert('Deleting PROGRAM' + entity.id);
     throw new Error('Method not implemented.');
   }
 }

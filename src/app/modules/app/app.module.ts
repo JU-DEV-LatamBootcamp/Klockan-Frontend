@@ -32,8 +32,17 @@ import { TableComponent } from 'src/app/shared/components/table/table.component'
     MatDialogModule,
     MatSnackBarModule,
     MatListModule,
-    TableComponent
+    TableComponent,
   ],
-  declarations: [DashboardComponent, ComposedLayoutComponent, MeetingsComponent, ProfileComponent, CoursesComponent, ProgramsComponent, UsersComponent, ClassroomsComponent],
+  declarations: [
+    DashboardComponent,
+    ComposedLayoutComponent,
+    MeetingsComponent,
+    ProfileComponent,
+    CoursesComponent,
+    ProgramsComponent,
+    UsersComponent,
+    ClassroomsComponent,
+  ],
 })
 export class AppModule {}

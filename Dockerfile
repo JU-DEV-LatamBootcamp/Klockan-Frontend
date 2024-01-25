@@ -7,7 +7,7 @@ COPY package*.json ./
 # install the necessary dependencies
 RUN npm install
 # run the compatibility compiler for angular
-RUN npx ngcc --properties es2023 browser module main --first-only --create-ivy-entry-points 
+RUN npx ngcc --properties es2023 browser module main --first-only --create-ivy-entry-points
 # copy everything else into the app folder
 COPY . .
 # build the app

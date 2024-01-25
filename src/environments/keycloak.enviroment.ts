@@ -9,5 +9,5 @@ export const environment = {
     clientId: 'frontend',
     scope: 'openid profile email',
   },
-  apiProgramsPath : 'api/v1/Program',
+  apiProgramsPath: 'api/v1/Program',
 };

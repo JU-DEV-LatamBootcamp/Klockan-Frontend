@@ -6,7 +6,7 @@ import { ProgramService } from 'src/app/shared/services/program.service';
 @Component({
   selector: 'app-programs',
   templateUrl: './programs.component.html',
-  styleUrls: ['./programs.component.sass']
+  styleUrls: ['./programs.component.sass'],
 })
 export class ProgramsComponent {
   @ViewChild('sidenav', { static: false }) sidenav: MatSidenav | undefined;

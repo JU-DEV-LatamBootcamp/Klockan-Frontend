@@ -17,8 +17,8 @@ $primary-container-text: #EADDFF
 $on-primary-container: #21005D
 $on-primary-fixed: #21005D
 $on-primary-fixed-variant: #4F378B
-$primary-container-dim : #4F378B
-$primary-container-text : #D0BCFF
+$primary-container-dim: #4F378B
+$primary-container-text: #D0BCFF
 
 $secondary-container-text: #E8DEF8
 $secondary-container: #1D192B
@@ -35,10 +35,10 @@ $error-container-text: #410E0B
 $error-container: #F9DEDC
 $on-error-container: #410E0B
 
-$surface-brighter : #E6E0E9
+$surface-brighter: #E6E0E9
 
-$sidenav : #F7F2FA
-$sidenav-selected : #E8DEF8
+$sidenav: #F7F2FA
+$sidenav-selected: #E8DEF8
 
 .sidebar
   background-color: $sidenav
@@ -61,25 +61,25 @@ $sidenav-selected : #E8DEF8
     flex-direction: column
     justify-content: space-between
     tr
-        display: flex
-        justify-content: space-between
-        th
-            text-align: left
-            flex: 4
-            &:first-of-type
-                flex: 1
-            &:last-of-type
-                flex: 1
-    td
-        display: flex
-        align-items: center
+      display: flex
+      justify-content: space-between
+      th
+        text-align: left
         flex: 4
-        &:first-child
-            padding-left: 0
+        &:first-of-type
+          flex: 1
+          &:last-of-type
             flex: 1
+    td
+      display: flex
+      align-items: center
+      flex: 4
+      &:first-child
+        padding-left: 0
+        flex: 1
         &:last-child
-            padding-right: 0
-            flex: 1
+          padding-right: 0
+          flex: 1
 
 .primary
   background-color: $primary
@@ -169,7 +169,6 @@ $sidenav-selected : #E8DEF8
   background-color: $on-error-container
   color: $error-container-text
 
-
 .sidenav-container
   height: 100%
 
@@ -196,11 +195,9 @@ $sidenav-selected : #E8DEF8
     padding: 1em
     box-sizing: border-box
 
-
   .mat-sidenav-content
     padding: 1em
     position: relative
-
 
   mat-nav-list
     width: 100%
@@ -208,7 +205,6 @@ $sidenav-selected : #E8DEF8
     a
       font-size: 1em
       color: rgba(0, 0, 0, 0.8)
-
 
   .content-container
     display: flex
@@ -222,8 +218,6 @@ $sidenav-selected : #E8DEF8
       top: 0
       right: 0
       margin: 16px
-
-
 
 .sidenav-button
   position: absolute
@@ -243,9 +237,9 @@ $sidenav-selected : #E8DEF8
 .inside-list
   mat-icon
     margin: 0px
-  gap: 16px
-  display: flex
-  align-items: center
+    gap: 16px
+    display: flex
+    align-items: center
 
 .weather-table
   width: 100%
@@ -257,14 +251,11 @@ $sidenav-selected : #E8DEF8
     padding: 8px
     text-align: left
 
-
   th
     background-color: #f2f2f2
 
-
   tr:hover
     background-color: #f5f5f5
-
 
 button
   border-radius: 16px

@@ -15,11 +15,9 @@ export class ComposedLayoutComponent implements OnInit {
   constructor(
     public readonly screenSizeService: ScreenSizeService,
     public readonly sidebarService: SidebarService,
-    private oAuthService : OAuthService,
-    private router : Router
-  ) {
-
-  }
+    private oAuthService: OAuthService,
+    private router: Router
+  ) {}
 
   token: string | null = null;
 

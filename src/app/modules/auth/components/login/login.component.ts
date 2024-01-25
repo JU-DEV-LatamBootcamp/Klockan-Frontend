@@ -77,7 +77,7 @@ export class LoginComponent implements OnInit {
     try {
       await this.configureSingleSingOn();
       await this.setToken();
-      this.token = this.oAuthService.getAccessToken()
+      this.token = this.oAuthService.getAccessToken();
       if (this.token != null) {
         this.navigate('/app/home');
       }
@@ -89,16 +89,15 @@ export class LoginComponent implements OnInit {
 
   async setToken() {
     setTimeout(() => {
-    const token = this.oAuthService.getAccessToken();
-    sessionStorage.setItem('token', token);
-    this.headers = new HttpHeaders({
-      Authorization: 'Bearer ' + token,
-    });
-    if (token != null) {
-      this.navigate('/app/home');
-    }
+      const token = this.oAuthService.getAccessToken();
+      sessionStorage.setItem('token', token);
+      this.headers = new HttpHeaders({
+        Authorization: 'Bearer ' + token,
+      });
+      if (token != null) {
+        this.navigate('/app/home');
+      }
     }, 500);
-    
   }
 
   async configureSingleSingOn() {
