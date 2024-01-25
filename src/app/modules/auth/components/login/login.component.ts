@@ -76,10 +76,10 @@ export class LoginComponent implements OnInit {
   async ngOnInit() {
     try {
       await this.configureSingleSingOn();
-      this.setToken();
-      this.token = this.oAuthService.getAccessToken();
+      await this.setToken();
+      this.token = this.oAuthService.getAccessToken()
       if (this.token != null) {
-        this.navigate('/app/dashboard');
+        this.navigate('/app/home');
       }
     } catch (error) {
       if (!this.notificationRef) return;
@@ -87,15 +87,18 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  setToken() {
+  async setToken() {
+    setTimeout(() => {
     const token = this.oAuthService.getAccessToken();
     sessionStorage.setItem('token', token);
     this.headers = new HttpHeaders({
       Authorization: 'Bearer ' + token,
     });
     if (token != null) {
-      this.navigate('/app/dashboard');
+      this.navigate('/app/home');
     }
+    }, 500);
+    
   }
 
   async configureSingleSingOn() {

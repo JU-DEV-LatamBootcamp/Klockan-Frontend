@@ -18,6 +18,7 @@ import { CoursesComponent } from './pages/courses/courses.component';
 import { ProgramsComponent } from './pages/programs/programs.component';
 import { UsersComponent } from './pages/users/users.component';
 import { ClassroomsComponent } from './pages/classrooms/classrooms.component';
+import { TableComponent } from 'src/app/shared/components/table/table.component';
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { ClassroomsComponent } from './pages/classrooms/classrooms.component';
     MatDialogModule,
     MatSnackBarModule,
     MatListModule,
+    TableComponent
   ],
   declarations: [DashboardComponent, ComposedLayoutComponent, MeetingsComponent, ProfileComponent, CoursesComponent, ProgramsComponent, UsersComponent, ClassroomsComponent],
 })
