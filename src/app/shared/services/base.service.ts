@@ -15,6 +15,7 @@ export abstract class BaseService<T> {
     protected oAuthService: OAuthService
   ) {}
 
+  abstract getAll(entity: T): Observable<T[]>;
   abstract edit(entity: T): Observable<T>;
   abstract delete(entity: T): Observable<T>;
 
