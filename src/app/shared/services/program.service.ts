@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Program } from '../models/Programs';
@@ -9,11 +8,11 @@ import { environment } from 'src/environments/keycloak.enviroment';
   providedIn: 'root',
 })
 export class ProgramService extends BaseService<Program> {
-  apiProgramsPath = environment.apiProgramsPath;
+  apiProgramsPath = environment.api.programsEndpoint;
 
-  getPrograms(): Observable<Program[]> {
+  override getAll(): Observable<Program[]> {
     const token = this.oAuthService.getAccessToken();
-    let headers = super.createHeaders(token);
+    const headers = super.createHeaders(token);
     return this.http.get<Program[]>(this.baseRoute + this.apiProgramsPath, {
       headers,
     });
