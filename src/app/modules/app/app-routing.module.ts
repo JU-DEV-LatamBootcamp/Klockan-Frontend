@@ -8,6 +8,7 @@ import { MeetingsComponent } from './pages/meetings/meetings.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { UsersComponent } from './pages/users/users.component';
 import { ClassroomsComponent } from './pages/classrooms/classrooms.component';
+import { HomeComponent } from '../home/components/home/home.component';
 
 const routes: Routes = [
   {
@@ -42,7 +43,11 @@ const routes: Routes = [
         path: 'classrooms',
         component: ClassroomsComponent,
       },
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      {
+        path: 'home',
+        component: HomeComponent,
+      },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
     ],
   },
 ];

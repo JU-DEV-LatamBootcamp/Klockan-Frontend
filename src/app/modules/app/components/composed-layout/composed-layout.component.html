@@ -1,7 +1,7 @@
 <app-layout>
   <div ngProjectAs="[header]">
     <mat-toolbar class="header">
-      <div class="header__content">
+      <div class="header__content primary">
         <button
           *ngIf="!screenSizeService.matchEqualOrAbove('large')"
           mat-icon-button
@@ -10,11 +10,11 @@
           <mat-icon>menu</mat-icon>
         </button>
 
-        <span>Klockan</span>
+        <span id="  " class="font-lobster app-title">Klockan</span>
 
         <span class="header__spacer"></span>
 
-        <button mat-flat-button color="primary" class="logout-button">
+        <button mat-flat-button class="logout-button" (click)="doLogout()">
           Logout
         </button>
       </div>
@@ -23,17 +23,54 @@
 
   <div ngProjectAs="[sidebar]" class="sidebar">
     <mat-nav-list>
-      <a mat-list-item routerLink="/app">
+      <a mat-list-item routerLink="/app/home">
         <div class="sidebar__link-content">
           <mat-icon>home</mat-icon> <span>Dashboard</span>
         </div>
       </a>
       <a mat-list-item routerLink="/app/programs">
         <div class="sidebar__link-content">
-          <mat-icon>class</mat-icon> <span>Programs</span>
+          <mat-icon
+            ><svg
+              width="24"
+              height="24"
+              viewBox="0 0 42 43"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink">
+              <rect
+                y="0.304688"
+                width="42"
+                height="42.5316"
+                fill="url(#pattern0)" />
+              <defs>
+                <pattern
+                  id="pattern0"
+                  patternContentUnits="objectBoundingBox"
+                  width="1"
+                  height="1">
+                  <use
+                    xlink:href="#image0_677_4195"
+                    transform="matrix(0.0104167 0 0 0.0102865 0 0.00625001)" />
+                </pattern>
+                <image
+                  id="image0_677_4195"
+                  width="96"
+                  height="96"
+                  xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAAAsTAAALEwEAmpwYAAADbUlEQVR4nO2cy27TQBSGDQtuEntgxeUlWhaEkjPNTEjPCUh+kFL2WXaBxKKASlnxDCyqcn0LLk/AolRcW8quaFwQUrFb2xlnJp7/k84ummT+3z7j+a1MkgAAAAAAAAAAAAAAAAAAAOTQn+c5reSJIXlvSLaNkr0oi2R7XwNe63XleuMXi54bXtEkr71PXAVbL5VauNSI+P15uWoUbwUwyb2QSyv51OsOZ52K3+vJRUO86XtyZmqKt2y3cGaAUfzK/6RkqkqTvHEk/sIN35MxU1pOFubsaSf/C3a14sV+p38uiZRe79Z5o/iO1SJXI+LHY3+JIfmQe4spXnQyixZgSJYKNHo3/uCKf+QNHvOVfxCrRcE68D0Zl6L+NvbALcM0pVOsBmitTxrF97K9D8m2VrKazqSniz4PAxyLr4nXqyyqMKBp8Y/o6TCgJKPR6HiSJMeqir9f/DV4AwaDwRlD/Mj+2ElteLTiL5rk4WE9mpnPGpKn2f6FZMcoXrGClxc/Sz/vu9KpNFUHtn1yUsKbKj16X/wDLYXXM+FLiP/3s0EbYG9vrfinLwM0yc6fFvPf7yrarWbCjik+DFAlDKj54qiM+MEY4LsFaSWrxfPglabEr6NTaaoObBdCreSBXRgn2Ho+W4EPW4RLLbI1xa+jU+J9YA+kaXrCED872gDe6HQ6p6qMDQOcmVBdfAsMcGJCPfEtMKBW2CbLhvhjVkqWq/T8g8AAxyAN9QjSUI8gDW2Y1qehocKxpKGhxtEmhjQ01Dh6hDR0QncCRZ6Ghvo+IKo0NNQ4WseShoYaR1cxoar4QRkQOinSUP+kSEP9o5GGhg3SUI8gDfUI0tCGQRrqCY4lDQ0VE0saGmIcPYolDQ06jiakoc3fCRR5GhpyHK1jSUNDjaOjSUNDjqPLmFBH/KAMmAZSpKH+0UhD2wVakGdgQFsNsH/PzxsYx9X8g4gv5BpA8i1p6sAme1LU2IO3BE1yt7kDm4jXCm6vXWuCPbYrifnIMpIlQ/Krzsaw9Cm5k9pQmZZVX/E1J05rkhe+J2OmrngjcQUObpWq4m/d7N6+7MyAzITucNYey+v/ypKwi3hT08JM0gT2YGq0IzlM/Oe2WyRNo2nYsbGzfcwqOtYyjmI797f2acfZggsAAAAAAAAAAAAAAAAAgKRt/AZQiILoAscJgwAAAABJRU5ErkJggg==" />
+              </defs>
+            </svg>
+          </mat-icon>
+          <span>Programs</span>
         </div>
       </a>
-      <a mat-list-item routerLink="/app/courses">
+      <!--
+        <a mat-list-item routerLink="/app/courses">
+        <div class="sidebar__link-content">
+          <mat-icon>school</mat-icon> <span>Programs</span>
+        </div>
+      </a>
+      <a mat-list-item routerLink="/app">
         <div class="sidebar__link-content">
           <mat-icon>school</mat-icon> <span>Courses</span>
         </div>
@@ -58,6 +95,7 @@
           <mat-icon>person</mat-icon> <span>Profile</span>
         </div>
       </a>
+      -->
     </mat-nav-list>
   </div>
 </app-layout>

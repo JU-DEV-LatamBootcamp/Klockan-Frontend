@@ -1,1 +1,12 @@
-<p>programs works!</p>
+<main>
+  <section class="main-section">
+    <h2>Programs</h2>
+    <button class="button primary">Create program</button>
+  </section>
+  <section>
+    <app-table
+      [headers]="headers"
+      [data]="data"
+      [service]="programService"></app-table>
+  </section>
+</main>

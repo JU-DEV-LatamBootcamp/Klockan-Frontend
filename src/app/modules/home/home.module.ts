@@ -8,7 +8,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { HomeRoutingModule } from './home-routing.module';
-import { HomeComponent } from './components/home.component';
+import { HomeComponent } from './components/home/home.component';
 import { MatIconModule } from '@angular/material/icon';
 @NgModule({
   declarations: [HomeComponent],
