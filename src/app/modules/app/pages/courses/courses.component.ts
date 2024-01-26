@@ -8,7 +8,7 @@ import { CourseService } from 'src/app/shared/services/course.service';
   styleUrls: ['./courses.component.sass'],
 })
 export class CoursesComponent {
-  headers = ['id', 'name', 'description'];
+  headers = ['id', 'name', 'code','description', 'sessions', 'sessionDuration'];
   data: Course[] | Course | null | any = [];
 
   constructor(public courseService: CourseService) {
