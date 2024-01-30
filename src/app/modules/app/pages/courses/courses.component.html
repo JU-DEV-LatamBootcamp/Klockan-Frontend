@@ -1,1 +1,16 @@
-<p>courses works!</p>
+<main>
+  <section class="main-section">
+    <h2>Courses</h2>
+  </section>
+  <section *ngIf="!isLoading">
+    <app-table
+      [headers]="headers"
+      [data]="data"
+      [service]="courseService"></app-table>
+  </section>
+  <div class="spinner" *ngIf="isLoading">
+    <mat-progress-spinner
+      mode="indeterminate"
+      diameter="70"></mat-progress-spinner>
+  </div>
+</main>

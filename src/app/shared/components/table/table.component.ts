@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { ProgramService } from '../../services/program.service';
+
 import { BaseService } from '../../services/base.service';
 
 @Component({

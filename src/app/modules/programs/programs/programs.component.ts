@@ -21,7 +21,7 @@ export class ProgramsComponent {
 
   fetchData() {
     try {
-      this.programService.getPrograms().subscribe(
+      this.programService.getAll().subscribe(
         (data: Program[] | Program | null) => {
           this.data = data;
         },

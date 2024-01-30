@@ -9,7 +9,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatListModule } from '@angular/material/list';
-// components
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+// Components
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ComposedLayoutComponent } from './components/composed-layout/composed-layout.component';
 import { MeetingsComponent } from './pages/meetings/meetings.component';
@@ -33,6 +35,7 @@ import { TableComponent } from 'src/app/shared/components/table/table.component'
     MatSnackBarModule,
     MatListModule,
     TableComponent,
+    MatProgressSpinnerModule,
   ],
   declarations: [
     DashboardComponent,
