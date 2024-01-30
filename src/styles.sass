@@ -265,3 +265,15 @@ button
 
 .font-lobster
   font-family: 'Lobster', cursive
+
+.spinner
+  display: flex
+  justify-content: center
+  margin-top: 32px
+  circle
+    stroke: $primary
+
+.error-snackbar
+  --mdc-snackbar-container-color: #{$error-container}
+  --mdc-snackbar-supporting-text-color: #{$error-container-text}
+  --mat-snack-bar-button-color: #{$error}

@@ -1,36 +1,56 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+import { COURSE_HEADERS } from './course.constants';
 import { Course } from 'src/app/shared/models/Courses';
 import { CourseService } from 'src/app/shared/services/course.service';
+import { API_ERROR_MESSAGE } from 'src/app/shared/constants/api.constants';
+import { SNACKBAR_ERROR_DEFAULTS } from 'src/app/shared/constants/snackbar.constants';
 
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.sass'],
 })
-export class CoursesComponent {
-  headers = ['id', 'name', 'code','description', 'sessions', 'sessionDuration'];
-  data: Course[] | Course | null | any = [];
+export class CoursesComponent implements OnInit {
+  headers: string[] = COURSE_HEADERS;
 
-  constructor(public courseService: CourseService) {
+  data: Course[] = [];
+  isLoading = true;
+
+  constructor(
+    public courseService: CourseService,
+    private snackBar: MatSnackBar
+  ) {}
+
+  ngOnInit() {
     this.fetchData();
   }
 
-  fetchData() {
-    try {
-      this.courseService.getAll().subscribe(
-        (data: Course[] | Course | null) => {
-          this.data = data;
-        },
-        error => {
-          console.log(
-            'Something went wrong while trying to retrieve data from API',
-            error
-          );
-        }
-      );
-    } catch (error) {
-      console.log(error);
-    }
+  private fetchData(): void {
+    this.isLoading = true;
+    this.courseService.getAll().subscribe({
+      next: this.handleSuccess.bind(this),
+      error: this.handleError.bind(this),
+    });
   }
 
+  private handleSuccess(data: Course[]): void {
+    this.data = data;
+    this.isLoading = false;
+  }
+
+  private handleError(error: Error): void {
+    console.error(API_ERROR_MESSAGE, error);
+    this.isLoading = false;
+    this.displaySnackbar(API_ERROR_MESSAGE);
+  }
+
+  private displaySnackbar(message: string): void {
+    this.snackBar.open(
+      message,
+      SNACKBAR_ERROR_DEFAULTS.CLOSE_BUTTON_TEXT,
+      SNACKBAR_ERROR_DEFAULTS.CONFIG
+    );
+  }
 }
