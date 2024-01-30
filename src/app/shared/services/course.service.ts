@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import { Course } from '../models/Courses';
 import { BaseService } from './base.service';
+import { transformCourseFromService } from '../utils/course-mapper';
+import { Course, CourseFromService } from '../models/Courses';
 import { environment } from 'src/environments/keycloak.enviroment';
 
 @Injectable({
@@ -14,9 +16,15 @@ export class CourseService extends BaseService<Course> {
   override getAll(): Observable<Course[]> {
     const token = this.oAuthService.getAccessToken();
     const headers = super.createHeaders(token);
-    return this.http.get<Course[]>(this.baseRoute + this.coursePath, {
-      headers,
-    });
+    return this.http
+      .get<CourseFromService[]>(`${this.baseRoute}${this.coursePath}`, {
+        headers,
+      })
+      .pipe(
+        map(coursesFromService =>
+          transformCourseFromService(coursesFromService)
+        )
+      );
   }
 
   override edit(entity: Course): Observable<Course> {
