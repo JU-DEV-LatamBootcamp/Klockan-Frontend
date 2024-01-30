@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  apiBasePath: `http://localhost:5001/`,
+  apiBasePath: `https://localhost:5001/api`,
   resourceServerId: 'api',
   keycloak: {
     issuer: 'http://localhost:8080/realms/Klockan',
@@ -10,7 +10,7 @@ export const environment = {
     scope: 'openid profile email',
   },
   api: {
-    programsEndpoint: 'api/v1/programs',
-    coursesEndpoint: 'api/v1/courses',
+    programsEndpoint: '/v1/programs',
+    coursesEndpoint: '/v1/courses',
   },
 };
