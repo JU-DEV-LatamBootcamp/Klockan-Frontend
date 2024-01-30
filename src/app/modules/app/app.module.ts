@@ -21,6 +21,7 @@ import { ProgramsComponent } from './pages/programs/programs.component';
 import { UsersComponent } from './pages/users/users.component';
 import { ClassroomsComponent } from './pages/classrooms/classrooms.component';
 import { TableComponent } from 'src/app/shared/components/table/table.component';
+import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import { TableComponent } from 'src/app/shared/components/table/table.component'
     MatListModule,
     TableComponent,
     MatProgressSpinnerModule,
+    ButtonComponent,
   ],
   declarations: [
     DashboardComponent,

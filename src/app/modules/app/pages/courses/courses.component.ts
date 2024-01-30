@@ -14,9 +14,9 @@ import { SNACKBAR_ERROR_DEFAULTS } from 'src/app/shared/constants/snackbar.const
 })
 export class CoursesComponent implements OnInit {
   headers: string[] = COURSE_HEADERS;
-
   data: Course[] = [];
   isLoading = true;
+  buttonLabel = 'Create Course';
 
   constructor(
     public courseService: CourseService,
@@ -52,5 +52,9 @@ export class CoursesComponent implements OnInit {
       SNACKBAR_ERROR_DEFAULTS.CLOSE_BUTTON_TEXT,
       SNACKBAR_ERROR_DEFAULTS.CONFIG
     );
+  }
+
+  protected displayModal() {
+    console.log('hello ');
   }
 }
