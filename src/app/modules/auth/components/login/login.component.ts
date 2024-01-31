@@ -9,8 +9,6 @@ import {
 } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../services/auth.service';
-import { ThirdPartyAuthService } from '../../services/third-party-auth.service';
 import { Router } from '@angular/router';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
@@ -48,7 +46,7 @@ import { NotificationComponent } from 'src/app/shared/layouts/auth-layout/compon
     ReactiveFormsModule,
     CommonModule,
   ],
-  providers: [AuthService, ThirdPartyAuthService],
+  providers: [],
 })
 export class LoginComponent implements OnInit {
   /**
@@ -67,7 +65,6 @@ export class LoginComponent implements OnInit {
   notificationRef?: TemplateRef<NotificationComponent>;
 
   constructor(
-    private thirdpartyAuth: ThirdPartyAuthService,
     private router: Router,
     private oAuthService: OAuthService,
     public readonly notificationService: NotificationService
