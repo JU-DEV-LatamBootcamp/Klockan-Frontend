@@ -80,6 +80,8 @@ export class LoginComponent implements OnInit {
       this.token = this.oAuthService.getAccessToken();
       if (this.token != null) {
         this.navigate('/app/home');
+      }else{
+        this.login();
       }
     } catch (error) {
       if (!this.notificationRef) return;
