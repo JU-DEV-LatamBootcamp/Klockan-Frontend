@@ -10,6 +10,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 // Components
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
@@ -22,6 +23,7 @@ import { UsersComponent } from './pages/users/users.component';
 import { ClassroomsComponent } from './pages/classrooms/classrooms.component';
 import { TableComponent } from 'src/app/shared/components/table/table.component';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   imports: [
@@ -35,6 +37,8 @@ import { ButtonComponent } from 'src/app/shared/components/button/button.compone
     MatDialogModule,
     MatSnackBarModule,
     MatListModule,
+    MatFormFieldModule,
+    MatInputModule,
     TableComponent,
     MatProgressSpinnerModule,
     ButtonComponent,

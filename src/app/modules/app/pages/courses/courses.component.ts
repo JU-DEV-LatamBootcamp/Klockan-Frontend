@@ -1,26 +1,35 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 import { COURSE_HEADERS } from './course.constants';
 import { Course } from 'src/app/shared/models/Courses';
 import { CourseService } from 'src/app/shared/services/course.service';
 import { API_ERROR_MESSAGE } from 'src/app/shared/constants/api.constants';
 import { SNACKBAR_ERROR_DEFAULTS } from 'src/app/shared/constants/snackbar.constants';
+import { DialogService } from 'src/app/shared/layouts/app-layout/services/dialog/dialog.service';
 
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.sass'],
+  providers: [
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { appearance: 'outline', floatLabel: 'always' },
+    },
+  ],
 })
 export class CoursesComponent implements OnInit {
   headers: string[] = COURSE_HEADERS;
   data: Course[] = [];
   isLoading = true;
-  buttonLabel = 'Create Course';
+  buttonLabel = '+ New Course';
 
   constructor(
     public courseService: CourseService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public readonly dialogService: DialogService
   ) {}
 
   ngOnInit() {
@@ -54,7 +63,7 @@ export class CoursesComponent implements OnInit {
     );
   }
 
-  protected displayModal() {
-    console.log('hello ');
+  showDialogFromComponent() {
+    this.dialogService.show(CoursesComponent);
   }
 }

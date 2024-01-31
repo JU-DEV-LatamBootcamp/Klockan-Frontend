@@ -1,8 +1,11 @@
 <main>
   <section class="main-section">
     <h2>Courses</h2>
-    <app-button (click)="displayModal()" [label]="buttonLabel"></app-button>
+    <app-button
+      (click)="dialogService.show(dialog)"
+      [label]="buttonLabel"></app-button>
   </section>
+
   <section *ngIf="!isLoading">
     <app-table
       [headers]="headers"
@@ -14,4 +17,51 @@
       mode="indeterminate"
       diameter="70"></mat-progress-spinner>
   </div>
+
+  <ng-template #dialog>
+    <app-dialog>
+      <mat-toolbar ngProjectAs="[header]" class="header">
+        <span>New Course</span>
+      </mat-toolbar>
+
+      <div ngProjectAs="[content]" class="dialog-content">
+        <mat-form-field>
+          <mat-label for="name">Name *</mat-label>
+          <input matInput type="text" name="name"
+        /></mat-form-field>
+
+        <div>
+          <mat-form-field>
+            <mat-label for="sessions">Sessions *</mat-label>
+            <input matInput type="number" name="sessions" id="sessions-input"
+          /></mat-form-field>
+
+          <mat-form-field>
+            <mat-label for="minutes-per-session">Minutes / Session *</mat-label>
+            <input
+              matInput
+              type="number"
+              name="minutes-per-session"
+              id="minutes-per-session-input"
+          /></mat-form-field>
+        </div>
+
+        <mat-form-field>
+          <mat-label for="details">Details</mat-label>
+          <textarea matInput name="details" id="course-description"></textarea>
+        </mat-form-field>
+      </div>
+
+      <div ngProjectAs="[actions]">
+        <button mat-button mat-dialog-close>Cancel</button>
+        <button
+          mat-flat-button
+          color="primary"
+          [mat-dialog-close]="true"
+          cdkFocusInitial>
+          Create
+        </button>
+      </div>
+    </app-dialog>
+  </ng-template>
 </main>
