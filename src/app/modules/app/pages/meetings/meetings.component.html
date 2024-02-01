@@ -1,1 +1,18 @@
-<p>meetings works!</p>
+<main>
+  <section class="main-section">
+    <h2>Meetings</h2>
+  </section>
+  <section>
+    <section *ngIf="!isLoading">
+      <app-table
+        [headers]="headers"
+        [data]="data"
+        [service]="meetingService"></app-table>
+    </section>
+  </section>
+  <div class="spinner" *ngIf="isLoading">
+    <mat-progress-spinner
+      mode="indeterminate"
+      diameter="70"></mat-progress-spinner>
+  </div>
+</main>
