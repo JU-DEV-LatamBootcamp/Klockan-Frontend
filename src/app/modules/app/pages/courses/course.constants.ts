@@ -5,4 +5,5 @@ export const COURSE_HEADERS: string[] = [
   'description',
   'sessions',
   'duration',
+  'actions',
 ];
