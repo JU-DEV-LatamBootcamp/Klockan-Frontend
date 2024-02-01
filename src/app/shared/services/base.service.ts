@@ -16,6 +16,7 @@ export abstract class BaseService<T> {
   ) {}
 
   abstract getAll(entity: T): Observable<T[]>;
+  abstract add(entity: T): Observable<T>;
   abstract edit(entity: T): Observable<T>;
   abstract delete(entity: T): Observable<T>;
 
