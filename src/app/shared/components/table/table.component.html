@@ -2,25 +2,25 @@
   <thead>
     <tr>
       <th *ngFor="let header of headers">
-        <ng-container *ngIf="header !== 'id'">
+        <ng-container>
           {{ header | titlecase }}
         </ng-container>
       </th>
-      <!--
-        Comments for future table-Actions user story
-        <th *ngIf="headers">Actions</th>
-      -->
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let item of data">
-      <td *ngFor="let header of headers">{{ item[header.toLowerCase()] }}</td>
-      <!--
-        <td *ngIf="headers">
-        <mat-icon (click)="editarItem(item)">edit</mat-icon>
-        <mat-icon (click)="eliminarItem(item)">delete</mat-icon>
+      <td *ngFor="let header of headers">
+        {{ item[header.toLowerCase()] }}
       </td>
-      -->
+      <td *ngIf="headers">
+        <mat-icon (click)="editarItem(item)" class="table-action"
+          >edit</mat-icon
+        >
+        <mat-icon (click)="eliminarItem(item)" class="table-action"
+          >delete</mat-icon
+        >
+      </td>
     </tr>
   </tbody>
 </table>
