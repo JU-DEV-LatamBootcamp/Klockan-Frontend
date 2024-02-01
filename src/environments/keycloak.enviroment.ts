@@ -12,5 +12,6 @@ export const environment = {
   api: {
     programsEndpoint: '/v1/programs',
     coursesEndpoint: '/v1/courses',
+    classroomsEndpoint: '/v1/classrooms',
   },
 };
