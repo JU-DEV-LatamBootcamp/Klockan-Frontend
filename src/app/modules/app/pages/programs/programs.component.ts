@@ -17,21 +17,21 @@ export class ProgramsComponent {
   isLoading = true;
 
   headers = ['id', 'name', 'description'];
-  data: Program[] | Program | null | any = [];
+  programList: Program[] | Program | null | any = [];
 
   constructor(public programService: ProgramService, private snackBar: MatSnackBar) {
-    this.fetchData();
+    this.fetchPrograms();
   }
 
-  fetchData() {
+  fetchPrograms() {
     this.isLoading = true;
     this.programService.getAll().subscribe({
       next: this.handleSuccess.bind(this),
       error: this.handleError.bind(this),
     });
   }
-  private handleSuccess(data: Program[]): void {
-    this.data = data;
+  private handleSuccess(programs: Program[]): void {
+    this.programList = programs;
     this.isLoading = false;
   }
 
