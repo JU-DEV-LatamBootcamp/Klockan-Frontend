@@ -5,22 +5,20 @@ import { catchError, map } from 'rxjs/operators';
 import { BaseService } from './base.service';
 import { transformCourseFromService } from '../utils/course-mapper';
 import { Course, CourseFromService } from '../models/Courses';
-import { Endpoints } from '../constants/EndpointsEnum';
-
+import { environment } from 'src/environments/keycloak.enviroment';
 @Injectable({
   providedIn: 'root',
 })
 export class CourseService extends BaseService<Course> {
+  coursesPath = environment.api.coursesEndpoint;
+
   override getAll(): Observable<Course[]> {
     const token = this.oAuthService.getAccessToken();
     const headers = super.createHeaders(token);
     return this.http
-      .get<CourseFromService[]>(
-        `${this.baseRoute}${Endpoints.GET_ALL_COURSES}`,
-        {
-          headers,
-        }
-      )
+      .get<CourseFromService[]>(`${this.baseRoute}${this.coursesPath}`, {
+        headers,
+      })
       .pipe(
         map(coursesFromService =>
           transformCourseFromService(coursesFromService)
@@ -32,7 +30,7 @@ export class CourseService extends BaseService<Course> {
     const token = this.oAuthService.getAccessToken();
     const headers = super.createHeaders(token);
     return this.http.post<Course>(
-      `${this.baseRoute}${this.coursePath}`,
+      `${this.baseRoute}${this.coursesPath}`,
       entity,
       {
         headers,
@@ -48,10 +46,9 @@ export class CourseService extends BaseService<Course> {
   override delete(entity: Course): Observable<any> {
     const token = this.oAuthService.getAccessToken();
     const headers = super.createHeaders(token);
-    console.log('first');
-    // alert('Deleting COURSE' + entity.id);
+    alert('Deleting COURSE' + entity.id);
     return this.http.delete(
-      `${this.baseRoute}${Endpoints.DELETE_COURSE}/${entity.id}`,
+      `${this.baseRoute}${this.coursesPath}/${entity.id}`,
       { headers }
     );
   }
