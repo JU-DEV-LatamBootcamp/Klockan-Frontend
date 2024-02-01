@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 import { BaseService } from './base.service';
 import { transformCourseFromService } from '../utils/course-mapper';
@@ -25,6 +25,18 @@ export class CourseService extends BaseService<Course> {
           transformCourseFromService(coursesFromService)
         )
       );
+  }
+
+  override add(entity: Course): Observable<Course> {
+    const token = this.oAuthService.getAccessToken();
+    const headers = super.createHeaders(token);
+    return this.http.post<Course>(
+      `${this.baseRoute}${this.coursePath}`,
+      entity,
+      {
+        headers,
+      }
+    );
   }
 
   override edit(entity: Course): Observable<Course> {
