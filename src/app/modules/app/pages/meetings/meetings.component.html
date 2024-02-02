@@ -4,10 +4,7 @@
   </section>
   <section>
     <section *ngIf="!isLoading">
-      <app-table
-        [headers]="headers"
-        [data]="data"
-        [service]="meetingService"></app-table>
+      <app-table [headers]="headers" [data]="meetingList"></app-table>
     </section>
   </section>
   <div class="spinner" *ngIf="isLoading">

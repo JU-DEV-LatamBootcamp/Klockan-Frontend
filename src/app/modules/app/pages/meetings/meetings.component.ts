@@ -13,7 +13,7 @@ import { SNACKBAR_ERROR_DEFAULTS } from 'src/app/shared/constants/snackbar.const
 })
 export class MeetingsComponent implements OnInit {
   headers: string[] = MEETING_HEADERS;
-  data: Meeting[] = [];
+  meetingList: Meeting[] = [];
   isLoading = true;
 
   constructor(
@@ -34,10 +34,10 @@ export class MeetingsComponent implements OnInit {
   }
 
   private handleSuccess(data: Meeting[]): void {
-    console.log(data);
-    this.data = data;
+    this.meetingList = data;
     this.isLoading = false;
   }
+
   private handleError(error: Error): void {
     console.error(API_ERROR_MESSAGE, error);
     this.isLoading = false;
