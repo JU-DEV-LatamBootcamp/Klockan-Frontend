@@ -58,8 +58,17 @@ export class CoursesComponent implements OnInit {
     );
   }
 
-  showDialogFromComponent(): void {
-    this.dialogService.show(CourseFormComponent);
+  showDialogFormComponent(course?: Course): void {
+    const dialogRef$ = this.dialogService.show(
+      CourseFormComponent,
+      course ? course : null
+    );
+
+    dialogRef$.subscribe({
+      next: (result: Course) => {
+        if (result) this.fetchData();
+      },
+    });
   }
 
   showDeleteDialog(item: Course) {
