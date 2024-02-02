@@ -14,10 +14,8 @@
         {{ item[header.toLowerCase()] }}
       </td>
       <td *ngIf="headers">
-        <mat-icon (click)="editarItem(item)" class="table-action"
-          >edit</mat-icon
-        >
-        <mat-icon (click)="eliminarItem(item)" class="table-action"
+        <mat-icon (click)="editItem(item)" class="table-action">edit</mat-icon>
+        <mat-icon (click)="deleteItem(item)" class="table-action"
           >delete</mat-icon
         >
       </td>
