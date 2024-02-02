@@ -2,6 +2,8 @@ import { Component, Inject, OnDestroy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { IDeleteConfirmationData } from '../../interfaces/IDeleteConfirmationData';
 import { Subscription, Observable } from 'rxjs';
+import { DialogService } from 'src/app/shared/layouts/app-layout/services/dialog/dialog.service';
+import { ErrorMessageComponent } from '../error-message/error-message.component';
 
 @Component({
   selector: 'app-delete-confirmation',
@@ -14,7 +16,8 @@ export class DeleteConfirmationComponent implements OnDestroy {
 
   constructor(
     public dialogRef: MatDialogRef<DeleteConfirmationComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: IDeleteConfirmationData<any>
+    @Inject(MAT_DIALOG_DATA) public data: IDeleteConfirmationData<any>,
+    public readonly dialogService: DialogService
   ) {}
 
   ngOnDestroy(): void {
@@ -31,7 +34,8 @@ export class DeleteConfirmationComponent implements OnDestroy {
         this.dialogRef.close(item);
       },
       error: error => {
-        console.error('Error creating course: ', error);
+        this.dialogRef.close();
+        this.dialogService.show(ErrorMessageComponent, error.error);
       },
     });
   }

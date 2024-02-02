@@ -5,8 +5,9 @@
 
   <div ngProjectAs="[content]" class="content">
     <mat-icon color="warn">highlight_off</mat-icon>
-    <p>delete-confirmation works!</p>
-    {{ data.item | json }}
+    <p>Do you want to <strong>DELETE?</strong></p>
+    <span>{{ data.item.name }}</span>
+    <p>This process cannot be undone!</p>
   </div>
   <div ngProjectAs="[actions]">
     <button mat-button (click)="dialogRef.close()">Cancel</button>
