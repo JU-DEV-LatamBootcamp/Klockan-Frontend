@@ -5,7 +5,12 @@
   <section>
     <app-table
       [headers]="headers"
-      [data]="data"
+      [data]="programList"
       [service]="programService"></app-table>
   </section>
+  <div class="spinner" *ngIf="isLoading">
+    <mat-progress-spinner
+      mode="indeterminate"
+      diameter="70"></mat-progress-spinner>
+  </div>
 </main>

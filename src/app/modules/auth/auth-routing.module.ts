@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
 import { ComposedLayoutComponent } from './components/composed-layout/composed-layout.component';
 
 const routes: Routes = [
@@ -10,7 +9,6 @@ const routes: Routes = [
     component: ComposedLayoutComponent,
     children: [
       { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
       { path: '', redirectTo: 'login', pathMatch: 'full' },
     ],
   },
