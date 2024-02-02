@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { Observable, Subscription } from 'rxjs';
 
-import { Course } from 'src/app/shared/models/Courses';
+import { Course, CourseToService } from 'src/app/shared/models/Courses';
 import { CourseService } from 'src/app/shared/services/course.service';
 
 @Component({
@@ -20,7 +20,7 @@ import { CourseService } from 'src/app/shared/services/course.service';
 })
 export class CourseFormComponent implements OnInit, OnDestroy {
   courseForm!: FormGroup;
-  course$!: Observable<Course>;
+  course$!: Observable<Course | CourseToService>;
   courseSubscription!: Subscription;
 
   constructor(
@@ -49,8 +49,6 @@ export class CourseFormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    console.log('form is valid: ', this.courseForm.valid);
-    console.log(this.courseForm.value);
     if (this.courseForm.valid) {
       this.createCourse(this.courseForm.value);
     }
@@ -63,6 +61,7 @@ export class CourseFormComponent implements OnInit, OnDestroy {
       duration: courseData.duration,
       description: courseData.description,
     };
+
     this.course$ = this.courseService.add(newCourse);
     this.courseSubscription = this.course$.subscribe({
       next: course => {
