@@ -63,9 +63,13 @@ export class CoursesComponent implements OnInit {
   }
 
   showDeleteDialog(item: Course) {
-    this.dialogService.show(DeleteConfirmationComponent, {
-      item: item,
-      service: this.courseService,
-    });
+    this.dialogService
+      .show(DeleteConfirmationComponent, {
+        item: item,
+        service: this.courseService,
+      })
+      .subscribe(res => {
+        if (res) this.fetchData();
+      });
   }
 }
