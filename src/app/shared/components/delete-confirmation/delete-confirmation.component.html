@@ -1,0 +1,17 @@
+<app-dialog>
+  <mat-toolbar ngProjectAs="[header]" class="header">
+    <span>Are you Sure to Delete?</span>
+  </mat-toolbar>
+
+  <div ngProjectAs="[content]" class="content">
+    <mat-icon color="warn">highlight_off</mat-icon>
+    <p>delete-confirmation works!</p>
+    {{ data.item | json }}
+  </div>
+  <div ngProjectAs="[actions]">
+    <button mat-button (click)="dialogRef.close()">Cancel</button>
+    <button mat-flat-button color="warn" cdkFocusInitial (click)="confirm()">
+      Confirm
+    </button>
+  </div>
+</app-dialog>
