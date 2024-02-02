@@ -1,16 +1,24 @@
 <main>
   <section class="main-section">
     <h2>Courses</h2>
+    <app-button
+      (click)="dialogService.show(dialog)"
+      [label]="buttonLabel"></app-button>
   </section>
+
   <section *ngIf="!isLoading">
     <app-table
       [headers]="headers"
       [data]="data"
-      [service]="courseService"></app-table>
+      (deleteItemEvent)="showDeleteDialog($event)"></app-table>
   </section>
   <div class="spinner" *ngIf="isLoading">
     <mat-progress-spinner
       mode="indeterminate"
       diameter="70"></mat-progress-spinner>
   </div>
+
+  <ng-template #dialog>
+    <app-course-form></app-course-form>
+  </ng-template>
 </main>

@@ -6,6 +6,9 @@ import { Course } from 'src/app/shared/models/Courses';
 import { CourseService } from 'src/app/shared/services/course.service';
 import { API_ERROR_MESSAGE } from 'src/app/shared/constants/api.constants';
 import { SNACKBAR_ERROR_DEFAULTS } from 'src/app/shared/constants/snackbar.constants';
+import { DialogService } from 'src/app/shared/layouts/app-layout/services/dialog/dialog.service';
+import { CourseFormComponent } from './components/course-form/course-form.component';
+import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 
 @Component({
   selector: 'app-courses',
@@ -14,13 +17,14 @@ import { SNACKBAR_ERROR_DEFAULTS } from 'src/app/shared/constants/snackbar.const
 })
 export class CoursesComponent implements OnInit {
   headers: string[] = COURSE_HEADERS;
-
   data: Course[] = [];
   isLoading = true;
+  buttonLabel = '+ New Course';
 
   constructor(
     public courseService: CourseService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public readonly dialogService: DialogService
   ) {}
 
   ngOnInit() {
@@ -52,5 +56,20 @@ export class CoursesComponent implements OnInit {
       SNACKBAR_ERROR_DEFAULTS.CLOSE_BUTTON_TEXT,
       SNACKBAR_ERROR_DEFAULTS.CONFIG
     );
+  }
+
+  showDialogFromComponent(): void {
+    this.dialogService.show(CourseFormComponent);
+  }
+
+  showDeleteDialog(item: Course) {
+    this.dialogService
+      .show(DeleteConfirmationComponent, {
+        item: item,
+        service: this.courseService,
+      })
+      .subscribe(res => {
+        if (res) this.fetchData();
+      });
   }
 }

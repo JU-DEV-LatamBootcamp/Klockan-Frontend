@@ -17,6 +17,10 @@ export class ProgramService extends BaseService<Program> {
       headers,
     });
   }
+  override add(entity: Program): Observable<Program> {
+    alert('Creating PROGRAM' + entity.name);
+    throw new Error('Method not implemented.');
+  }
 
   override edit(entity: Program): Observable<Program> {
     alert('Editing PROGRAM' + entity.name);

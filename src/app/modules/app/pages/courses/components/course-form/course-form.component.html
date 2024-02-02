@@ -1,0 +1,53 @@
+<app-dialog>
+  <mat-toolbar ngProjectAs="[header]" class="header">
+    <span>New Course</span>
+  </mat-toolbar>
+
+  <form ngProjectAs="[content]" class="dialog-content" [formGroup]="courseForm">
+    <mat-form-field>
+      <mat-label for="name">Name</mat-label>
+      <input matInput type="text" name="name" formControlName="name"
+    /></mat-form-field>
+
+    <div>
+      <mat-form-field>
+        <mat-label for="sessions">Sessions</mat-label>
+        <input
+          matInput
+          type="number"
+          name="sessions"
+          formControlName="sessions"
+      /></mat-form-field>
+
+      <mat-form-field>
+        <mat-label for="duration">Minutes / Session</mat-label>
+        <input
+          matInput
+          type="number"
+          name="duration"
+          formControlName="duration"
+      /></mat-form-field>
+    </div>
+
+    <mat-form-field>
+      <mat-label for="description">Details</mat-label>
+      <textarea
+        matInput
+        name="description"
+        id="description"
+        formControlName="description"></textarea>
+    </mat-form-field>
+  </form>
+
+  <div ngProjectAs="[actions]">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button
+      mat-flat-button
+      color="primary"
+      [mat-dialog-close]="true"
+      cdkFocusInitial
+      (click)="onSubmit()">
+      Confirm
+    </button>
+  </div>
+</app-dialog>
