@@ -1,0 +1,14 @@
+<app-dialog>
+  <mat-toolbar ngProjectAs="[header]" class="header">
+    <span>Error!</span>
+  </mat-toolbar>
+
+  <div ngProjectAs="[content]" class="content">
+    <mat-icon color="warn">highlight_off</mat-icon>
+    <span>{{ data.title }}</span>
+    <span>{{ data.detail }}</span>
+  </div>
+  <div ngProjectAs="[actions]">
+    <button mat-button (click)="dialogRef.close()">Close</button>
+  </div>
+</app-dialog>
