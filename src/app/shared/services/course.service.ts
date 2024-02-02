@@ -9,18 +9,17 @@ import {
 } from '../utils/course-mapper';
 import { Course, CourseFromService } from '../models/Courses';
 import { environment } from 'src/environments/keycloak.enviroment';
-
 @Injectable({
   providedIn: 'root',
 })
 export class CourseService extends BaseService<Course> {
-  coursePath = environment.api.coursesEndpoint;
+  coursesPath = environment.api.coursesEndpoint;
 
   override getAll(): Observable<Course[]> {
     const token = this.oAuthService.getAccessToken();
     const headers = super.createHeaders(token);
     return this.http
-      .get<CourseFromService[]>(`${this.baseRoute}${this.coursePath}`, {
+      .get<CourseFromService[]>(`${this.baseRoute}${this.coursesPath}`, {
         headers,
       })
       .pipe(
@@ -36,7 +35,7 @@ export class CourseService extends BaseService<Course> {
     const courseToService = transformCourseToService(entity);
 
     return this.http.post<Course>(
-      `${this.baseRoute}${this.coursePath}`,
+      `${this.baseRoute}${this.coursesPath}`,
       courseToService,
       {
         headers,
@@ -48,8 +47,14 @@ export class CourseService extends BaseService<Course> {
     alert('Editing COURSE' + entity.name);
     throw new Error('Method not implemented.');
   }
+
   override delete(entity: Course): Observable<Course> {
-    alert('Deleting COURSE' + entity.id);
-    throw new Error('Method not implemented.');
+    const token = this.oAuthService.getAccessToken();
+    const headers = super.createHeaders(token);
+
+    return this.http.delete<Course>(
+      `${this.baseRoute}${this.coursesPath}/${entity.id}`,
+      { headers }
+    );
   }
 }

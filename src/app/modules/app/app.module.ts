@@ -26,6 +26,8 @@ import { ClassroomsComponent } from './pages/classrooms/classrooms.component';
 import { TableComponent } from 'src/app/shared/components/table/table.component';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 import { CourseFormComponent } from './pages/courses/components/course-form/course-form.component';
+import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
+import { ErrorMessageComponent } from 'src/app/shared/components/error-message/error-message.component';
 
 @NgModule({
   imports: [
@@ -57,6 +59,9 @@ import { CourseFormComponent } from './pages/courses/components/course-form/cour
     UsersComponent,
     ClassroomsComponent,
     CourseFormComponent,
+    DeleteConfirmationComponent,
+    ErrorMessageComponent,
   ],
+  exports: [DeleteConfirmationComponent],
 })
 export class AppModule {}

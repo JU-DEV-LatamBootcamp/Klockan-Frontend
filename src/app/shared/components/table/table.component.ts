@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-
-import { BaseService } from '../../services/base.service';
+import { DialogService } from 'src/app/shared/layouts/app-layout/services/dialog/dialog.service';
 
 @Component({
   selector: 'app-table',
@@ -14,13 +13,14 @@ import { BaseService } from '../../services/base.service';
 export class TableComponent {
   @Input() headers: string[] = [];
   @Input() data: any[] = [];
-  @Input() service!: BaseService<any>;
+  @Output() deleteItemEvent: EventEmitter<any> = new EventEmitter<any>();
+  constructor(public readonly dialogService: DialogService) {}
 
-  editarItem(item: any) {
-    this.service.edit(item);
+  editItem(item: any) {
+    // this.service.edit(item);
   }
 
-  eliminarItem(item: any) {
-    this.service.delete(item);
+  deleteItem(item: any) {
+    this.deleteItemEvent.emit(item);
   }
 }

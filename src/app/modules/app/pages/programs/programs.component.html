@@ -3,10 +3,7 @@
     <h2>Programs</h2>
   </section>
   <section>
-    <app-table
-      [headers]="headers"
-      [data]="programList"
-      [service]="programService"></app-table>
+    <app-table [headers]="headers" [data]="programList"></app-table>
   </section>
   <div class="spinner" *ngIf="isLoading">
     <mat-progress-spinner
