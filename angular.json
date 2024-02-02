@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "allowedCommonJsDependencies": ["sweetalert2"],
+            "allowedCommonJsDependencies": ["sweetalert2", "jsrsasign"],
             "outputPath": "dist/klockan-app",
             "index": "src/index.html",
             "main": "src/main.ts",
