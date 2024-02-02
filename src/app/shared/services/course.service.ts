@@ -49,12 +49,9 @@ export class CourseService extends BaseService<Course> {
   }
 
   override delete(entity: Course): Observable<Course> {
-    alert('Deleting COURSE' + entity.id);
-
-    // throw new Error('Method not implemented.');
-
     const token = this.oAuthService.getAccessToken();
     const headers = super.createHeaders(token);
+
     return this.http.delete<Course>(
       `${this.baseRoute}${this.coursesPath}/${entity.id}`,
       { headers }
