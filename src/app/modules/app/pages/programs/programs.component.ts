@@ -1,8 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
+import { ErrorMessageComponent } from 'src/app/shared/components/error-message/error-message.component';
 import { API_ERROR_MESSAGE } from 'src/app/shared/constants/api.constants';
 import { SNACKBAR_ERROR_DEFAULTS } from 'src/app/shared/constants/snackbar.constants';
+import { DialogService } from 'src/app/shared/layouts/app-layout/services/dialog/dialog.service';
 import { Program } from 'src/app/shared/models/Programs';
 import { ProgramService } from 'src/app/shared/services/program.service';
 
@@ -19,7 +22,11 @@ export class ProgramsComponent {
   headers = ['id', 'name', 'description'];
   programList: Program[] | Program | null | any = [];
 
-  constructor(public programService: ProgramService, private snackBar: MatSnackBar) {
+  constructor(
+    public programService: ProgramService,
+    private snackBar: MatSnackBar,
+    private readonly dialogService: DialogService
+  ) {
     this.fetchPrograms();
   }
 
@@ -47,5 +54,29 @@ export class ProgramsComponent {
       SNACKBAR_ERROR_DEFAULTS.CLOSE_BUTTON_TEXT,
       SNACKBAR_ERROR_DEFAULTS.CONFIG
     );
+  }
+
+  showDeleteDialog(program: Program) {
+    this.dialogService
+      .showDeleteConfirmation(DeleteConfirmationComponent<Program>, {
+        item: program,
+        identifier: 'name',
+      })
+      .subscribe(confirmed => {
+        if (!confirmed) return;
+
+        this.deleteProgram(program);
+      });
+  }
+
+  private deleteProgram(program: Program) {
+    this.programService.delete(program).subscribe({
+      next: () => {
+        this.fetchPrograms();
+      },
+      error: error => {
+        this.dialogService.showErrorMessage(ErrorMessageComponent, error.error);
+      },
+    });
   }
 }
