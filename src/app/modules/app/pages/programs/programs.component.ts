@@ -72,6 +72,7 @@ export class ProgramsComponent {
   private deleteProgram(program: Program) {
     this.programService.delete(program).subscribe({
       next: () => {
+        this.displaySnackbar(`${program.name} deleted sucessfully`);
         this.fetchPrograms();
       },
       error: error => {
