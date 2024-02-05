@@ -4,7 +4,6 @@ import { API_ERROR_MESSAGE } from 'src/app/shared/constants/api.constants';
 import { SNACKBAR_ERROR_DEFAULTS } from 'src/app/shared/constants/snackbar.constants';
 import { Classroom } from 'src/app/shared/models/Classroom';
 import { ClassroomService } from 'src/app/shared/services/classroom.service';
-import { transformClassroom } from 'src/app/shared/utils/other-mapper';
 
 @Component({
   selector: 'app-classrooms',
@@ -12,7 +11,7 @@ import { transformClassroom } from 'src/app/shared/utils/other-mapper';
   styleUrls: ['./classrooms.component.sass'],
 })
 export class ClassroomsComponent implements OnInit {
-  classroomList: any[] = [];
+  classroomList: Classroom[] = [];
   isLoading = true;
   headers: string[] = ['id', 'course', 'program', 'starts'];
   constructor(
