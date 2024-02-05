@@ -9,6 +9,7 @@ import { SNACKBAR_ERROR_DEFAULTS } from 'src/app/shared/constants/snackbar.const
 import { DialogService } from 'src/app/shared/layouts/app-layout/services/dialog/dialog.service';
 import { CourseFormComponent } from './components/course-form/course-form.component';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
+import { ErrorMessageComponent } from 'src/app/shared/components/error-message/error-message.component';
 
 @Component({
   selector: 'app-courses',
@@ -28,10 +29,10 @@ export class CoursesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.fetchData();
+    this.fetchCourses();
   }
 
-  private fetchData(): void {
+  private fetchCourses(): void {
     this.isLoading = true;
     this.courseService.getAll().subscribe({
       next: this.handleSuccess.bind(this),
@@ -71,14 +72,27 @@ export class CoursesComponent implements OnInit {
     });
   }
 
-  showDeleteDialog(item: Course) {
+  showDeleteDialog(course: Course) {
     this.dialogService
-      .show(DeleteConfirmationComponent, {
-        item: item,
-        service: this.courseService,
+      .showDeleteConfirmation(DeleteConfirmationComponent<Course>, {
+        item: course,
+        identifier: 'name',
       })
-      .subscribe(res => {
-        if (res) this.fetchData();
+      .subscribe(confirmed => {
+        if (!confirmed) return;
+
+        this.deleteCourse(course);
       });
+  }
+
+  private deleteCourse(course: Course) {
+    this.courseService.delete(course).subscribe({
+      next: () => {
+        this.fetchCourses();
+      },
+      error: error => {
+        this.dialogService.showErrorMessage(ErrorMessageComponent, error.error);
+      },
+    });
   }
 }
