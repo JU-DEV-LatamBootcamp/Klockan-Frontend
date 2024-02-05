@@ -8,6 +8,8 @@ import { SNACKBAR_ERROR_DEFAULTS } from 'src/app/shared/constants/snackbar.const
 import { DialogService } from 'src/app/shared/layouts/app-layout/services/dialog/dialog.service';
 import { Program } from 'src/app/shared/models/Programs';
 import { ProgramService } from 'src/app/shared/services/program.service';
+import { DialogService } from 'src/app/shared/layouts/app-layout/services/dialog/dialog.service';
+import { ProgramFormComponent } from './components/program-form/program-form.component';
 
 @Component({
   selector: 'app-programs',
@@ -78,6 +80,9 @@ export class ProgramsComponent {
       error: error => {
         this.dialogService.showErrorMessage(ErrorMessageComponent, error.error);
       },
+  showDialogFromComponent(): void {
+    this.dialogService.show(ProgramFormComponent).subscribe(res => {
+      if (res) this.fetchPrograms();
     });
   }
 }
