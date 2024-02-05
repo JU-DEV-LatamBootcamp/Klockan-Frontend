@@ -112,28 +112,6 @@ export class ClassroomsComponent implements OnInit {
       })
     );
     this.classroomList = transformedList;
-
-    // this.classroomList = [
-    //   {
-    //     id: 2,
-    //     course: 'Bootcamp Developers 01',
-    //     program: 'Backend Development',
-    //     starts: '2024-02-23',
-    //     programObject: {
-    //       id: 1,
-    //       name: 'Bootcamp Developers 01',
-    //       description: 'Program covering concepts in software development.',
-    //     },
-    //     courseObject: {
-    //       id: 2,
-    //       name: 'Backend Development',
-    //       description:
-    //         'Course on server side programming, databases, and API construction.',
-    //       sessions: 12,
-    //       sessionDuration: 75,
-    //     },
-    //   },
-    // ];
     this.displaySnackbar(API_ERROR_MESSAGE);
   }
 
