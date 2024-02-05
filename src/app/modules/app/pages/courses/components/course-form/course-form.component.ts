@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { Observable, Subscription } from 'rxjs';
 
@@ -26,7 +26,8 @@ export class CourseFormComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     public courseService: CourseService,
-    private dialogRef: MatDialogRef<CourseFormComponent>
+    private dialogRef: MatDialogRef<CourseFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Course
   ) {}
 
   ngOnInit(): void {
@@ -41,16 +42,21 @@ export class CourseFormComponent implements OnInit, OnDestroy {
 
   initializeForm(): void {
     this.courseForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      sessions: ['', Validators.required],
-      duration: ['', Validators.required],
-      description: [''],
+      id: [this.data?.id],
+      name: [this.data ? this.data.name : '', Validators.required],
+      sessions: [this.data ? this.data.sessions : '', Validators.required],
+      duration: [this.data ? this.data.duration : '', Validators.required],
+      description: [this.data ? this.data.description : ''],
     });
   }
 
   onSubmit(): void {
     if (this.courseForm.valid) {
-      this.createCourse(this.courseForm.value);
+      if (this.data) {
+        this.editCourse(this.courseForm.value);
+      } else {
+        this.createCourse(this.courseForm.value);
+      }
     }
   }
 
@@ -69,6 +75,18 @@ export class CourseFormComponent implements OnInit, OnDestroy {
       },
       error: error => {
         console.error('Error creating course: ', error);
+      },
+    });
+  }
+
+  private editCourse(courseData: Course): void {
+    this.course$ = this.courseService.edit(courseData);
+    this.courseSubscription = this.course$.subscribe({
+      next: course => {
+        this.dialogRef.close(course);
+      },
+      error: error => {
+        console.error('Error updating course', error);
       },
     });
   }

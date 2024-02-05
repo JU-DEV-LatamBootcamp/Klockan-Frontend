@@ -1,6 +1,6 @@
 <app-dialog>
   <mat-toolbar ngProjectAs="[header]" class="header">
-    <span>New Course</span>
+    <span>{{data? 'Update Course': 'New Course'}}</span>
   </mat-toolbar>
 
   <form ngProjectAs="[content]" class="dialog-content" [formGroup]="courseForm">
