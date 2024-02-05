@@ -14,10 +14,11 @@ export class TableComponent {
   @Input() headers: string[] = [];
   @Input() data: any[] = [];
   @Output() deleteItemEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() editItemEvent: EventEmitter<any> = new EventEmitter<any>();
   constructor(public readonly dialogService: DialogService) {}
 
   editItem(item: any) {
-    // this.service.edit(item);
+    this.editItemEvent.emit(item);
   }
 
   deleteItem(item: any) {

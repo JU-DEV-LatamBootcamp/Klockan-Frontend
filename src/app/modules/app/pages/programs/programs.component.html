@@ -3,7 +3,10 @@
     <h2>Programs</h2>
   </section>
   <section>
-    <app-table [headers]="headers" [data]="programList"></app-table>
+    <app-table 
+      [headers]="headers" 
+      [data]="programList"
+      (editItemEvent)="showEditDialog($event)"></app-table>
   </section>
   <div class="spinner" *ngIf="isLoading">
     <mat-progress-spinner

@@ -5,6 +5,8 @@ import { API_ERROR_MESSAGE } from 'src/app/shared/constants/api.constants';
 import { SNACKBAR_ERROR_DEFAULTS } from 'src/app/shared/constants/snackbar.constants';
 import { Program } from 'src/app/shared/models/Programs';
 import { ProgramService } from 'src/app/shared/services/program.service';
+import { DialogService } from 'src/app/shared/layouts/app-layout/services/dialog/dialog.service';
+import { ProgramFormComponent } from './components/program-form/program-form.component';
 
 @Component({
   selector: 'app-programs',
@@ -19,7 +21,10 @@ export class ProgramsComponent {
   headers = ['id', 'name', 'description'];
   programList: Program[] | Program | null | any = [];
 
-  constructor(public programService: ProgramService, private snackBar: MatSnackBar) {
+  constructor(
+    public programService: ProgramService, 
+    private snackBar: MatSnackBar,
+    public readonly dialogService: DialogService) {
     this.fetchPrograms();
   }
 
@@ -47,5 +52,20 @@ export class ProgramsComponent {
       SNACKBAR_ERROR_DEFAULTS.CLOSE_BUTTON_TEXT,
       SNACKBAR_ERROR_DEFAULTS.CONFIG
     );
+  }
+
+  public showEditDialog(item: Program): void {
+    this.dialogService
+      .show(ProgramFormComponent, {
+        item: item,
+        service: this.programService,
+      })
+      .subscribe(res => {
+        if (res) {          
+          this.fetchPrograms();
+        }else{
+          this.displaySnackbar("Something went wrong.");
+        }
+      });
   }
 }

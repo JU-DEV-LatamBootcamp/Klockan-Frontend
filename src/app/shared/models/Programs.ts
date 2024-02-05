@@ -3,3 +3,8 @@ export interface Program {
   name: string;
   description?: string;
 }
+
+export interface ProgramToService {
+  name: string;
+  description?: string;  
+}

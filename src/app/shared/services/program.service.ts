@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Program } from '../models/Programs';
+import { Program, ProgramToService } from '../models/Programs';
 import { BaseService } from './base.service';
 import { environment } from 'src/environments/keycloak.enviroment';
 
@@ -23,8 +23,13 @@ export class ProgramService extends BaseService<Program> {
   }
 
   override edit(entity: Program): Observable<Program> {
-    alert('Editing PROGRAM' + entity.name);
-    throw new Error('Method not implemented.');
+    const token = this.oAuthService.getAccessToken();
+    const headers = super.createHeaders(token);        
+    return this.http.put<Program>(
+      `${this.baseRoute}${this.apiProgramsPath}`,      
+      entity,
+      { headers }      
+    );
   }
   override delete(entity: Program): Observable<Program> {
     alert('Deleting PROGRAM' + entity.id);

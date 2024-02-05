@@ -1,0 +1,28 @@
+<app-dialog>
+    <mat-toolbar ngProjectAs="[header]" class="header">
+      <span>Edit</span>
+    </mat-toolbar>
+  
+    <form ngProjectAs="[content]" class="dialog-content" [formGroup]="programForm">
+      <mat-form-field>
+        <mat-label for="name">Name</mat-label>
+        <input matInput type="text" name="name" formControlName="name"
+      /></mat-form-field>
+      <mat-form-field>
+        <mat-label for="name">Description</mat-label>
+        <input matInput type="text" name="description" formControlName="description"
+      /></mat-form-field>      
+    </form>
+  
+    <div ngProjectAs="[actions]">
+      <button mat-button mat-dialog-close>Cancel</button>
+      <button
+        mat-flat-button
+        color="primary"
+        [mat-dialog-close]="true"
+        cdkFocusInitial
+        (click)="onSubmit()">
+        Change
+      </button>
+    </div>
+  </app-dialog>
