@@ -8,12 +8,12 @@ import { environment } from 'src/environments/keycloak.enviroment';
   providedIn: 'root',
 })
 export class ProgramService extends BaseService<Program> {
-  apiProgramsPath = environment.api.programsEndpoint;
+  programsPath = environment.api.programsEndpoint;
 
   override getAll(): Observable<Program[]> {
     const token = this.oAuthService.getAccessToken();
     const headers = super.createHeaders(token);
-    return this.http.get<Program[]>(this.baseRoute + this.apiProgramsPath, {
+    return this.http.get<Program[]>(this.baseRoute + this.programsPath, {
       headers,
     });
   }
@@ -27,7 +27,12 @@ export class ProgramService extends BaseService<Program> {
     throw new Error('Method not implemented.');
   }
   override delete(entity: Program): Observable<Program> {
-    alert('Deleting PROGRAM' + entity.id);
-    throw new Error('Method not implemented.');
+    const token = this.oAuthService.getAccessToken();
+    const headers = super.createHeaders(token);
+
+    return this.http.delete<Program>(
+      `${this.baseRoute}${this.programsPath}/${entity.id}`,
+      { headers }
+    );
   }
 }

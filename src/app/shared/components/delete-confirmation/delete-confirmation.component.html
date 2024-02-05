@@ -6,12 +6,16 @@
   <div ngProjectAs="[content]" class="content">
     <mat-icon color="warn">highlight_off</mat-icon>
     <p>Do you want to <strong>DELETE?</strong></p>
-    <span>{{ data.item.name }}</span>
+    <p>{{ data.item[data.identifier] }}</p>
     <p>This process cannot be undone!</p>
   </div>
   <div ngProjectAs="[actions]">
-    <button mat-button (click)="dialogRef.close()">Cancel</button>
-    <button mat-flat-button color="warn" cdkFocusInitial (click)="confirm()">
+    <button mat-button [mat-dialog-close]="false">Cancel</button>
+    <button
+      mat-flat-button
+      color="warn"
+      cdkFocusInitial
+      [mat-dialog-close]="true">
       Confirm
     </button>
   </div>
