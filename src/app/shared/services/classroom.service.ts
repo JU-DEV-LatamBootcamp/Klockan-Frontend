@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from './base.service';
-import { Classroom } from '../models/Classroom';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/keycloak.enviroment';
+import { map } from 'rxjs/operators';
+import { Classroom, ClassroomFromService } from '../models/Classroom';
+import { transformClassroomFromService } from '../utils/classroom-mapper';
 
 @Injectable({
   providedIn: 'root',
@@ -13,10 +15,16 @@ export class ClassroomService extends BaseService<Classroom> {
   override getAll(): Observable<Classroom[]> {
     const token = this.oAuthService.getAccessToken();
     const headers = super.createHeaders(token);
-    return this.http.get<Classroom[]>(
-      `${this.baseRoute}${this.classroomPath}`,
-      { headers }
-    );
+
+    return this.http
+      .get<ClassroomFromService[]>(`${this.baseRoute}${this.classroomPath}`, {
+        headers,
+      })
+      .pipe(
+        map(coursesFromService =>
+          transformClassroomFromService(coursesFromService)
+        )
+      );
   }
   override edit(): Observable<Classroom> {
     throw new Error('Method not implemented.');

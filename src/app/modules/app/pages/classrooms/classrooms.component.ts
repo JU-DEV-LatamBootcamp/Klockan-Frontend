@@ -1,20 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { API_ERROR_MESSAGE } from 'src/app/shared/constants/api.constants';
 import { SNACKBAR_ERROR_DEFAULTS } from 'src/app/shared/constants/snackbar.constants';
 import { Classroom } from 'src/app/shared/models/Classroom';
 import { ClassroomService } from 'src/app/shared/services/classroom.service';
+import { transformClassroom } from 'src/app/shared/utils/other-mapper';
 
 @Component({
   selector: 'app-classrooms',
   templateUrl: './classrooms.component.html',
   styleUrls: ['./classrooms.component.sass'],
 })
-export class ClassroomsComponent {
-  data: Classroom[] = [];
+export class ClassroomsComponent implements OnInit {
+  classroomList: any[] = [];
   isLoading = true;
-  headers: string[] = ['ID', 'Course', 'Platform', 'Start Date', 'Creator'];
-
+  headers: string[] = ['id', 'course', 'program', 'starts'];
   constructor(
     public classroomService: ClassroomService,
     private snackBar: MatSnackBar
@@ -33,13 +33,108 @@ export class ClassroomsComponent {
   }
 
   private handleSuccess(data: Classroom[]): void {
-    this.data = data;
+    this.classroomList = data;
     this.isLoading = false;
+    console.log(this.classroomList);
   }
 
   private handleError(error: Error): void {
     console.error(API_ERROR_MESSAGE, error);
     this.isLoading = false;
+
+    const placeholderList = [
+      {
+        id: 2,
+        courseId: 2,
+        programId: 1,
+        startDate: '2024-02-23',
+        program: {
+          id: 1,
+          name: 'Bootcamp Developers 01',
+          description: 'Program covering concepts in software development.',
+        },
+        course: {
+          id: 2,
+          name: 'Backend Development',
+          description:
+            'Course on server side programming, databases, and API construction.',
+          sessions: 12,
+          sessionDuration: 75,
+        },
+      },
+      {
+        id: 1,
+        courseId: 1,
+        programId: 1,
+        startDate: '2024-02-23',
+        program: {
+          id: 1,
+          name: 'Bootcamp Developers 01',
+          description: 'Program covering concepts in software development.',
+        },
+        course: {
+          id: 1,
+          name: 'Frontend Development',
+          description:
+            'Course to develop Web Applications focusing on HTML, CSS, JavaScript, and popular frameworks.',
+          sessions: 10,
+          sessionDuration: 60,
+        },
+      },
+      {
+        id: 3,
+        courseId: 1,
+        programId: 2,
+        startDate: '2024-02-23',
+        program: {
+          id: 2,
+          name: 'Advanced Bootcamp Developers 01',
+          description:
+            'Program focused on advanced software design and development techniques.',
+        },
+        course: {
+          id: 1,
+          name: 'Frontend Development',
+          description:
+            'Course to develop Web Applications focusing on HTML, CSS, JavaScript, and popular frameworks.',
+          sessions: 10,
+          sessionDuration: 60,
+        },
+      },
+    ];
+    const transformedList: any[] = placeholderList.map(
+      ({ id, startDate, program, course }) => ({
+        id: id,
+        course: course?.name,
+        program: program?.name,
+        starts: startDate,
+        courseObject: course,
+        programObject: program,
+      })
+    );
+    this.classroomList = transformedList;
+
+    // this.classroomList = [
+    //   {
+    //     id: 2,
+    //     course: 'Bootcamp Developers 01',
+    //     program: 'Backend Development',
+    //     starts: '2024-02-23',
+    //     programObject: {
+    //       id: 1,
+    //       name: 'Bootcamp Developers 01',
+    //       description: 'Program covering concepts in software development.',
+    //     },
+    //     courseObject: {
+    //       id: 2,
+    //       name: 'Backend Development',
+    //       description:
+    //         'Course on server side programming, databases, and API construction.',
+    //       sessions: 12,
+    //       sessionDuration: 75,
+    //     },
+    //   },
+    // ];
     this.displaySnackbar(API_ERROR_MESSAGE);
   }
 

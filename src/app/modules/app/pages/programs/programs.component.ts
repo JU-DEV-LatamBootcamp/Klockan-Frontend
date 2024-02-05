@@ -19,7 +19,10 @@ export class ProgramsComponent {
   headers = ['id', 'name', 'description'];
   programList: Program[] | Program | null | any = [];
 
-  constructor(public programService: ProgramService, private snackBar: MatSnackBar) {
+  constructor(
+    public programService: ProgramService,
+    private snackBar: MatSnackBar
+  ) {
     this.fetchPrograms();
   }
 

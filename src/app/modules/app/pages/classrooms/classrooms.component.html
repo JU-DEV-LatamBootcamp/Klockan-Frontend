@@ -5,7 +5,7 @@
   <section *ngIf="!isLoading">
     <app-table
       [headers]="headers"
-      [data]="data"
+      [data]="classroomList"
       [service]="classroomService"></app-table>
   </section>
   <div class="spinner" *ngIf="isLoading">
