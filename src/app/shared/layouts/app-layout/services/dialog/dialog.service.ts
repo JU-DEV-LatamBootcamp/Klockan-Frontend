@@ -18,6 +18,7 @@ export class DialogService {
   private _config = {
     panelClass: 'dialog__container',
     maxWidth: 'auto',
+    autoFocus: false,
   };
 
   constructor(private readonly dialog: MatDialog) {}

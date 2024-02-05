@@ -2,22 +2,25 @@
   <section class="main-section">
     <h2>Programs</h2>
     <app-button
-      (click)="dialogService.show(dialog)"
+      (click)="showCreateDialog()"
       text="New Program"
       icon="add"></app-button>
   </section>
+
   <div class="spinner" *ngIf="isLoading; else table">
     <mat-progress-spinner
       mode="indeterminate"
       diameter="70"></mat-progress-spinner>
   </div>
 
-  <ng-template #dialog>
-    <app-program-form></app-program-form>
   <ng-template #table>
     <app-table
       [headers]="headers"
       [data]="programList"
       (deleteItemEvent)="showDeleteDialog($event)"></app-table>
+  </ng-template>
+
+  <ng-template #dialog>
+    <app-program-form></app-program-form>
   </ng-template>
 </main>

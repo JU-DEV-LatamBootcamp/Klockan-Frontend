@@ -24,17 +24,16 @@ export class ProgramService extends BaseService<Program> {
     const token = this.oAuthService.getAccessToken();
     const body = transformProgramForService(program);
     const headers = super.createHeaders(token);
-    return this.http.post<Program>(
-      this.baseRoute + this.apiProgramsPath,
-      body,
-      { headers }
-    );
+    return this.http.post<Program>(this.baseRoute + this.programsPath, body, {
+      headers,
+    });
   }
 
   override edit(entity: Program): Observable<Program> {
     alert('Editing PROGRAM' + entity.name);
     throw new Error('Method not implemented.');
   }
+
   override delete(entity: Program): Observable<Program> {
     const token = this.oAuthService.getAccessToken();
     const headers = super.createHeaders(token);
