@@ -30,7 +30,7 @@ export class ProgramsComponent {
   constructor(
     public programService: ProgramService,
     private snackBar: MatSnackBar,
-    public dialogService: DialogService
+    public readonly dialogService: DialogService
   ) {
     this.fetchPrograms();
   }
