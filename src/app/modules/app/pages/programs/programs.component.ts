@@ -96,7 +96,6 @@ export class ProgramsComponent {
   }
 
   private createProgram({ name }: Program): void {
-    console.log(name);
     this.displaySnackbar(`Program ${name} created`, SNACKBAR_SUCCESS_DEFAULTS);
     this.fetchPrograms();
   }
