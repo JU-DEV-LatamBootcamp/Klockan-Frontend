@@ -1,6 +1,6 @@
 <app-dialog>
     <mat-toolbar ngProjectAs="[header]" class="header">
-      <span>Edit</span>
+      <span>Edit Program</span>
     </mat-toolbar>
   
     <form ngProjectAs="[content]" class="dialog-content" [formGroup]="programForm">
@@ -9,9 +9,13 @@
         <input matInput type="text" name="name" formControlName="name"
       /></mat-form-field>
       <mat-form-field>
-        <mat-label for="name">Description</mat-label>
-        <input matInput type="text" name="description" formControlName="description"
-      /></mat-form-field>      
+        <mat-label for="description">Details</mat-label>
+        <textarea
+          matInput
+          name="description"
+          id="description"
+          formControlName="description"></textarea>
+      </mat-form-field>
     </form>
   
     <div ngProjectAs="[actions]">

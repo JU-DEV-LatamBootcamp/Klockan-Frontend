@@ -46,7 +46,7 @@ export class ProgramFormComponent<T> implements OnInit, OnDestroy{
 
   onSubmit() {
     if(this.programForm.controls['name'].errors){
-      this.dialogService.show(ErrorMessageComponent);
+      this.dialogService.showErrorMessage(ErrorMessageComponent,{title:"Error editing program",detail:"The name is required"});
       return;
     }      
     const { item, service } = this.data;    
