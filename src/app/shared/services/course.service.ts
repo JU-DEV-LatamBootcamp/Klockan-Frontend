@@ -30,7 +30,7 @@ export class CourseService extends BaseService<Course> {
       );
   }
 
-  override add(entity: Course): Observable<Course> {
+  override create(entity: Course): Observable<Course> {
     const token = this.oAuthService.getAccessToken();
     const headers = super.createHeaders(token);
     const courseToService = transformCourseToService(entity);

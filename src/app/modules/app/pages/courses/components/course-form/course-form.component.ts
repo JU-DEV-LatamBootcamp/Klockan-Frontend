@@ -68,7 +68,7 @@ export class CourseFormComponent implements OnInit, OnDestroy {
       description: courseData.description,
     };
 
-    this.course$ = this.courseService.add(newCourse);
+    this.course$ = this.courseService.create(newCourse);
     this.courseSubscription = this.course$.subscribe({
       next: course => {
         this.dialogRef.close(course);
