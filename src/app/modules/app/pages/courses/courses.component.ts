@@ -67,7 +67,7 @@ export class CoursesComponent implements OnInit {
 
     dialogRef$.subscribe({
       next: (result: Course) => {
-        if (result) this.fetchData();
+        if (result) this.fetchCourses();
       },
     });
   }
