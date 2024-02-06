@@ -25,6 +25,11 @@ export class MeetingService extends BaseService<Meeting> {
       );
   }
 
+  override create(entity: Meeting): Observable<Meeting> {
+    alert('Editing MEETING' + entity.id);
+    throw new Error('Method not implemented.');
+  }
+
   override edit(entity: Meeting): Observable<Meeting> {
     alert('Editing MEETING' + entity.id);
     throw new Error('Method not implemented.');
