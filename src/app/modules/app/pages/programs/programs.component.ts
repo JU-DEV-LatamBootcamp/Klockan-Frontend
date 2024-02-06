@@ -89,6 +89,20 @@ export class ProgramsComponent {
     });
   }
 
+  public showEditDialog(item: Program): void {
+    this.dialogService
+      .show(ProgramFormComponent,{
+        item: item,
+        service: this.programService
+      })
+      .subscribe(res => {
+        if (res) {                              
+          this.fetchPrograms();
+          this.displaySnackbar(`${res.name} edited succesfully`, SNACKBAR_SUCCESS_DEFAULTS);
+        }
+      });
+  }
+  
   public showCreateDialog(): void {
     this.dialogService.show(ProgramFormComponent).subscribe(result => {
       if (result) this.createProgram(result);

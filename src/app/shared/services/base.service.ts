@@ -24,7 +24,7 @@ export abstract class BaseService<T> {
     const authToken = token;
 
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${authToken}`,
+      Authorization: `Bearer ${authToken}`
     });
 
     return headers;
