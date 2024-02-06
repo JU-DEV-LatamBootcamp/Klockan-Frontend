@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { COURSE_HEADERS } from './course.constants';
@@ -11,10 +12,10 @@ import {
   SnackbarConfig,
 } from 'src/app/shared/constants/snackbar.constants';
 import { DialogService } from 'src/app/shared/layouts/app-layout/services/dialog/dialog.service';
-import { CourseFormComponent } from './components/course-form/course-form.component';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 import { ErrorMessageComponent } from 'src/app/shared/components/error-message/error-message.component';
-import { MatSidenav } from '@angular/material/sidenav';
+
+import { CourseFormComponent } from './components/course-form/course-form.component';
 
 @Component({
   selector: 'app-courses',
@@ -68,22 +69,22 @@ export class CoursesComponent {
     this.dialogService
       .show(CourseFormComponent, course ?? null)
       .subscribe(result => {
+        console.log(result);
         if (result && course) {
-          this.editCourse(course);
+          this.displayEditSnackbar(result);
         } else if (result) {
-          this.createCourse(result);
+          this.displayCreateSnackbar(result);
         }
+        this.fetchCourses();
       });
   }
 
-  private createCourse({ name }: Course): void {
+  private displayCreateSnackbar({ name }: Course): void {
     this.displaySnackbar(`Course ${name} created`, SNACKBAR_SUCCESS_DEFAULTS);
-    this.fetchCourses();
   }
 
-  private editCourse({ name }: Course): void {
+  private displayEditSnackbar({ name }: Course): void {
     this.displaySnackbar(`Course ${name} edited`, SNACKBAR_SUCCESS_DEFAULTS);
-    this.fetchCourses();
   }
 
   showDeleteDialog(course: Course) {

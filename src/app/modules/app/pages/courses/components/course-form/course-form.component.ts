@@ -54,10 +54,11 @@ export class CourseFormComponent implements OnInit {
   private createCourse(): void {
     this.courseService.create(this.courseForm.value).subscribe({
       next: course => {
+        console.log('course form createCourse(): ', course);
         this.dialogRef.close(course);
       },
       error: error => {
-        console.error('Error creating course', error);
+        console.error('Error creating course ', error);
       },
     });
   }
@@ -68,7 +69,7 @@ export class CourseFormComponent implements OnInit {
         this.dialogRef.close(course);
       },
       error: error => {
-        console.error('Error updating course', error);
+        console.error('Error updating course ', error);
       },
     });
   }
