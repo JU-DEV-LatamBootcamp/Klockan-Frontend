@@ -41,7 +41,20 @@ export class CourseFormComponent implements OnInit {
     });
   }
 
+  public getFieldError(field: string): string | null {
+    const control = this.courseForm.get(field);
+    if (control?.hasError('required')) {
+      return 'This field is required.';
+    } else if (control?.hasError('maxlength')) {
+      const errors = control.errors ? control.errors['maxlength'] : null;
+      const maxLength = errors ? errors.requiredLength : 0;
+      return `This field cannot be longer than ${maxLength} characters.`;
+    }
+    return null;
+  }
+
   public onSubmit(): void {
+    console.log(this.courseForm.valid);
     if (this.courseForm.valid) {
       if (this.data) {
         this.editCourse();
@@ -54,7 +67,6 @@ export class CourseFormComponent implements OnInit {
   private createCourse(): void {
     this.courseService.create(this.courseForm.value).subscribe({
       next: course => {
-        console.log('course form createCourse(): ', course);
         this.dialogRef.close(course);
       },
       error: error => {
