@@ -19,23 +19,23 @@ export class ProgramFormComponent implements OnInit {
   programForm!: FormGroup;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private dialogRef: MatDialogRef<ProgramFormComponent>,
-    private programService: ProgramService
+    private readonly formBuilder: FormBuilder,
+    private readonly dialogRef: MatDialogRef<ProgramFormComponent>,
+    private readonly programService: ProgramService
   ) {}
 
   ngOnInit(): void {
     this.initializeForm();
   }
 
-  initializeForm(): void {
+  private initializeForm(): void {
     this.programForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.maxLength(200)]],
       description: [''],
     });
   }
 
-  getFieldError(field: string): string | null {
+  public getFieldError(field: string): string | null {
     const control = this.programForm.get(field);
     if (control?.hasError('required')) {
       return 'This field is required.';
@@ -47,7 +47,7 @@ export class ProgramFormComponent implements OnInit {
     return null;
   }
 
-  onSubmit(): void {
+  public onSubmit(): void {
     if (this.programForm.valid) {
       this.programService.create(this.programForm.value).subscribe({
         next: program => {

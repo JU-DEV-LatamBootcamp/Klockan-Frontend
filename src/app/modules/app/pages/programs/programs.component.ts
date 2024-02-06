@@ -21,21 +21,21 @@ import { ProgramFormComponent } from './components/program-form/program-form.com
 })
 export class ProgramsComponent {
   @ViewChild('sidenav', { static: false }) sidenav: MatSidenav | undefined;
-  isSidenavOpen = true;
-  isLoading = true;
+  public isSidenavOpen = true;
+  public isLoading = true;
 
-  headers = ['id', 'name', 'description'];
-  programList: Program[] | Program | null | any = [];
+  public readonly headers = ['id', 'name', 'description'];
+  public programList: Program[] | Program | null | any = [];
 
   constructor(
-    public programService: ProgramService,
+    public readonly programService: ProgramService,
     private snackBar: MatSnackBar,
-    public readonly dialogService: DialogService
+    private readonly dialogService: DialogService
   ) {
     this.fetchPrograms();
   }
 
-  fetchPrograms() {
+  public fetchPrograms() {
     this.isLoading = true;
     this.programService.getAll().subscribe({
       next: this.handleSuccess.bind(this),
@@ -61,7 +61,7 @@ export class ProgramsComponent {
     );
   }
 
-  showDeleteDialog(program: Program) {
+  public showDeleteDialog(program: Program) {
     this.dialogService
       .showDeleteConfirmation(DeleteConfirmationComponent<Program>, {
         item: program,
@@ -89,7 +89,7 @@ export class ProgramsComponent {
     });
   }
 
-  showCreateDialog(): void {
+  public showCreateDialog(): void {
     this.dialogService.show(ProgramFormComponent).subscribe(result => {
       if (result) this.createProgram(result);
     });
