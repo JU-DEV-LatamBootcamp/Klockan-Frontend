@@ -1,18 +1,34 @@
-.dialog-content
+@import "variables"
+
+.dialog-title
+  background: white
+  color: $secondary
+  justify-content: space-between
+
+.name-field, .description-field
+  margin-top: 16px
+  width: 100%
+
+.dialog-actions
   display: flex
-  flex-direction: column
-  width: 400px
+  justify-content: flex-end
 
-input
-  &::-webkit-outer-spin-button, &::-webkit-inner-spin-button
-    -webkit-appearance: none
-    margin: 0
+.cancel-button
+  border: solid 1px #BDBDBD
+  border-radius: 20px
+  padding: 6px 12px
+  color: $secondary
+  background-color: transparent
+  margin-right: 8px
 
-  &[type=number]
-    -moz-appearance: textfield
+.create-button
+  border-radius: 20px
+  padding: 6px 12px
+  color: white
+  background-color: $primary
+  box-shadow: 0 3px 6px 0 rgba(0,0,0,0.16)
 
-textarea
-  resize: none
-
-mat-form-field
-  margin: 0 5px
+.dialog-actions
+  display: flex
+  justify-content: space-between
+  padding: 10px

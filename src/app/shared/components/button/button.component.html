@@ -1,3 +1,4 @@
-<button mat-button type="button" class="primary">
-  {{ label }}
+<button mat-button class="custom-button">
+  <mat-icon *ngIf="icon">{{ icon }}</mat-icon>
+  {{ text }}
 </button>

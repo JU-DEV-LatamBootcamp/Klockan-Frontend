@@ -4,7 +4,7 @@ export interface Program {
   description?: string;
 }
 
-export interface ProgramToService {
+export interface ProgramForService {
   name: string;
-  description?: string;  
+  description?: string;
 }

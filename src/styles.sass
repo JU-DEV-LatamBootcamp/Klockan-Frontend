@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@import "variables"
+
 html, body
   height: 100%
   margin: 0
@@ -6,42 +8,6 @@ html, body
 
 *
   font-family: 'Nunito', sans-serif
-
-$primary: #6750A4
-$secondary: #625B71
-$tertiary: #7D5260
-$error: #B3261E
-
-$surface: #FEF7FF
-$surface-bright: #FEF7FF
-$surface-dim: #DED8E1
-
-$primary-container-text: #EADDFF
-$on-primary-container: #21005D
-$on-primary-fixed: #21005D
-$on-primary-fixed-variant: #4F378B
-$primary-container-dim: #4F378B
-$primary-container-text: #D0BCFF
-
-$secondary-container-text: #E8DEF8
-$secondary-container: #1D192B
-$secondary-container-fixed: #1D192B
-$secondary-container-fixed-variant: #4A4458
-
-$tertiary-container: #FFD8E4
-$tertiary-container-fixed: #EFB8C8
-$tertiary-container-fixed-variant: #633B48
-$on-tertiary-container: #31111D
-$on-tertiary-container-fixed-variant: #633B48
-
-$error-container-text: #410E0B
-$error-container: #F9DEDC
-$on-error-container: #410E0B
-
-$surface-brighter: #E6E0E9
-
-$sidenav: #F7F2FA
-$sidenav-selected: #E8DEF8
 
 .sidebar
   background-color: $sidenav
@@ -280,3 +246,8 @@ button
   --mdc-snackbar-container-color: #{$error-container}
   --mdc-snackbar-supporting-text-color: #{$error-container-text}
   --mat-snack-bar-button-color: #{$error}
+
+.success-snackbar
+  --mdc-snackbar-container-color: #{$primary-container-text}
+  --mdc-snackbar-supporting-text-color: #{$primary-container-dim}
+  --mat-snack-bar-button-color: #{$primary-container-dim}
