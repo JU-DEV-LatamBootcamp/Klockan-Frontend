@@ -23,6 +23,9 @@ import { CoursesComponent } from './pages/courses/courses.component';
 import { ProgramsComponent } from './pages/programs/programs.component';
 import { UsersComponent } from './pages/users/users.component';
 import { ClassroomsComponent } from './pages/classrooms/classrooms.component';
+import { ProgramFormComponent } from './pages/programs/components/program-form/program-form.component';
+
+// Shared
 import { TableComponent } from 'src/app/shared/components/table/table.component';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 import { CourseFormComponent } from './pages/courses/components/course-form/course-form.component';
@@ -44,12 +47,14 @@ import { ErrorMessageComponent } from 'src/app/shared/components/error-message/e
     MatFormFieldModule,
     MatInputModule,
     TableComponent,
+    FormsModule,
+    ReactiveFormsModule,
     MatProgressSpinnerModule,
-    ButtonComponent,
     FormsModule,
     ReactiveFormsModule,
   ],
   declarations: [
+    ButtonComponent,
     DashboardComponent,
     ComposedLayoutComponent,
     MeetingsComponent,
@@ -61,6 +66,7 @@ import { ErrorMessageComponent } from 'src/app/shared/components/error-message/e
     CourseFormComponent,
     DeleteConfirmationComponent,
     ErrorMessageComponent,
+    ProgramFormComponent,
   ],
   exports: [DeleteConfirmationComponent],
 })

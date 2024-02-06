@@ -7,7 +7,7 @@ on:
   push:
     branches: ['develop']
   pull_request:
-    branches: ['develop']
+    branches: ['develop','main']
 
 jobs:
   build:
@@ -27,3 +27,15 @@ jobs:
           cache: 'npm'
       - run: npm i
       - run: npm run build
+
+      - name: Login Dockerhub
+        env:
+            DOCKER_USERNAME: ${{secrets.DOCKER_HUB_USERNAME}}
+            DOCKER_PASSWORD: ${{secrets.DOCKER_HUB_PASSWORD}}
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - name: Build the Docker image
+        run: docker-compose build
+      - name: Tagin back
+        run: docker tag klockan-frontend:v1 klockan/frontend:v1 
+      - name: Push to
+        run: docker push klockan/frontend:v1 

@@ -23,3 +23,14 @@ export function transformCourseToService(course: Course): CourseToService {
     sessionDuration: duration,
   };
 }
+
+export function transformCourseService(course: Course): CourseFromService {
+  const { id, name, description, sessions, duration } = course;
+  return {
+    id: id || 0,
+    name,
+    description,
+    sessions,
+    sessionDuration: duration,
+  };
+}

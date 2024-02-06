@@ -1,10 +1,18 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
+import { ErrorMessageComponent } from 'src/app/shared/components/error-message/error-message.component';
 import { API_ERROR_MESSAGE } from 'src/app/shared/constants/api.constants';
-import { SNACKBAR_ERROR_DEFAULTS } from 'src/app/shared/constants/snackbar.constants';
+import {
+  SNACKBAR_ERROR_DEFAULTS,
+  SNACKBAR_SUCCESS_DEFAULTS,
+  SnackbarConfig,
+} from 'src/app/shared/constants/snackbar.constants';
 import { Program } from 'src/app/shared/models/Programs';
 import { ProgramService } from 'src/app/shared/services/program.service';
+import { DialogService } from 'src/app/shared/layouts/app-layout/services/dialog/dialog.service';
+import { ProgramFormComponent } from './components/program-form/program-form.component';
 
 @Component({
   selector: 'app-programs',
@@ -13,17 +21,21 @@ import { ProgramService } from 'src/app/shared/services/program.service';
 })
 export class ProgramsComponent {
   @ViewChild('sidenav', { static: false }) sidenav: MatSidenav | undefined;
-  isSidenavOpen = true;
-  isLoading = true;
+  public isSidenavOpen = true;
+  public isLoading = true;
 
-  headers = ['id', 'name', 'description'];
-  programList: Program[] | Program | null | any = [];
+  public readonly headers = ['id', 'name', 'description'];
+  public programList: Program[] | Program | null | any = [];
 
-  constructor(public programService: ProgramService, private snackBar: MatSnackBar) {
+  constructor(
+    public readonly programService: ProgramService,
+    private readonly snackBar: MatSnackBar,
+    private readonly dialogService: DialogService
+  ) {
     this.fetchPrograms();
   }
 
-  fetchPrograms() {
+  public fetchPrograms() {
     this.isLoading = true;
     this.programService.getAll().subscribe({
       next: this.handleSuccess.bind(this),
@@ -38,14 +50,53 @@ export class ProgramsComponent {
   private handleError(error: Error): void {
     console.error(API_ERROR_MESSAGE, error);
     this.isLoading = false;
-    this.displaySnackbar(API_ERROR_MESSAGE);
+    this.displaySnackbar(API_ERROR_MESSAGE, SNACKBAR_ERROR_DEFAULTS);
   }
 
-  private displaySnackbar(message: string): void {
+  private displaySnackbar(message: string, customConfig: SnackbarConfig): void {
     this.snackBar.open(
       message,
-      SNACKBAR_ERROR_DEFAULTS.CLOSE_BUTTON_TEXT,
-      SNACKBAR_ERROR_DEFAULTS.CONFIG
+      customConfig.CLOSE_BUTTON_TEXT,
+      customConfig.CONFIG
     );
+  }
+
+  public showDeleteDialog(program: Program) {
+    this.dialogService
+      .showDeleteConfirmation(DeleteConfirmationComponent<Program>, {
+        item: program,
+        identifier: 'name',
+      })
+      .subscribe(confirmed => {
+        if (!confirmed) return;
+
+        this.deleteProgram(program);
+      });
+  }
+
+  private deleteProgram(program: Program) {
+    this.programService.delete(program).subscribe({
+      next: () => {
+        this.displaySnackbar(
+          `${program.name} deleted sucessfully`,
+          SNACKBAR_ERROR_DEFAULTS
+        );
+        this.fetchPrograms();
+      },
+      error: error => {
+        this.dialogService.showErrorMessage(ErrorMessageComponent, error.error);
+      },
+    });
+  }
+
+  public showCreateDialog(): void {
+    this.dialogService.show(ProgramFormComponent).subscribe(result => {
+      if (result) this.createProgram(result);
+    });
+  }
+
+  private createProgram({ name }: Program): void {
+    this.displaySnackbar(`Program ${name} created`, SNACKBAR_SUCCESS_DEFAULTS);
+    this.fetchPrograms();
   }
 }

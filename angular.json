@@ -29,6 +29,9 @@
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.sass"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/styles"]
+            },
             "scripts": []
           },
           "configurations": {
@@ -60,6 +63,12 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "KlockanApp:build",
+            "ssl": true,
+            "sslKey": "certificates/domain-decrypted.key",
+            "sslCert": "certificates/domain.crt"
+          },
           "configurations": {
             "production": {
               "browserTarget": "KlockanApp:build:production"
