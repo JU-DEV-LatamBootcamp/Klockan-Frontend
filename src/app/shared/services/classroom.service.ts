@@ -32,4 +32,7 @@ export class ClassroomService extends BaseService<Classroom> {
   override delete(): Observable<Classroom> {
     throw new Error('Method not implemented.');
   }
+  override create(): Observable<Classroom> {
+    throw new Error('Method not implemented.');
+  }
 }
