@@ -29,7 +29,7 @@ export class ProgramsComponent {
 
   constructor(
     public readonly programService: ProgramService,
-    private snackBar: MatSnackBar,
+    private readonly snackBar: MatSnackBar,
     private readonly dialogService: DialogService
   ) {
     this.fetchPrograms();
