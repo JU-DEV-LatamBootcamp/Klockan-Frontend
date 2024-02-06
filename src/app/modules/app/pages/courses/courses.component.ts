@@ -20,7 +20,7 @@ export class CoursesComponent implements OnInit {
   headers: string[] = COURSE_HEADERS;
   data: Course[] = [];
   isLoading = true;
-  buttonLabel = '+ New Course';
+  buttonLabel = 'New Course';
 
   constructor(
     public courseService: CourseService,

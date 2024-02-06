@@ -3,7 +3,8 @@
     <h2>Courses</h2>
     <app-button
       (click)="showDialogFormComponent()"
-      [label]="buttonLabel"></app-button>
+      [text]="buttonLabel"
+      icon="add"></app-button>
   </section>
 
   <section *ngIf="!isLoading">
