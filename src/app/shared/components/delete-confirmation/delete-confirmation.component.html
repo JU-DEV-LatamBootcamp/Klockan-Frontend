@@ -1,0 +1,22 @@
+<app-dialog>
+  <mat-toolbar ngProjectAs="[header]" class="header">
+    <span>Are you Sure to Delete?</span>
+  </mat-toolbar>
+
+  <div ngProjectAs="[content]" class="content">
+    <mat-icon color="warn">highlight_off</mat-icon>
+    <p>Do you want to <strong>DELETE?</strong></p>
+    <p>{{ data.item[data.identifier] }}</p>
+    <p>This process cannot be undone!</p>
+  </div>
+  <div ngProjectAs="[actions]">
+    <button mat-button [mat-dialog-close]="false">Cancel</button>
+    <button
+      mat-flat-button
+      color="warn"
+      cdkFocusInitial
+      [mat-dialog-close]="true">
+      Confirm
+    </button>
+  </div>
+</app-dialog>
