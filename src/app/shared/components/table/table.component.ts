@@ -1,7 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { DialogService } from 'src/app/shared/layouts/app-layout/services/dialog/dialog.service';
+
+export enum TableComponentCommonHeaders {
+  actions = 'ACTIONS',
+  index = 'INDEX',
+}
+
+export type TableComponentTypeHeaders<T> = keyof T;
+
+export type TableComponentHeaders<T> =
+  | TableComponentCommonHeaders
+  | TableComponentTypeHeaders<T>;
 
 @Component({
   selector: 'app-table',
@@ -10,17 +21,32 @@ import { DialogService } from 'src/app/shared/layouts/app-layout/services/dialog
   imports: [CommonModule, MatIconModule],
   standalone: true,
 })
-export class TableComponent {
-  @Input() headers: string[] = [];
-  @Input() data: any[] = [];
-  @Output() deleteItemEvent: EventEmitter<any> = new EventEmitter<any>();
+export class TableComponent<T> implements OnInit {
+  @Input() headers: TableComponentHeaders<T>[] = [];
+  @Input() data: T[] = [];
+  @Output() onDelete: EventEmitter<T> = new EventEmitter<T>();
+  @Output() onEdit: EventEmitter<T> = new EventEmitter<T>();
+  typeHeaders: TableComponentTypeHeaders<T>[] = [];
+
   constructor(public readonly dialogService: DialogService) {}
 
-  editItem(item: any) {
-    // this.service.edit(item);
+  ngOnInit(): void {
+    this.typeHeaders = this.headers.reduce(
+      (headers: TableComponentTypeHeaders<T>[], header) => {
+        if (header as keyof T) {
+          headers.push(header as keyof T);
+        }
+        return headers;
+      },
+      []
+    );
   }
 
-  deleteItem(item: any) {
-    this.deleteItemEvent.emit(item);
+  editItem(item: T) {
+    this.onEdit.emit(item);
+  }
+
+  deleteItem(item: T) {
+    this.onDelete.emit(item);
   }
 }

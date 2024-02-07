@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Program } from '../models/Programs';
 import { BaseService } from './base.service';
-import { environment } from 'src/environments/keycloak.enviroment';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',

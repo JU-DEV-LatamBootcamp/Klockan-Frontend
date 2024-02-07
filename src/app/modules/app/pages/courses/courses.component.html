@@ -10,7 +10,7 @@
     <app-table
       [headers]="headers"
       [data]="data"
-      (deleteItemEvent)="showDeleteDialog($event)"></app-table>
+      (onDelete)="showDeleteDialog($event)"></app-table>
   </section>
   <div class="spinner" *ngIf="isLoading">
     <mat-progress-spinner

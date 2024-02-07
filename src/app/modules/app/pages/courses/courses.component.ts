@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { COURSE_HEADERS } from './course.constants';
 import { Course } from 'src/app/shared/models/Courses';
 import { CourseService } from 'src/app/shared/services/course.service';
 import { API_ERROR_MESSAGE } from 'src/app/shared/constants/api.constants';
@@ -10,6 +9,7 @@ import { DialogService } from 'src/app/shared/layouts/app-layout/services/dialog
 import { CourseFormComponent } from './components/course-form/course-form.component';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 import { ErrorMessageComponent } from 'src/app/shared/components/error-message/error-message.component';
+import { courseHeaders } from './courses.constants';
 
 @Component({
   selector: 'app-courses',
@@ -17,7 +17,7 @@ import { ErrorMessageComponent } from 'src/app/shared/components/error-message/e
   styleUrls: ['./courses.component.sass'],
 })
 export class CoursesComponent implements OnInit {
-  headers: string[] = COURSE_HEADERS;
+  headers = courseHeaders;
   data: Course[] = [];
   isLoading = true;
   buttonLabel = '+ New Course';

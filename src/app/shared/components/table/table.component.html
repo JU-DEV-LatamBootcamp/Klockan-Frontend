@@ -3,16 +3,19 @@
     <tr>
       <th *ngFor="let header of headers">
         <ng-container>
-          {{ header | titlecase }}
+          {{ header.toString() | titlecase }}
         </ng-container>
       </th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let item of data">
-      <td *ngFor="let header of headers">
-        {{ item[header.toLowerCase()] }}
+      <td *ngFor="let header of typeHeaders">
+        <span>
+          {{ item[header] }}
+        </span>
       </td>
+
       <td *ngIf="headers">
         <mat-icon (click)="editItem(item)" class="table-action">edit</mat-icon>
         <mat-icon (click)="deleteItem(item)" class="table-action"
