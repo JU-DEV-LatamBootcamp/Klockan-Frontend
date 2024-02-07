@@ -54,7 +54,6 @@ export class CourseFormComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    console.log(this.courseForm.valid);
     if (this.courseForm.valid) {
       if (this.data) {
         this.editCourse();

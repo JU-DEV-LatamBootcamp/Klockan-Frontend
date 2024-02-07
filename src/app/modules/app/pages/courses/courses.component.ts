@@ -69,7 +69,6 @@ export class CoursesComponent {
     this.dialogService
       .show(CourseFormComponent, course ?? null)
       .subscribe(result => {
-        console.log(result);
         if (result && course) {
           this.displayEditSnackbar(result);
         } else if (result) {

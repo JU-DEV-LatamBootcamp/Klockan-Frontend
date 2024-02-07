@@ -91,7 +91,6 @@ export class ProgramsComponent {
 
   public showCreateDialog(): void {
     this.dialogService.show(ProgramFormComponent).subscribe(result => {
-      console.log(result);
       if (result) this.createProgram(result);
     });
   }
