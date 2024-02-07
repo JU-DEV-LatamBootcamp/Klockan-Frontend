@@ -6,6 +6,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDividerModule } from '@angular/material/divider';
 // components
 import { AppLayoutComponent } from './app-layout.component';
 import { DialogComponent } from './components/dialog/dialog.component';
@@ -32,6 +33,7 @@ import { PortalModule } from '@angular/cdk/portal';
     MatDialogModule,
     MatSnackBarModule,
     NotificationComponent,
+    MatDividerModule,
   ],
   providers: [
     AppLayoutStream,

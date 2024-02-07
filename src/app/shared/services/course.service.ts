@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { BaseService } from './base.service';
 import {
   transformCourseFromService,
+  transformCourseService,
   transformCourseToService,
 } from '../utils/course-mapper';
 import { Course, CourseFromService } from '../models/Courses';
@@ -29,7 +30,7 @@ export class CourseService extends BaseService<Course> {
       );
   }
 
-  override add(entity: Course): Observable<Course> {
+  override create(entity: Course): Observable<Course> {
     const token = this.oAuthService.getAccessToken();
     const headers = super.createHeaders(token);
     const courseToService = transformCourseToService(entity);
@@ -44,8 +45,15 @@ export class CourseService extends BaseService<Course> {
   }
 
   override edit(entity: Course): Observable<Course> {
-    alert('Editing COURSE' + entity.name);
-    throw new Error('Method not implemented.');
+    const token = this.oAuthService.getAccessToken();
+    const headers = super.createHeaders(token);
+    const courseToService = transformCourseService(entity);
+
+    return this.http.put<Course>(
+      `${this.baseRoute}${this.coursesPath}/${courseToService.id}`,
+      courseToService,
+      { headers }
+    );
   }
 
   override delete(entity: Course): Observable<Course> {
