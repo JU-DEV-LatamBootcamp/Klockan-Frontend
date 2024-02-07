@@ -1,24 +1,33 @@
 <table class="table-primary" *ngIf="data.length !== 0">
   <thead>
     <tr>
-      <th *ngFor="let header of headers">
-        <ng-container>
-          {{ header.toString() | titlecase }}
-        </ng-container>
+      <th *ngFor="let column of columns">
+        {{ column.header || column.selector.toString() | titlecase }}
+      </th>
+      <th *ngIf="commonColumns.actions">
+        {{ commonColumns.actions.header || commonHeaders.actions | titlecase }}
       </th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let item of data">
-      <td *ngFor="let header of typeHeaders">
+      <td *ngFor="let column of columns">
         <span>
-          {{ item[header] }}
+          {{ item[column.selector] }}
         </span>
       </td>
 
-      <td *ngIf="headers">
-        <mat-icon (click)="editItem(item)" class="table-action">edit</mat-icon>
-        <mat-icon (click)="deleteItem(item)" class="table-action"
+      <td *ngIf="commonColumns.actions">
+        <mat-icon
+          *ngIf="commonColumns.actions.options?.edit"
+          (click)="editItem(item)"
+          class="table-action"
+          >edit</mat-icon
+        >
+        <mat-icon
+          *ngIf="commonColumns.actions.options?.delete"
+          (click)="deleteItem(item)"
+          class="table-action"
           >delete</mat-icon
         >
       </td>

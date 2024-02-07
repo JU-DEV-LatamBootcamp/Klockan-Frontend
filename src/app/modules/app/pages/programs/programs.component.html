@@ -10,8 +10,9 @@
 
   <ng-template #table>
     <app-table
-      [headers]="headers"
-      [data]="programList"
+      [columns]="columns"
+      [commonColumns]="commonColumns"
+      [data]="programs"
       (onDelete)="showDeleteDialog($event)"></app-table>
   </ng-template>
 </main>

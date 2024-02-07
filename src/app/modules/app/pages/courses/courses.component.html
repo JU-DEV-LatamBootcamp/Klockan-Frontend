@@ -8,8 +8,9 @@
 
   <section *ngIf="!isLoading">
     <app-table
-      [headers]="headers"
-      [data]="data"
+      [columns]="columns"
+      [commonColumns]="commonColumns"
+      [data]="courses"
       (onDelete)="showDeleteDialog($event)"></app-table>
   </section>
   <div class="spinner" *ngIf="isLoading">

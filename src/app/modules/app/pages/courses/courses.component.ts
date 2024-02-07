@@ -9,7 +9,7 @@ import { DialogService } from 'src/app/shared/layouts/app-layout/services/dialog
 import { CourseFormComponent } from './components/course-form/course-form.component';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 import { ErrorMessageComponent } from 'src/app/shared/components/error-message/error-message.component';
-import { courseHeaders } from './courses.constants';
+import { courseCommonColumns, courseTypeColumns } from './courses.constants';
 
 @Component({
   selector: 'app-courses',
@@ -17,8 +17,9 @@ import { courseHeaders } from './courses.constants';
   styleUrls: ['./courses.component.sass'],
 })
 export class CoursesComponent implements OnInit {
-  headers = courseHeaders;
-  data: Course[] = [];
+  columns = courseTypeColumns;
+  commonColumns = courseCommonColumns;
+  courses: Course[] = [];
   isLoading = true;
   buttonLabel = '+ New Course';
 
@@ -41,7 +42,7 @@ export class CoursesComponent implements OnInit {
   }
 
   private handleSuccess(data: Course[]): void {
-    this.data = data;
+    this.courses = data;
     this.isLoading = false;
   }
 

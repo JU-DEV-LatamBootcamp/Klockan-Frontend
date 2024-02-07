@@ -1,12 +1,26 @@
 import {
-  TableComponentCommonHeaders,
-  TableComponentHeaders,
-} from 'src/app/shared/components/table/table.component';
+  TableComponentCommonColumns,
+  TableComponentTypeColumn,
+} from 'src/app/shared/components/table/table-component';
 import { Program } from 'src/app/shared/models/Programs';
 
-export const programHeaders: TableComponentHeaders<Program>[] = [
-  'id',
-  'name',
-  'description',
-  TableComponentCommonHeaders.actions,
+export const programTypeColumns: TableComponentTypeColumn<Program>[] = [
+  {
+    selector: 'id',
+  },
+  {
+    selector: 'name',
+  },
+  {
+    selector: 'description',
+  },
 ];
+
+export const programCommonColumns: TableComponentCommonColumns = {
+  actions: {
+    options: {
+      delete: true,
+      edit: true,
+    },
+  },
+};

@@ -8,7 +8,7 @@ import { SNACKBAR_ERROR_DEFAULTS } from 'src/app/shared/constants/snackbar.const
 import { DialogService } from 'src/app/shared/layouts/app-layout/services/dialog/dialog.service';
 import { Program } from 'src/app/shared/models/Programs';
 import { ProgramService } from 'src/app/shared/services/program.service';
-import { programHeaders } from './programs.constants';
+import { programCommonColumns, programTypeColumns } from './programs.constants';
 
 @Component({
   selector: 'app-programs',
@@ -20,8 +20,9 @@ export class ProgramsComponent {
   isSidenavOpen = true;
   isLoading = true;
 
-  headers = programHeaders;
-  programList: Program[] | Program | null | any = [];
+  columns = programTypeColumns;
+  commonColumns = programCommonColumns;
+  programs: Program[] = [];
 
   constructor(
     public programService: ProgramService,
@@ -39,7 +40,7 @@ export class ProgramsComponent {
     });
   }
   private handleSuccess(programs: Program[]): void {
-    this.programList = programs;
+    this.programs = programs;
     this.isLoading = false;
   }
 
