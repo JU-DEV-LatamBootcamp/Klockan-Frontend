@@ -2,7 +2,7 @@ import { Course } from './Courses';
 import { Program } from './Programs';
 
 export interface ClassroomFromService {
-  id?: number;
+  id: number;
   courseId?: number;
   programId?: number;
   startDate?: string;
