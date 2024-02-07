@@ -12,11 +12,6 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/auth/auth.module').then(m => m.AuthModule),
   },
-  {
-    path: 'home',
-    loadChildren: () =>
-      import('./modules/home/home.module').then(m => m.HomeModule),
-  },
   { path: '', redirectTo: '', pathMatch: 'full' },
   // IMPROVEMENT: implement a not found page for invalid paths
   { path: '**', redirectTo: '', pathMatch: 'full' },
