@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from './base.service';
 import { Observable, of } from 'rxjs';
-import { environment } from 'src/environments/keycloak.enviroment';
+import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { Classroom, ClassroomFromService } from '../models/Classroom';
 import { transformClassroomFromService } from '../utils/classroom-mapper';
