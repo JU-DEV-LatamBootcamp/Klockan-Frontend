@@ -7,6 +7,7 @@ import { Program } from 'src/app/shared/models/Programs';
 export const programTypeColumns: TableComponentTypeColumn<Program>[] = [
   {
     selector: 'id',
+    header: 'ID',
   },
   {
     selector: 'name',

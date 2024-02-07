@@ -1,36 +1,38 @@
-<table class="table-primary" *ngIf="data.length !== 0">
-  <thead>
-    <tr>
-      <th *ngFor="let column of columns">
-        {{ column.header || column.selector.toString() | titlecase }}
-      </th>
-      <th *ngIf="commonColumns.actions">
-        {{ commonColumns.actions.header || commonHeaders.actions | titlecase }}
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let item of data">
-      <td *ngFor="let column of columns">
-        <span>
-          {{ item[column.selector] }}
-        </span>
-      </td>
+<!-- IMPROVEMENT: add table filter -->
 
-      <td *ngIf="commonColumns.actions">
-        <mat-icon
-          *ngIf="commonColumns.actions.options?.edit"
-          (click)="editItem(item)"
-          class="table-action"
-          >edit</mat-icon
-        >
-        <mat-icon
-          *ngIf="commonColumns.actions.options?.delete"
-          (click)="deleteItem(item)"
-          class="table-action"
-          >delete</mat-icon
-        >
-      </td>
-    </tr>
-  </tbody>
+<table mat-table [dataSource]="dataSource" matSort>
+  <!-- type columns -->
+  <ng-container
+    *ngFor="let column of columns"
+    [matColumnDef]="column.selector.toString()">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      {{ column.header || (column.selector.toString() | titlecase) }}
+    </th>
+    <td mat-cell *matCellDef="let row">{{ row[column.selector] }}</td>
+  </ng-container>
+
+  <!-- actions column -->
+  <ng-container *ngIf="commonColumns.actions" matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>
+      {{ (commonColumns.actions.header | titlecase) || commonHeaders.actions }}
+    </th>
+
+    <td mat-cell *matCellDef="let row">
+      <mat-icon
+        *ngIf="commonColumns.actions.options?.edit"
+        (click)="editItem(row)"
+        class="table-action"
+        >edit</mat-icon
+      >
+      <mat-icon
+        *ngIf="commonColumns.actions.options?.delete"
+        (click)="deleteItem(row)"
+        class="table-action"
+        >delete</mat-icon
+      >
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="headerRow"></tr>
+  <tr mat-row *matRowDef="let row; columns: headerRow"></tr>
 </table>
