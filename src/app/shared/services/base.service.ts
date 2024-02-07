@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/keycloak.enviroment';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +24,7 @@ export abstract class BaseService<T> {
     const authToken = token;
 
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${authToken}`
+      Authorization: `Bearer ${authToken}`,
     });
 
     return headers;
