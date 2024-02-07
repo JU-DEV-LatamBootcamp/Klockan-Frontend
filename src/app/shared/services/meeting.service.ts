@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/keycloak.enviroment';
+import { environment } from 'src/environments/environment';
 import { BaseService } from './base.service';
 import { Meeting, MeetingFromService } from '../models/Meetings';
 import { Observable, map } from 'rxjs';

@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 import { HttpHeaders } from '@angular/common/http';
-import { environment } from 'src/environments/keycloak.enviroment';
+import { environment } from 'src/environments/environment';
 import { authConfig } from 'src/app/shared/config/keycloak.config';
 import { NotificationService } from 'src/app/shared/layouts/auth-layout/services/notification/notification.service';
 import { AuthLayoutModule } from 'src/app/shared/layouts/auth-layout/auth-layout.module';
@@ -77,7 +77,7 @@ export class LoginComponent implements OnInit {
       this.token = this.oAuthService.getAccessToken();
       if (this.token != null) {
         this.navigate('/app/home');
-      }else{
+      } else {
         this.login();
       }
     } catch (error) {

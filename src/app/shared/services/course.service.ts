@@ -9,7 +9,7 @@ import {
   transformCourseToService,
 } from '../utils/course-mapper';
 import { Course, CourseFromService } from '../models/Courses';
-import { environment } from 'src/environments/keycloak.enviroment';
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root',
 })

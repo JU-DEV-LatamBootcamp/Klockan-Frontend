@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Program } from '../models/Programs';
 import { BaseService } from './base.service';
 import { transformProgramForService } from '../utils/program-mapper';
-import { environment } from 'src/environments/keycloak.enviroment';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -30,11 +30,11 @@ export class ProgramService extends BaseService<Program> {
 
   override edit(entity: Program): Observable<Program> {
     const token = this.oAuthService.getAccessToken();
-    const headers = super.createHeaders(token);        
+    const headers = super.createHeaders(token);
     return this.http.put<Program>(
-      `${this.baseRoute}${this.programsPath}`,      
+      `${this.baseRoute}${this.programsPath}`,
       entity,
-      { headers }      
+      { headers }
     );
   }
 
