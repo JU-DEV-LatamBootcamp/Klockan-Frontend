@@ -7,6 +7,7 @@ import { Course } from 'src/app/shared/models/Courses';
 export const courseTypeColumns: TableComponentTypeColumn<Course>[] = [
   {
     selector: 'id',
+    header: 'ID',
   },
   {
     selector: 'name',
