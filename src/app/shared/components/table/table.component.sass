@@ -1,2 +1,36 @@
-.table-action
-  cursor: pointer
+
+.table
+  &__cell 
+    &--header
+      font-weight: 600
+
+    &--data
+      font-weight: 500
+
+    &--flex
+      min-height: var(--mat-table-row-item-container-height)
+      display: flex
+      align-items: center
+      gap: 4px
+
+  &__button
+    color: #616161
+
+    &:disabled
+      color: #b1b1b1
+
+    .material-symbols-outlined
+      font-variation-settings: 'FILL' 0,'wght' 350,'GRAD' 0,'opsz' 24
+
+.mat-mini-icon-button 
+  width: 40px !important
+  height: 40px !important
+  padding: 0px !important
+  display: inline-flex !important
+  align-items: center
+  justify-content: center
+      
+  .mat-mdc-button-touch-target 
+    width: 40px !important
+    height: 40px !important
+   

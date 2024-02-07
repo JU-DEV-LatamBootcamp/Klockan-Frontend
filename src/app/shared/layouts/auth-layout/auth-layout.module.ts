@@ -5,12 +5,17 @@ import { AuthLayoutComponent } from './auth-layout.component';
 import { RouterModule } from '@angular/router';
 import { NotificationService } from './services/notification/notification.service';
 import { ScreenSizeService } from './services/screen-size/screen-size.service';
-import { NotificationComponent } from './components/notification/notification.component';
+import { NotificationComponent } from '../app-layout/components/notification/notification.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, MatSnackBarModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatSnackBarModule,
+    NotificationComponent,
+  ],
   providers: [ScreenSizeService, NotificationService],
-  declarations: [AuthLayoutComponent, NotificationComponent],
+  declarations: [AuthLayoutComponent],
   exports: [AuthLayoutComponent, NotificationComponent],
 })
 export class AuthLayoutModule {}

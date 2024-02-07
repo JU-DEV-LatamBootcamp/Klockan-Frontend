@@ -18,23 +18,30 @@ import {
   TableComponentTypeColumn,
 } from './table-component';
 import { commonHeaders } from './table-component.constants';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.sass'],
-  imports: [CommonModule, MatIconModule, MatTableModule, MatSortModule],
+  imports: [
+    CommonModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTableModule,
+    MatSortModule,
+  ],
   standalone: true,
 })
 export class TableComponent<T> implements OnInit, AfterViewInit {
   @Input() columns: TableComponentTypeColumn<T>[] = [];
   @Input() commonColumns: TableComponentCommonColumns = {};
   @Input() data: T[] = [];
-  @Output() onDelete: EventEmitter<T> = new EventEmitter<T>();
-  @Output() onEdit: EventEmitter<T> = new EventEmitter<T>();
-  commonHeaders: TableComponentHeaderObject<string> = commonHeaders;
+  @Output() onRowDelete: EventEmitter<T> = new EventEmitter<T>();
+  @Output() onRowEdit: EventEmitter<T> = new EventEmitter<T>();
   dataSource!: MatTableDataSource<T>;
   headerRow: string[] = [];
+  commonHeaders: TableComponentHeaderObject<string> = commonHeaders;
 
   @ViewChild(MatSort) sort?: MatSort;
 
@@ -42,7 +49,7 @@ export class TableComponent<T> implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.data);
-    this.updateHeaderRow();
+    this.buildHeaderRow();
   }
 
   ngAfterViewInit(): void {
@@ -51,19 +58,18 @@ export class TableComponent<T> implements OnInit, AfterViewInit {
     }
   }
 
-  updateHeaderRow() {
+  buildHeaderRow() {
     this.headerRow = this.columns.map(column => column.selector as string);
     if (this.commonColumns.actions) {
-      this.headerRow.push('actions');
+      this.headerRow.push(this.commonHeaders.actions);
     }
   }
 
-  // TODO: change item for row
-  editItem(item: T) {
-    this.onEdit.emit(item);
+  editRow(row: T) {
+    this.onRowEdit.emit(row);
   }
 
-  deleteItem(item: T) {
-    this.onDelete.emit(item);
+  deleteRow(row: T) {
+    this.onRowDelete.emit(row);
   }
 }
