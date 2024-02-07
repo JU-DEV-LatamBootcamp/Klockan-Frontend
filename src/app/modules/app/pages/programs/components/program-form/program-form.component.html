@@ -1,6 +1,6 @@
 <app-dialog>
   <mat-toolbar ngProjectAs="[header]" class="dialog-title">
-    New Program
+    {{headerTypeLabel}}
     <button mat-icon-button mat-dialog-close>
       <mat-icon>close</mat-icon>
     </button>
@@ -28,7 +28,7 @@
       color="primary"
       (click)="onSubmit()"
       class="create-button">
-      Create
+      {{confirmButtonLabel}}
     </button>
   </div>
 </app-dialog>

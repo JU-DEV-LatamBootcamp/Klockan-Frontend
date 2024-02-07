@@ -1,34 +1,40 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { COURSE_HEADERS } from './course.constants';
 import { Course } from 'src/app/shared/models/Courses';
 import { CourseService } from 'src/app/shared/services/course.service';
 import { API_ERROR_MESSAGE } from 'src/app/shared/constants/api.constants';
-import { SNACKBAR_ERROR_DEFAULTS } from 'src/app/shared/constants/snackbar.constants';
+import {
+  SNACKBAR_ERROR_DEFAULTS,
+  SNACKBAR_SUCCESS_DEFAULTS,
+  SnackbarConfig,
+} from 'src/app/shared/constants/snackbar.constants';
 import { DialogService } from 'src/app/shared/layouts/app-layout/services/dialog/dialog.service';
-import { CourseFormComponent } from './components/course-form/course-form.component';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 import { ErrorMessageComponent } from 'src/app/shared/components/error-message/error-message.component';
+
+import { CourseFormComponent } from './components/course-form/course-form.component';
 
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.sass'],
 })
-export class CoursesComponent implements OnInit {
-  headers: string[] = COURSE_HEADERS;
-  data: Course[] = [];
-  isLoading = true;
-  buttonLabel = 'New Course';
+export class CoursesComponent {
+  @ViewChild('sidenav', { static: false }) sidenav: MatSidenav | undefined;
+  public isSidenavOpen = true;
+  public isLoading = true;
+
+  public readonly headers: string[] = COURSE_HEADERS;
+  public data: Course[] = [];
 
   constructor(
-    public courseService: CourseService,
-    private snackBar: MatSnackBar,
-    public readonly dialogService: DialogService
-  ) {}
-
-  ngOnInit() {
+    public readonly courseService: CourseService,
+    private readonly snackBar: MatSnackBar,
+    private readonly dialogService: DialogService
+  ) {
     this.fetchCourses();
   }
 
@@ -48,28 +54,36 @@ export class CoursesComponent implements OnInit {
   private handleError(error: Error): void {
     console.error(API_ERROR_MESSAGE, error);
     this.isLoading = false;
-    this.displaySnackbar(API_ERROR_MESSAGE);
+    this.displaySnackbar(API_ERROR_MESSAGE, SNACKBAR_ERROR_DEFAULTS);
   }
 
-  private displaySnackbar(message: string): void {
+  private displaySnackbar(message: string, customConfig: SnackbarConfig): void {
     this.snackBar.open(
       message,
-      SNACKBAR_ERROR_DEFAULTS.CLOSE_BUTTON_TEXT,
-      SNACKBAR_ERROR_DEFAULTS.CONFIG
+      customConfig.CLOSE_BUTTON_TEXT,
+      customConfig.CONFIG
     );
   }
 
-  showDialogFormComponent(course?: Course): void {
-    const dialogRef$ = this.dialogService.show(
-      CourseFormComponent,
-      course ? course : null
-    );
+  public showFormDialog(course?: Course): void {
+    this.dialogService
+      .show(CourseFormComponent, course ?? null)
+      .subscribe(result => {
+        if (result && course) {
+          this.displayEditSnackbar(result);
+        } else if (result) {
+          this.displayCreateSnackbar(result);
+        }
+        this.fetchCourses();
+      });
+  }
 
-    dialogRef$.subscribe({
-      next: (result: Course) => {
-        if (result) this.fetchCourses();
-      },
-    });
+  private displayCreateSnackbar({ name }: Course): void {
+    this.displaySnackbar(`Course ${name} created`, SNACKBAR_SUCCESS_DEFAULTS);
+  }
+
+  private displayEditSnackbar({ name }: Course): void {
+    this.displaySnackbar(`Course ${name} edited`, SNACKBAR_SUCCESS_DEFAULTS);
   }
 
   showDeleteDialog(course: Course) {

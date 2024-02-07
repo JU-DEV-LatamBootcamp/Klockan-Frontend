@@ -2,8 +2,8 @@
   <section class="main-section">
     <h2>Courses</h2>
     <app-button
-      (click)="showDialogFormComponent()"
-      [text]="buttonLabel"
+      (click)="showFormDialog()"
+      text="New Course"
       icon="add"></app-button>
   </section>
 
@@ -12,7 +12,7 @@
       [headers]="headers"
       [data]="data"
       (deleteItemEvent)="showDeleteDialog($event)"
-      (editItemEvent)="showDialogFormComponent($event)"></app-table>
+      (editItemEvent)="showFormDialog($event)"></app-table>
   </section>
   <div class="spinner" *ngIf="isLoading">
     <mat-progress-spinner

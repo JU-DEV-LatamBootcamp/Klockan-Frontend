@@ -17,6 +17,7 @@
     <app-table
       [headers]="headers"
       [data]="programList"
+      (editItemEvent)="showEditDialog($event)"
       (deleteItemEvent)="showDeleteDialog($event)"></app-table>
   </ng-template>
 
