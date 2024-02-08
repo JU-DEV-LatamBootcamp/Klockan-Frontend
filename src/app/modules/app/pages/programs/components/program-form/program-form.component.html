@@ -25,9 +25,9 @@
     <button mat-button mat-dialog-close class="cancel-button">Cancel</button>
     <button
       mat-raised-button
-      color="primary"
       (click)="onSubmit()"
-      class="create-button">
+      class="create-button"
+      [disabled]="!programForm.valid">
       {{ confirmButtonLabel }}
     </button>
   </div>

@@ -41,7 +41,7 @@ export class ProgramFormComponent implements OnInit, OnDestroy {
     this.initializeForm();
     if (this.data) {
       this.headerTypeLabel = 'Edit Program';
-      this.confirmButtonLabel = 'Editar';
+      this.confirmButtonLabel = 'Edit';
       this.isCreate = false;
     } else {
       this.isCreate = true;
@@ -87,7 +87,7 @@ export class ProgramFormComponent implements OnInit, OnDestroy {
           this.dialogRef.close(program);
         },
         error: error => {
-          console.error('Error al crear el programa:', error);
+          console.error('Error editing program:', error);
         },
       });
     } else this.programForm.markAllAsTouched();
@@ -103,7 +103,7 @@ export class ProgramFormComponent implements OnInit, OnDestroy {
             this.dialogRef.close(program);
           },
           error: error => {
-            console.error('Error al crear el programa:', error);
+            console.error('Error creating program:', error);
           },
         });
       } else this.programForm.markAllAsTouched();

@@ -4,6 +4,7 @@
   background: white
   color: $secondary
   justify-content: space-between
+  padding: 0 8px 0 24px
 
 .name-field, .description-field
   margin-top: 16px
@@ -15,20 +16,23 @@
 
 .cancel-button
   border: solid 1px #BDBDBD
-  border-radius: 20px
+  border-radius: 8px
   padding: 6px 12px
   color: $secondary
   background-color: transparent
   margin-right: 8px
 
 .create-button
-  border-radius: 20px
+  border-radius: 8px
   padding: 6px 12px
   color: white
   background-color: $primary
   box-shadow: 0 3px 6px 0 rgba(0,0,0,0.16)
+  &:disabled
+    opacity: 0.7
 
 .dialog-actions
   display: flex
   justify-content: space-between
-  padding: 10px
+  padding-right: 16px
+  margin-bottom: 12px
