@@ -1,12 +1,11 @@
 <div class="formdiv">
-  <div id="middleDiv">
-    <h1>Login</h1>
-    <button mat-flat-button color="primary" (click)="login()">
-      Login with keycloak
-    </button>
+  <div class="spinner">
+    <mat-progress-spinner
+      mode="indeterminate"
+      diameter="70"></mat-progress-spinner>
   </div>
 </div>
 
 <ng-template #notification>
-  <app-notification message="Something wrong happen..." />
+  <app-notification message="Something wrong happened..." />
 </ng-template>
