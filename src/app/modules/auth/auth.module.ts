@@ -8,6 +8,7 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 import { ComposedLayoutComponent } from './components/composed-layout/composed-layout.component';
 import { AuthLayoutModule } from 'src/app/shared/layouts/auth-layout/auth-layout.module';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatToolbarModule,
     // components
     LoginComponent,
+    MatProgressSpinnerModule,
   ],
   declarations: [ComposedLayoutComponent],
   providers: [
