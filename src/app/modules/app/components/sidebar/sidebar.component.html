@@ -1,8 +1,8 @@
 <nav class="sidebar">
   <div class="sidebar__header">
-    <button class="logo">
+    <a class="logo" routerLink="/app">
       <img src="assets/klockan-logo.svg" alt="klockan" />
-    </button>
+    </a>
   </div>
   <div class="sidebar__main">
     <div class="sidebar__section">
@@ -20,7 +20,7 @@
     </div>
   </div>
   <div class="sidebar__footer">
-    <section class="sidebar__section">
+    <section class="sidebar__section" (click)="onLogOut()">
       <p class="sidebar__title">Settings</p>
       <button class="field">
         <mat-icon
