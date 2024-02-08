@@ -112,23 +112,6 @@ export class LoginComponent implements OnInit {
     this.oAuthService.initLoginFlow();
     this.setToken();
   }
-  /**
-   * Control del formulario para el nombre de usuario.
-   * @type {FormControl}
-   */
-  usernameFormControl: FormControl = new FormControl('', [
-    Validators.required,
-    Validators.minLength(6),
-  ]);
-  /**
-   * Control del formulario para la contraseña.
-   * @type {FormControl}
-   */
-  passwordFormControl: FormControl = new FormControl('', [
-    Validators.required,
-    Validators.minLength(8),
-    Validators.maxLength(16),
-  ]);
 
   /**
    * Método para navegar a otra vista.
