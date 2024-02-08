@@ -1,10 +1,10 @@
 <main class="main">
   <div class="main__header">
     <app-main-header title="Courses">
-      <app-button
-        (click)="showFormDialog()"
-        text="New Course"
-        icon="add"></app-button>
+      <button class="theme-button" mat-raised-button (click)="showFormDialog()">
+        <mat-icon class="material-symbols-outlined" fontIcon="add" />
+        <span>New Course</span>
+      </button>
     </app-main-header>
   </div>
 

@@ -1,10 +1,13 @@
 <main class="main">
   <div class="main__header">
     <app-main-header title="Programs">
-      <app-button
-        (click)="showCreateDialog()"
-        text="New Program"
-        icon="add"></app-button>
+      <button
+        class="theme-button"
+        mat-raised-button
+        (click)="showCreateDialog()">
+        <mat-icon class="material-symbols-outlined" fontIcon="add" />
+        <span>New Program</span>
+      </button>
     </app-main-header>
   </div>
 
