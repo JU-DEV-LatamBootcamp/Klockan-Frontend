@@ -12,7 +12,8 @@
       [columns]="columns"
       [commonColumns]="commonColumns"
       [data]="courses"
-      (onRowDelete)="showDeleteDialog($event)"></app-table>
+      (onRowDelete)="showDeleteDialog($event)"
+      (onRowEdit)="showFormDialog($event)"></app-table>
   </section>
   <div class="spinner" *ngIf="isLoading">
     <mat-progress-spinner

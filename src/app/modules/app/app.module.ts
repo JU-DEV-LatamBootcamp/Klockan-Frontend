@@ -31,6 +31,8 @@ import { ButtonComponent } from 'src/app/shared/components/button/button.compone
 import { CourseFormComponent } from './pages/courses/components/course-form/course-form.component';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 import { ErrorMessageComponent } from 'src/app/shared/components/error-message/error-message.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 @NgModule({
   imports: [
@@ -67,6 +69,8 @@ import { ErrorMessageComponent } from 'src/app/shared/components/error-message/e
     DeleteConfirmationComponent,
     ErrorMessageComponent,
     ProgramFormComponent,
+    NavbarComponent,
+    SidebarComponent,
   ],
   exports: [DeleteConfirmationComponent],
 })
