@@ -73,13 +73,14 @@ export class LoginComponent implements OnInit {
     public readonly notificationService: NotificationService
   ) {}
 
+  // TODO: refactorize local methods to auth and keycloak service
   async ngOnInit() {
     try {
       await this.configureSingleSingOn();
       await this.setToken();
       this.token = this.oAuthService.getAccessToken();
       if (this.token != null) {
-        this.navigate('/app/home');
+        this.navigate('/app');
       } else {
         this.login();
       }
@@ -97,7 +98,7 @@ export class LoginComponent implements OnInit {
         Authorization: 'Bearer ' + token,
       });
       if (token != null) {
-        this.navigate('/app/home');
+        this.navigate('/app');
       }
     }, 500);
   }

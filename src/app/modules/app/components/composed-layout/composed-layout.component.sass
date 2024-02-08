@@ -1,39 +1,21 @@
-.header
-  background: white
-  border-color: var(--mat-sidenav-container-divider-color)
+.main
+  display: flex
+  flex-direction: column
+  flex-grow: 1
+  height: 100%
+  width: 100%
 
+  &__header
+    margin: 1rem 1.5rem 0.5rem 1.5rem
+    flex-shrink: 0
+  
   &__content
-    width: 100%
-    display: flex
-    align-items: center
-    gap: 1rem
-    border-radius: 16px!important
-    overflow: hidden!important
-
-  &__spacer
+    margin: 0 1.5rem
     flex: 1 1 0
 
-.logout-button
-  margin-right: 24px
-  height: 32px !important
-  padding: 0 8px !important
+.theme-button
+  background-color: #6210cc !important
+  color: #fff !important
 
-.sidebar
-  margin: 1rem
-  border-radius: 16px
-  overflow: hidden
-  &__link-content
-    display: flex
-    align-items: center
-    gap: 1rem
-
-a
-  &:hover
-    background-color: #E8DEF8
-
-.app-title
-  padding: 8px 0px
-
-@media screen and (min-width: 1280px)
-  .app-title
-    padding: 8px 32px
+  &:hover 
+    background-color: #833ddf !important

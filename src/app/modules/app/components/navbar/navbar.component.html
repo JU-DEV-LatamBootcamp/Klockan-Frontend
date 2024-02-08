@@ -1,0 +1,19 @@
+<mat-toolbar class="header">
+  <button
+    *ngIf="!screenSizeService.matchEqualOrAbove('large')"
+    mat-icon-button
+    (click)="sidebarService.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <span class="">Klockan</span>
+
+  <span class="header__spacer"></span>
+
+  <button class="avatar" (click)="onLogOut()">
+    <!-- TODO: update with username initial -->
+    <span>
+      {{ 's' }}
+    </span>
+  </button>
+</mat-toolbar>

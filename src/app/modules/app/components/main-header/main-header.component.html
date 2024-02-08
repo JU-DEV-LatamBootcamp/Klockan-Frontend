@@ -1,0 +1,16 @@
+<mat-toolbar class="header">
+  <button
+    *ngIf="!screenSizeService.matchEqualOrAbove('large')"
+    mat-icon-button
+    (click)="sidebarService.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <span class="header__title">{{ title }}</span>
+
+  <span class="header__spacer"></span>
+
+  <div class="header__actions">
+    <ng-content />
+  </div>
+</mat-toolbar>

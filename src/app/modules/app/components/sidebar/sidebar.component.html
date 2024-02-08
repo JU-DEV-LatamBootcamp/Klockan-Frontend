@@ -1,0 +1,33 @@
+<nav class="sidebar">
+  <div class="sidebar__header">
+    <a class="logo" routerLink="/app">
+      <img src="assets/klockan-logo.svg" alt="klockan" />
+    </a>
+  </div>
+  <div class="sidebar__main">
+    <div class="sidebar__section">
+      <p class="sidebar__title">Menu</p>
+      <a
+        *ngFor="let link of links"
+        class="field field--link"
+        routerLinkActive="field--selected"
+        [routerLink]="link.href">
+        <mat-icon
+          class="field__icon material-symbols-outlined"
+          [fontIcon]="link.icon" />
+        <span class="field__label">{{ link.label }}</span>
+      </a>
+    </div>
+  </div>
+  <div class="sidebar__footer">
+    <section class="sidebar__section" (click)="onLogOut()">
+      <p class="sidebar__title">Settings</p>
+      <button class="field">
+        <mat-icon
+          class="field__icon material-symbols-outlined"
+          [fontIcon]="'logout'" />
+        <span class="field__label">Logout</span>
+      </button>
+    </section>
+  </div>
+</nav>

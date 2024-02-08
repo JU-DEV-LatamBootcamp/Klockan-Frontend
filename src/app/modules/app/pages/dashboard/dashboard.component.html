@@ -1,4 +1,18 @@
-<mat-toolbar class="header">
+<main class="main">
+  <div class="main__header">
+    <app-main-header title="Dashboard"> </app-main-header>
+  </div>
+
+  <div class="main__content">
+    <div class="center-me">
+      <h1 style="margin-bottom: 6rem">
+        Welcome to dashboard page, {{ username }}!
+      </h1>
+    </div>
+  </div>
+</main>
+
+<!-- <mat-toolbar class="header">
   <span>Dashboard</span>
 </mat-toolbar>
 
@@ -130,4 +144,4 @@
 
 <ng-template #notification>
   <app-notification message="this is the notification" />
-</ng-template>
+</ng-template> -->
