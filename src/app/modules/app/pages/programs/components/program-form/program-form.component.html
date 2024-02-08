@@ -9,7 +9,7 @@
   <form ngProjectAs="[content]" [formGroup]="programForm">
     <mat-form-field appearance="outline" class="name-field">
       <mat-label>Name</mat-label>
-      <input matInput formControlName="name" />
+      <input matInput formControlName="name" placeholder="New Program" />
       <mat-error *ngIf="programForm.get('name')?.touched">
         {{ getFieldError('name') }}
       </mat-error>
@@ -24,9 +24,9 @@
   <div ngProjectAs="[actions]" class="dialog-actions">
     <button mat-button mat-dialog-close class="cancel-button">Cancel</button>
     <button
-      mat-raised-button
+      mat-button
+      class="confirm-button"
       (click)="onSubmit()"
-      class="create-button"
       [disabled]="!programForm.valid">
       {{ confirmButtonLabel }}
     </button>
