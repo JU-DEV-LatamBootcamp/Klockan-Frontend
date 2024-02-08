@@ -1,5 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
+import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Course } from 'src/app/shared/models/Courses';
@@ -12,6 +11,7 @@ import {
 } from 'src/app/shared/constants/snackbar.constants';
 import { DialogService } from 'src/app/shared/layouts/app-layout/services/dialog/dialog.service';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
+import { CourseFormComponent } from './components/course-form/course-form.component';
 import { ErrorMessageComponent } from 'src/app/shared/components/error-message/error-message.component';
 import { courseCommonColumns, courseTypeColumns } from './courses.constants';
 
@@ -20,7 +20,7 @@ import { courseCommonColumns, courseTypeColumns } from './courses.constants';
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.sass'],
 })
-export class CoursesComponent implements OnInit {
+export class CoursesComponent {
   columns = courseTypeColumns;
   commonColumns = courseCommonColumns;
   courses: Course[] = [];

@@ -4,7 +4,11 @@
   </section>
   <section>
     <section *ngIf="!isLoading">
-      <app-table [headers]="headers" [data]="meetingList"></app-table>
+      <app-table
+        [data]="meetings"
+        [columns]="columns"
+        [commonColumns]="commonColumns"></app-table>
+      <!-- <app-table [headers]="headers" [data]="meetingList"></app-table> -->
     </section>
   </section>
   <div class="spinner" *ngIf="isLoading">
