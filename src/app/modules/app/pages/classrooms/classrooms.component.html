@@ -1,16 +1,20 @@
-<main>
-  <section class="main-section">
-    <h2>Classrooms</h2>
-  </section>
-  <section *ngIf="!isLoading">
-    <app-table
-      [data]="classrooms"
-      [columns]="columns"
-      [commonColumns]="commonColumns"></app-table>
-  </section>
-  <div class="spinner" *ngIf="isLoading">
-    <mat-progress-spinner
-      mode="indeterminate"
-      diameter="70"></mat-progress-spinner>
+<main class="main">
+  <div class="main__header">
+    <app-main-header title="Classrooms"> </app-main-header>
+  </div>
+
+  <div class="main__content">
+    <div class="spinner" *ngIf="isLoading; else table">
+      <mat-progress-spinner
+        mode="indeterminate"
+        diameter="70"></mat-progress-spinner>
+    </div>
   </div>
 </main>
+
+<ng-template #table>
+  <app-table
+    [data]="classrooms"
+    [columns]="columns"
+    [commonColumns]="commonColumns"></app-table>
+</ng-template>

@@ -1,23 +1,27 @@
-<main>
-  <section class="main-section">
-    <h2>Courses</h2>
-    <app-button
-      (click)="showFormDialog()"
-      text="New Course"
-      icon="add"></app-button>
-  </section>
+<main class="main">
+  <div class="main__header">
+    <app-main-header title="Courses">
+      <app-button
+        (click)="showFormDialog()"
+        text="New Course"
+        icon="add"></app-button>
+    </app-main-header>
+  </div>
 
-  <section *ngIf="!isLoading">
-    <app-table
-      [columns]="columns"
-      [commonColumns]="commonColumns"
-      [data]="courses"
-      (onRowDelete)="showDeleteDialog($event)"
-      (onRowEdit)="showFormDialog($event)"></app-table>
-  </section>
-  <div class="spinner" *ngIf="isLoading">
-    <mat-progress-spinner
-      mode="indeterminate"
-      diameter="70"></mat-progress-spinner>
+  <div class="main__content">
+    <div class="spinner" *ngIf="isLoading; else table">
+      <mat-progress-spinner
+        mode="indeterminate"
+        diameter="70"></mat-progress-spinner>
+    </div>
   </div>
 </main>
+
+<ng-template #table>
+  <app-table
+    [columns]="columns"
+    [commonColumns]="commonColumns"
+    [data]="courses"
+    (onRowDelete)="showDeleteDialog($event)"
+    (onRowEdit)="showFormDialog($event)"></app-table>
+</ng-template>

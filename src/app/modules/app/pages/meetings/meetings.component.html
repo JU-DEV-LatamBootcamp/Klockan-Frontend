@@ -1,19 +1,20 @@
-<main>
-  <section class="main-section">
-    <h2>Meetings</h2>
-  </section>
-  <section>
-    <section *ngIf="!isLoading">
-      <app-table
-        [data]="meetings"
-        [columns]="columns"
-        [commonColumns]="commonColumns"></app-table>
-      <!-- <app-table [headers]="headers" [data]="meetingList"></app-table> -->
-    </section>
-  </section>
-  <div class="spinner" *ngIf="isLoading">
-    <mat-progress-spinner
-      mode="indeterminate"
-      diameter="70"></mat-progress-spinner>
+<main class="main">
+  <div class="main__header">
+    <app-main-header title="Meetings"> </app-main-header>
+  </div>
+
+  <div class="main__content">
+    <div class="spinner" *ngIf="isLoading; else table">
+      <mat-progress-spinner
+        mode="indeterminate"
+        diameter="70"></mat-progress-spinner>
+    </div>
   </div>
 </main>
+
+<ng-template #table>
+  <app-table
+    [data]="meetings"
+    [columns]="columns"
+    [commonColumns]="commonColumns"></app-table>
+</ng-template>

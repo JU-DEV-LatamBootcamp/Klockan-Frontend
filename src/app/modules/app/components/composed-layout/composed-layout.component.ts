@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { KeycloakService } from 'src/app/modules/auth/services/keycloak/keycloak.service';
 
@@ -6,6 +6,7 @@ import { KeycloakService } from 'src/app/modules/auth/services/keycloak/keycloak
   selector: 'app-composed-layout',
   templateUrl: './composed-layout.component.html',
   styleUrls: ['./composed-layout.component.sass'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ComposedLayoutComponent implements OnInit {
   constructor(

@@ -33,6 +33,7 @@ import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-co
 import { ErrorMessageComponent } from 'src/app/shared/components/error-message/error-message.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { MainHeaderComponent } from './components/main-header/main-header.component';
 
 @NgModule({
   imports: [
@@ -71,6 +72,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     ProgramFormComponent,
     NavbarComponent,
     SidebarComponent,
+    MainHeaderComponent,
   ],
   exports: [DeleteConfirmationComponent],
 })
