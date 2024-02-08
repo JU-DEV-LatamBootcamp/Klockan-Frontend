@@ -11,15 +11,19 @@ export const courseTypeColumns: TableComponentTypeColumn<Course>[] = [
   },
   {
     selector: 'name',
+    width: '30%',
   },
   {
     selector: 'description',
+    width: '40%',
   },
   {
     selector: 'sessions',
+    width: '15%',
   },
   {
     selector: 'duration',
+    width: '15%',
   },
 ];
 

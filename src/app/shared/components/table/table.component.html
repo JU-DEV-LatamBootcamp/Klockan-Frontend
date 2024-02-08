@@ -1,6 +1,14 @@
 <!-- IMPROVEMENT: add table filter -->
+<!-- IMPROVEMENT: receive default sort parameter and direction in type columns input -->
+<!-- IMPROVEMENT: set column width dynamically of the columns without width  -->
 
-<table class="table" mat-table [dataSource]="dataSource" matSort>
+<table
+  class="table"
+  mat-table
+  [dataSource]="dataSource"
+  matSort
+  [matSortActive]="sortOptions.selector"
+  [matSortDirection]="sortOptions.sort!.direction">
   <!-- type columns -->
   <ng-container
     *ngFor="let column of columns"
@@ -12,7 +20,11 @@
       mat-sort-header>
       {{ column.header || (column.selector.toString() | titlecase) }}
     </th>
-    <td class="table__cell table__cell--data" mat-cell *matCellDef="let row">
+    <td
+      [ngStyle]="{ width: column.width || 'auto' }"
+      class="table__cell table__cell--data"
+      mat-cell
+      *matCellDef="let row">
       {{ row[column.selector] }}
     </td>
   </ng-container>
@@ -28,26 +40,25 @@
       {{ commonColumns.actions.header || commonHeaders.actions }}
     </th>
 
-    <td
-      class="table__cell table__cell--data table__cell--flex"
-      mat-cell
-      *matCellDef="let row">
-      <button
-        *ngIf="commonColumns.actions.options?.edit"
-        mat-icon-button
-        class="table__button mat-mini-icon-button"
-        [disabled]="!onRowEdit.observed"
-        (click)="editRow(row)">
-        <mat-icon class="material-symbols-outlined" fontIcon="edit" />
-      </button>
-      <button
-        *ngIf="commonColumns.actions.options?.delete"
-        mat-icon-button
-        class="table__button mat-mini-icon-button"
-        [disabled]="!onRowDelete.observed"
-        (click)="deleteRow(row)">
-        <mat-icon class="material-symbols-outlined" fontIcon="delete" />
-      </button>
+    <td class="table__cell table__cell--data" mat-cell *matCellDef="let row">
+      <div class="table__flex">
+        <button
+          *ngIf="commonColumns.actions.options?.edit"
+          mat-icon-button
+          class="table__button mat-mini-icon-button"
+          [disabled]="!onRowEdit.observed"
+          (click)="editRow(row)">
+          <mat-icon class="material-symbols-outlined" fontIcon="edit" />
+        </button>
+        <button
+          *ngIf="commonColumns.actions.options?.delete"
+          mat-icon-button
+          class="table__button mat-mini-icon-button"
+          [disabled]="!onRowDelete.observed"
+          (click)="deleteRow(row)">
+          <mat-icon class="material-symbols-outlined" fontIcon="delete" />
+        </button>
+      </div>
     </td>
   </ng-container>
 

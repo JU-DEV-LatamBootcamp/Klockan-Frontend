@@ -16,10 +16,12 @@ import {
   TableComponentCommonColumns,
   TableComponentHeaderObject,
   TableComponentTypeColumn,
+  TableComponentColumn,
 } from './table-component';
 import { commonHeaders } from './table-component.constants';
 import { MatButtonModule } from '@angular/material/button';
 
+// TODO: actions when no action is enable
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -42,20 +44,20 @@ export class TableComponent<T> implements OnInit, AfterViewInit {
   dataSource!: MatTableDataSource<T>;
   headerRow: string[] = [];
   commonHeaders: TableComponentHeaderObject<string> = commonHeaders;
+  sortOptions: TableComponentColumn = { selector: '' };
 
-  @ViewChild(MatSort) sort?: MatSort;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(public readonly dialogService: DialogService) {}
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.data);
     this.buildHeaderRow();
+    this.buildSortOptions();
   }
 
   ngAfterViewInit(): void {
-    if (this.sort) {
-      this.dataSource.sort = this.sort;
-    }
+    this.dataSource.sort = this.sort;
   }
 
   buildHeaderRow() {
@@ -63,6 +65,22 @@ export class TableComponent<T> implements OnInit, AfterViewInit {
     if (this.commonColumns.actions) {
       this.headerRow.push(this.commonHeaders.actions);
     }
+  }
+
+  buildSortOptions() {
+    const typeColumn = this.columns.reduce<TableComponentTypeColumn<T> | null>(
+      (found, column) => (found ? found : column.sort?.active ? column : null),
+      null
+    );
+
+    this.sortOptions = {
+      selector:
+        typeColumn?.selector.toString() || this.columns[0].selector.toString(),
+      sort: {
+        active: true,
+        direction: typeColumn?.sort?.direction || 'asc',
+      },
+    };
   }
 
   editRow(row: T) {

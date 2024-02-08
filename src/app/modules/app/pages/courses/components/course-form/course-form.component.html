@@ -1,13 +1,16 @@
 <app-dialog>
   <mat-toolbar ngProjectAs="[header]" class="header">
-    <span>New Course</span>
+    <span>{{ data ? 'Update Course' : 'New Course' }}</span>
   </mat-toolbar>
 
   <form ngProjectAs="[content]" class="dialog-content" [formGroup]="courseForm">
     <mat-form-field>
       <mat-label for="name">Name</mat-label>
-      <input matInput type="text" name="name" formControlName="name"
-    /></mat-form-field>
+      <input matInput type="text" name="name" formControlName="name" />
+      <mat-error *ngIf="courseForm.get('name')?.touched">
+        {{ getFieldError('name') }}
+      </mat-error></mat-form-field
+    >
 
     <div>
       <mat-form-field>
@@ -16,8 +19,11 @@
           matInput
           type="number"
           name="sessions"
-          formControlName="sessions"
-      /></mat-form-field>
+          formControlName="sessions" />
+        <mat-error *ngIf="courseForm.get('sessions')?.touched">
+          {{ getFieldError('sessions') }}
+        </mat-error></mat-form-field
+      >
 
       <mat-form-field>
         <mat-label for="duration">Minutes / Session</mat-label>
@@ -25,8 +31,11 @@
           matInput
           type="number"
           name="duration"
-          formControlName="duration"
-      /></mat-form-field>
+          formControlName="duration" />
+        <mat-error *ngIf="courseForm.get('duration')?.touched">
+          {{ getFieldError('duration') }}
+        </mat-error></mat-form-field
+      >
     </div>
 
     <mat-form-field>
@@ -44,7 +53,6 @@
     <button
       mat-flat-button
       color="primary"
-      [mat-dialog-close]="true"
       cdkFocusInitial
       (click)="onSubmit()">
       Confirm

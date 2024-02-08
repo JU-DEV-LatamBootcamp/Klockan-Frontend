@@ -2,8 +2,9 @@
   <section class="main-section">
     <h2>Courses</h2>
     <app-button
-      (click)="dialogService.show(dialog)"
-      [label]="buttonLabel"></app-button>
+      (click)="showFormDialog()"
+      text="New Course"
+      icon="add"></app-button>
   </section>
 
   <section *ngIf="!isLoading">
@@ -18,8 +19,4 @@
       mode="indeterminate"
       diameter="70"></mat-progress-spinner>
   </div>
-
-  <ng-template #dialog>
-    <app-course-form></app-course-form>
-  </ng-template>
 </main>
