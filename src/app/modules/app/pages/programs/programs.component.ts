@@ -11,6 +11,7 @@ import {
 } from 'src/app/shared/constants/snackbar.constants';
 import { Program } from 'src/app/shared/models/Programs';
 import { ProgramService } from 'src/app/shared/services/program.service';
+import { programCommonColumns, programTypeColumns } from './programs.constants';
 import { DialogService } from 'src/app/shared/layouts/app-layout/services/dialog/dialog.service';
 import { ProgramFormComponent } from './components/program-form/program-form.component';
 
@@ -24,8 +25,9 @@ export class ProgramsComponent {
   public isSidenavOpen = true;
   public isLoading = true;
 
-  public readonly headers = ['id', 'name', 'description'];
-  public programList: Program[] | Program | null | any = [];
+  columns = programTypeColumns;
+  commonColumns = programCommonColumns;
+  programs: Program[] = [];
 
   constructor(
     public readonly programService: ProgramService,
@@ -43,7 +45,7 @@ export class ProgramsComponent {
     });
   }
   private handleSuccess(programs: Program[]): void {
-    this.programList = programs;
+    this.programs = programs;
     this.isLoading = false;
   }
 
@@ -91,18 +93,21 @@ export class ProgramsComponent {
 
   public showEditDialog(item: Program): void {
     this.dialogService
-      .show(ProgramFormComponent,{
+      .show(ProgramFormComponent, {
         item: item,
-        service: this.programService
+        service: this.programService,
       })
       .subscribe(res => {
-        if (res) {                              
+        if (res) {
           this.fetchPrograms();
-          this.displaySnackbar(`${res.name} edited succesfully`, SNACKBAR_SUCCESS_DEFAULTS);
+          this.displaySnackbar(
+            `${res.name} edited succesfully`,
+            SNACKBAR_SUCCESS_DEFAULTS
+          );
         }
       });
   }
-  
+
   public showCreateDialog(): void {
     this.dialogService.show(ProgramFormComponent).subscribe(result => {
       if (result) this.createProgram(result);

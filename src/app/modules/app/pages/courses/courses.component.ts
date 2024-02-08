@@ -1,8 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
+import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { COURSE_HEADERS } from './course.constants';
 import { Course } from 'src/app/shared/models/Courses';
 import { CourseService } from 'src/app/shared/services/course.service';
 import { API_ERROR_MESSAGE } from 'src/app/shared/constants/api.constants';
@@ -13,9 +11,9 @@ import {
 } from 'src/app/shared/constants/snackbar.constants';
 import { DialogService } from 'src/app/shared/layouts/app-layout/services/dialog/dialog.service';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
-import { ErrorMessageComponent } from 'src/app/shared/components/error-message/error-message.component';
-
 import { CourseFormComponent } from './components/course-form/course-form.component';
+import { ErrorMessageComponent } from 'src/app/shared/components/error-message/error-message.component';
+import { courseCommonColumns, courseTypeColumns } from './courses.constants';
 
 @Component({
   selector: 'app-courses',
@@ -23,12 +21,11 @@ import { CourseFormComponent } from './components/course-form/course-form.compon
   styleUrls: ['./courses.component.sass'],
 })
 export class CoursesComponent {
-  @ViewChild('sidenav', { static: false }) sidenav: MatSidenav | undefined;
-  public isSidenavOpen = true;
-  public isLoading = true;
-
-  public readonly headers: string[] = COURSE_HEADERS;
-  public data: Course[] = [];
+  columns = courseTypeColumns;
+  commonColumns = courseCommonColumns;
+  courses: Course[] = [];
+  isLoading = true;
+  buttonLabel = '+ New Course';
 
   constructor(
     public readonly courseService: CourseService,
@@ -47,7 +44,7 @@ export class CoursesComponent {
   }
 
   private handleSuccess(data: Course[]): void {
-    this.data = data;
+    this.courses = data;
     this.isLoading = false;
   }
 

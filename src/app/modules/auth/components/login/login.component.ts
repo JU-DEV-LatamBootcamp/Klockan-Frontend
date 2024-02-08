@@ -17,7 +17,7 @@ import { environment } from 'src/environments/environment';
 import { authConfig } from 'src/app/shared/config/keycloak.config';
 import { NotificationService } from 'src/app/shared/layouts/auth-layout/services/notification/notification.service';
 import { AuthLayoutModule } from 'src/app/shared/layouts/auth-layout/auth-layout.module';
-import { NotificationComponent } from 'src/app/shared/layouts/auth-layout/components/notification/notification.component';
+import { NotificationComponent } from 'src/app/shared/layouts/app-layout/components/notification/notification.component';
 
 /**
  * Componente que representa la interfaz de inicio de sesión.
@@ -45,6 +45,7 @@ import { NotificationComponent } from 'src/app/shared/layouts/auth-layout/compon
     AuthLayoutModule,
     ReactiveFormsModule,
     CommonModule,
+    NotificationComponent,
   ],
   providers: [],
 })

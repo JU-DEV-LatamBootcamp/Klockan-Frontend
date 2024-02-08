@@ -32,6 +32,7 @@ import { PortalModule } from '@angular/cdk/portal';
     MatRadioModule,
     MatDialogModule,
     MatSnackBarModule,
+    NotificationComponent,
     MatDividerModule,
   ],
   providers: [
@@ -45,7 +46,7 @@ import { PortalModule } from '@angular/cdk/portal';
     DialogService,
     NotificationService,
   ],
-  declarations: [AppLayoutComponent, DialogComponent, NotificationComponent],
+  declarations: [AppLayoutComponent, DialogComponent],
   exports: [AppLayoutComponent, DialogComponent, NotificationComponent],
 })
 export class AppLayoutModule {}

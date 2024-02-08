@@ -20,5 +20,5 @@ export const authConfig: AuthConfig = {
   // THIS SHOULD NOT BE USED IN PRODUCTION
   // USE A CERTIFICATE FOR YOUR IDP
   // IN PRODUCTION
-  requireHttps: false,
+  requireHttps: environment.production,
 };

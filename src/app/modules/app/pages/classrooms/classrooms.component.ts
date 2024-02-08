@@ -4,6 +4,10 @@ import { API_ERROR_MESSAGE } from 'src/app/shared/constants/api.constants';
 import { SNACKBAR_ERROR_DEFAULTS } from 'src/app/shared/constants/snackbar.constants';
 import { Classroom } from 'src/app/shared/models/Classroom';
 import { ClassroomService } from 'src/app/shared/services/classroom.service';
+import {
+  classroomCommonColumns,
+  classroomTypeColumns,
+} from './classrooms.constants';
 
 @Component({
   selector: 'app-classrooms',
@@ -11,9 +15,11 @@ import { ClassroomService } from 'src/app/shared/services/classroom.service';
   styleUrls: ['./classrooms.component.sass'],
 })
 export class ClassroomsComponent implements OnInit {
-  classroomList: Classroom[] = [];
+  classrooms: Classroom[] = [];
   isLoading = true;
-  headers: string[] = ['id', 'course', 'program', 'starts'];
+  columns = classroomTypeColumns;
+  commonColumns = classroomCommonColumns;
+
   constructor(
     public classroomService: ClassroomService,
     private snackBar: MatSnackBar
@@ -32,9 +38,8 @@ export class ClassroomsComponent implements OnInit {
   }
 
   private handleSuccess(data: Classroom[]): void {
-    this.classroomList = data;
+    this.classrooms = data;
     this.isLoading = false;
-    console.log(this.classroomList);
   }
 
   private handleError(error: Error): void {

@@ -15,10 +15,11 @@
 
   <ng-template #table>
     <app-table
-      [headers]="headers"
-      [data]="programList"
-      (editItemEvent)="showEditDialog($event)"
-      (deleteItemEvent)="showDeleteDialog($event)"></app-table>
+      [data]="programs"
+      [columns]="columns"
+      [commonColumns]="commonColumns"
+      (onRowEdit)="showEditDialog($event)"
+      (onRowDelete)="showDeleteDialog($event)"></app-table>
   </ng-template>
 
   <ng-template #dialog>

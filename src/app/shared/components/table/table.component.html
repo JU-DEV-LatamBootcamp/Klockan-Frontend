@@ -1,24 +1,73 @@
-<table class="table-primary" *ngIf="data.length !== 0">
-  <thead>
-    <tr>
-      <th *ngFor="let header of headers">
-        <ng-container>
-          {{ header | titlecase }}
-        </ng-container>
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let item of data">
-      <td *ngFor="let header of headers">
-        {{ item[header.toLowerCase()] }}
-      </td>
-      <td *ngIf="headers">
-        <mat-icon (click)="editItem(item)" class="table-action">edit</mat-icon>
-        <mat-icon (click)="deleteItem(item)" class="table-action"
-          >delete</mat-icon
-        >
-      </td>
-    </tr>
-  </tbody>
+<!-- IMPROVEMENT: add table filter -->
+<!-- IMPROVEMENT: receive default sort parameter and direction in type columns input -->
+<!-- IMPROVEMENT: set column width dynamically of the columns without width  -->
+
+<table
+  class="table"
+  mat-table
+  [dataSource]="dataSource"
+  matSort
+  [matSortActive]="sortOptions.selector"
+  [matSortDirection]="sortOptions.sort!.direction">
+  <!-- type columns -->
+  <ng-container
+    *ngFor="let column of columns"
+    [matColumnDef]="column.selector.toString()">
+    <th
+      class="table__cell table__cell--header"
+      mat-header-cell
+      *matHeaderCellDef
+      mat-sort-header>
+      {{ column.header || (column.selector.toString() | titlecase) }}
+    </th>
+    <td
+      [ngStyle]="{ width: column.width || 'auto' }"
+      class="table__cell table__cell--data"
+      mat-cell
+      *matCellDef="let row">
+      {{ row[column.selector] }}
+    </td>
+  </ng-container>
+
+  <!-- actions column -->
+  <ng-container
+    *ngIf="commonColumns.actions"
+    [matColumnDef]="commonHeaders.actions">
+    <th
+      class="table__cell table__cell--header"
+      mat-header-cell
+      *matHeaderCellDef>
+      {{ commonColumns.actions.header || commonHeaders.actions }}
+    </th>
+
+    <td class="table__cell table__cell--data" mat-cell *matCellDef="let row">
+      <div class="table__flex">
+        <button
+          *ngIf="commonColumns.actions.options?.edit"
+          mat-icon-button
+          class="table__button mat-mini-icon-button"
+          [disabled]="!onRowEdit.observed"
+          (click)="editRow(row)">
+          <mat-icon class="material-symbols-outlined" fontIcon="edit" />
+        </button>
+        <button
+          *ngIf="commonColumns.actions.options?.delete"
+          mat-icon-button
+          class="table__button mat-mini-icon-button"
+          [disabled]="!onRowDelete.observed"
+          (click)="deleteRow(row)">
+          <mat-icon class="material-symbols-outlined" fontIcon="delete" />
+        </button>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr
+    class="table__row table__row--header"
+    mat-header-row
+    *matHeaderRowDef="headerRow"></tr>
+  <tr
+    class="table__row table__row--data"
+    mat-row
+    *matRowDef="let row; columns: headerRow"></tr>
 </table>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MEETING_HEADERS } from './meeting.constants';
+import { meetingCommonColumns, meetingTypeColumns } from './meeting.constants';
 import { Meeting } from 'src/app/shared/models/Meetings';
 import { MeetingService } from 'src/app/shared/services/meeting.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -12,9 +12,10 @@ import { SNACKBAR_ERROR_DEFAULTS } from 'src/app/shared/constants/snackbar.const
   styleUrls: ['./meetings.component.sass'],
 })
 export class MeetingsComponent implements OnInit {
-  headers: string[] = MEETING_HEADERS;
-  meetingList: Meeting[] = [];
+  meetings: Meeting[] = [];
   isLoading = true;
+  columns = meetingTypeColumns;
+  commonColumns = meetingCommonColumns;
 
   constructor(
     public meetingService: MeetingService,
@@ -34,7 +35,7 @@ export class MeetingsComponent implements OnInit {
   }
 
   private handleSuccess(data: Meeting[]): void {
-    this.meetingList = data;
+    this.meetings = data;
     this.isLoading = false;
   }
 

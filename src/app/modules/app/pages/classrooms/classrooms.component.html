@@ -3,7 +3,10 @@
     <h2>Classrooms</h2>
   </section>
   <section *ngIf="!isLoading">
-    <app-table [headers]="headers" [data]="classroomList"></app-table>
+    <app-table
+      [data]="classrooms"
+      [columns]="columns"
+      [commonColumns]="commonColumns"></app-table>
   </section>
   <div class="spinner" *ngIf="isLoading">
     <mat-progress-spinner

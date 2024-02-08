@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
       }
       this.username = this.tokenService.getPreferredUsername(this.token);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
