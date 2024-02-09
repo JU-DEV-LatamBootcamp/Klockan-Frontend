@@ -80,7 +80,7 @@ export class ProgramsComponent {
     this.programService.delete(program).subscribe({
       next: () => {
         this.displaySnackbar(
-          `${program.name} deleted sucessfully`,
+          `Program ${program.name} deleted.`,
           SNACKBAR_ERROR_DEFAULTS
         );
         this.fetchPrograms();
@@ -101,7 +101,7 @@ export class ProgramsComponent {
         if (res) {
           this.fetchPrograms();
           this.displaySnackbar(
-            `${res.name} edited succesfully`,
+            `Program ${res.name} edited.`,
             SNACKBAR_SUCCESS_DEFAULTS
           );
         }
@@ -115,7 +115,7 @@ export class ProgramsComponent {
   }
 
   private createProgram({ name }: Program): void {
-    this.displaySnackbar(`Program ${name} created`, SNACKBAR_SUCCESS_DEFAULTS);
+    this.displaySnackbar(`Program ${name} created.`, SNACKBAR_SUCCESS_DEFAULTS);
     this.fetchPrograms();
   }
 }
