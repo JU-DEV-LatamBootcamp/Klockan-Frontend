@@ -76,11 +76,15 @@ export class CoursesComponent {
   }
 
   private displayCreateSnackbar({ name }: Course): void {
-    this.displaySnackbar(`Course ${name} created`, SNACKBAR_SUCCESS_DEFAULTS);
+    this.displaySnackbar(`Course ${name} created.`, SNACKBAR_SUCCESS_DEFAULTS);
   }
 
   private displayEditSnackbar({ name }: Course): void {
-    this.displaySnackbar(`Course ${name} edited`, SNACKBAR_SUCCESS_DEFAULTS);
+    this.displaySnackbar(`Course ${name} edited.`, SNACKBAR_SUCCESS_DEFAULTS);
+  }
+
+  private displayDeleteSnackbar({ name }: Course): void {
+    this.displaySnackbar(`Course ${name} deleted.`, SNACKBAR_ERROR_DEFAULTS);
   }
 
   showDeleteDialog(course: Course) {
@@ -91,7 +95,6 @@ export class CoursesComponent {
       })
       .subscribe(confirmed => {
         if (!confirmed) return;
-
         this.deleteCourse(course);
       });
   }
@@ -99,6 +102,7 @@ export class CoursesComponent {
   private deleteCourse(course: Course) {
     this.courseService.delete(course).subscribe({
       next: () => {
+        this.displayDeleteSnackbar(course);
         this.fetchCourses();
       },
       error: error => {

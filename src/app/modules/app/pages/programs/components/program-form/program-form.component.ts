@@ -28,7 +28,6 @@ export class ProgramFormComponent implements OnInit, OnDestroy {
   programForm!: FormGroup;
   isCreate = true;
   headerTypeLabel = 'Create Program';
-  confirmButtonLabel = 'Create';
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly dialogRef: MatDialogRef<ProgramFormComponent>,
@@ -41,7 +40,6 @@ export class ProgramFormComponent implements OnInit, OnDestroy {
     this.initializeForm();
     if (this.data) {
       this.headerTypeLabel = 'Edit Program';
-      this.confirmButtonLabel = 'Edit';
       this.isCreate = false;
     } else {
       this.isCreate = true;
