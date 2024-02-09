@@ -1,0 +1,21 @@
+@import "variables"
+
+%button-base
+  letter-spacing: 1px
+  border-radius: 8px
+  padding: 8px 16px
+
+.cancel-button
+  @extend %button-base
+  color: $secondary
+  background-color: transparent
+  border: solid 1px #BDBDBD
+
+.confirm-button
+  @extend %button-base
+  color: white
+  background-color: $primary
+  box-shadow: 0 3px 6px 0 rgba(0,0,0,0.16)
+  &:disabled
+    background-color: $primary-hover
+    opacity: 0.7

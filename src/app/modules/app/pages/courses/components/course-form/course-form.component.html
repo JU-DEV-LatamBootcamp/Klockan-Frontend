@@ -1,45 +1,55 @@
 <app-dialog>
-  <mat-toolbar ngProjectAs="[header]" class="header">
-    <span>{{ data ? 'Update Course' : 'New Course' }}</span>
+  <mat-toolbar ngProjectAs="[header]" class="dialog-title">
+    {{ data ? 'Edit Course' : 'Create Course' }}
+    <button mat-icon-button mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </button>
   </mat-toolbar>
 
   <form ngProjectAs="[content]" class="dialog-content" [formGroup]="courseForm">
-    <mat-form-field>
+    <mat-form-field class="name-field">
       <mat-label for="name">Name</mat-label>
-      <input matInput type="text" name="name" formControlName="name" />
+      <input
+        matInput
+        type="text"
+        name="name"
+        formControlName="name"
+        placeholder="New Course" />
       <mat-error *ngIf="courseForm.get('name')?.touched">
         {{ getFieldError('name') }}
       </mat-error></mat-form-field
     >
 
-    <div>
-      <mat-form-field>
+    <div class="fields-container">
+      <mat-form-field class="sessions-field">
         <mat-label for="sessions">Sessions</mat-label>
         <input
           matInput
           type="number"
           name="sessions"
-          formControlName="sessions" />
+          formControlName="sessions"
+          placeholder="0" />
         <mat-error *ngIf="courseForm.get('sessions')?.touched">
           {{ getFieldError('sessions') }}
         </mat-error></mat-form-field
       >
 
-      <mat-form-field>
+      <mat-form-field class="duration-field">
         <mat-label for="duration">Minutes / Session</mat-label>
         <input
           matInput
           type="number"
           name="duration"
-          formControlName="duration" />
+          formControlName="duration"
+          placeholder="0" />
         <mat-error *ngIf="courseForm.get('duration')?.touched">
           {{ getFieldError('duration') }}
         </mat-error></mat-form-field
       >
     </div>
 
-    <mat-form-field>
-      <mat-label for="description">Details</mat-label>
+    <mat-form-field class="description-field">
+      <mat-label for="description">Description</mat-label>
       <textarea
         matInput
         name="description"
@@ -48,13 +58,13 @@
     </mat-form-field>
   </form>
 
-  <div ngProjectAs="[actions]">
-    <button mat-button mat-dialog-close>Cancel</button>
+  <div ngProjectAs="[actions]" class="dialog-actions">
+    <button mat-button mat-dialog-close class="cancel-button">Cancel</button>
     <button
-      mat-flat-button
-      color="primary"
-      cdkFocusInitial
-      (click)="onSubmit()">
+      mat-button
+      class="confirm-button"
+      (click)="onSubmit()"
+      [disabled]="!courseForm.valid">
       Confirm
     </button>
   </div>

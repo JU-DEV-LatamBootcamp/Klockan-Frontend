@@ -1,6 +1,6 @@
 <app-dialog>
   <mat-toolbar ngProjectAs="[header]" class="dialog-title">
-    {{headerTypeLabel}}
+    {{ headerTypeLabel }}
     <button mat-icon-button mat-dialog-close>
       <mat-icon>close</mat-icon>
     </button>
@@ -9,7 +9,7 @@
   <form ngProjectAs="[content]" [formGroup]="programForm">
     <mat-form-field appearance="outline" class="name-field">
       <mat-label>Name</mat-label>
-      <input matInput formControlName="name" />
+      <input matInput formControlName="name" placeholder="New Program" />
       <mat-error *ngIf="programForm.get('name')?.touched">
         {{ getFieldError('name') }}
       </mat-error>
@@ -24,11 +24,11 @@
   <div ngProjectAs="[actions]" class="dialog-actions">
     <button mat-button mat-dialog-close class="cancel-button">Cancel</button>
     <button
-      mat-raised-button
-      color="primary"
+      mat-button
+      class="confirm-button"
       (click)="onSubmit()"
-      class="create-button">
-      {{confirmButtonLabel}}
+      [disabled]="!programForm.valid">
+      {{ confirmButtonLabel }}
     </button>
   </div>
 </app-dialog>
