@@ -13,4 +13,6 @@ jobs:
     steps:
       - name: Pull image
         run: sudo docker pull klockan/frontend:latest
+      - name: Run
+        run: sudo docker-compose build
       
