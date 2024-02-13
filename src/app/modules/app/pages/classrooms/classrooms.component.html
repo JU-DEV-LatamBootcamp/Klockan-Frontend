@@ -16,5 +16,6 @@
   <app-table
     [data]="classrooms"
     [columns]="columns"
-    [commonColumns]="commonColumns"></app-table>
+    [commonColumns]="commonColumns"
+    (onRowDelete)="showDeleteDialog($event)"></app-table>
 </ng-template>
