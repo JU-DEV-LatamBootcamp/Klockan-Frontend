@@ -16,6 +16,21 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
+
+      - name: Login Dockerhub
+        env:
+            DOCKER_USERNAME: ${{secrets.DOCKER_HUB_USERNAME}}
+            DOCKER_PASSWORD: ${{secrets.DOCKER_HUB_PASSWORD}}
+            MAJOR_TAG: ${{secrets.MAJOR_TAG}}
+            MINOR_TAG: ${{secrets.MINOR_TAG}}
+            TAG: ${{secrets.MAJOR_TAG}} . ${{secrets.MINOR_TAG}}
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - name: Build the Docker image
+        run: docker-compose build
+      - name: Tagin frontend with version
+        run: docker tag klockan-frontend:$TAG  klockan/frontend:$TAG 
+
+
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
@@ -31,7 +46,7 @@ jobs:
             DOCKER_PASSWORD: ${{secrets.DOCKER_HUB_PASSWORD}}
             MAJOR_TAG: ${{secrets.MAJOR_TAG}}
             MINOR_TAG: ${{secrets.MINOR_TAG}}
-            TAG: v ${{secrets.MAJOR_TAG}} . ${{secrets.MINOR_TAG}}
+            TAG: ${{secrets.MAJOR_TAG}} . ${{secrets.MINOR_TAG}}
         run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       - name: Build the Docker image
         run: docker-compose build
