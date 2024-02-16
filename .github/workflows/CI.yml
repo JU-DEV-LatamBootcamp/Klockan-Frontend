@@ -25,21 +25,30 @@ jobs:
       - run: npm i
       - run: npm run build
 
-      - name: Login Dockerhub
-        env:
+    name: Push Docker image to Docker Hub
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
             DOCKER_USERNAME: ${{secrets.DOCKER_HUB_USERNAME}}
             DOCKER_PASSWORD: ${{secrets.DOCKER_HUB_PASSWORD}}
-            MAJOR_TAG: ${{ secrets.MAJOR_TAG }}
-            MINOR_TAG: ${{ secrets.MINOR_TAG }}
       
-        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-      - name: Build the Docker image
-        run: docker-compose build
-      - name: Tagin frontend with version
-        run: docker tag klockan-frontend:$MAJOR_TAG  klockan/frontend:$MAJOR_TAG
-      - name: Push to docker hub
-        run: docker push klockan/frontend:$MAJOR_TAG 
-      - name: Tagin frontend with latest
-        run: docker tag klockan-frontend:latest klockan/frontend:latest
-      - name: Push to docker hub
-        run: docker push klockan/frontend:latest 
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: klockan-frontend
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: "{{defaultContext}}"
+          push: true
+          tags: ${{ secrets.MAJOR_TAG }} ${{ secrets.MINOR_TAG }}
+          labels: nolabe
