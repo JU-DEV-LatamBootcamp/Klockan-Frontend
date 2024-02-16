@@ -26,7 +26,11 @@ jobs:
       - run: npm run build
 
     name: Push Docker image to Docker Hub
-    steps:
+       env:
+          DOCKER_USERNAME: ${{secrets.DOCKER_HUB_USERNAME}}
+          DOCKER_PASSWORD: ${{secrets.DOCKER_HUB_PASSWORD}}
+          MAJOR_TAG: ${{ secrets.MAJOR_TAG }}
+          MINOR_TAG: ${{ secrets.MINOR_TAG }}      
       - name: Check out the repo
         uses: actions/checkout@v3
 
