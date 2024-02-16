@@ -31,7 +31,7 @@ jobs:
             DOCKER_PASSWORD: ${{secrets.DOCKER_HUB_PASSWORD}}
             MAJOR_TAG: ${{secrets.MAJOR_TAG}}
             MINOR_TAG: ${{secrets.MINOR_TAG}}
-            TAG: v${{secrets.MAJOR_TAG}}/${{secrets.$MINOR_TAG}}
+            TAG: v${{secrets.MAJOR_TAG}}/${{secrets.MINOR_TAG}}
         run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       - name: Build the Docker image
         run: docker-compose build
