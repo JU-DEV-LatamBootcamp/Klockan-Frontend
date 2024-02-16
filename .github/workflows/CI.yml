@@ -27,6 +27,7 @@ jobs:
             MAJOR_TAG: ${{ secrets.FRONTEND_MAJOR }}
             MINOR_TAG: ${{ secrets.FRONTEND_MINOR }}
             TAG: ${{ secrets.FRONTEND_MAJOR }}${{ secrets.FRONTEND_MINOR }}
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
        
       - name: Debugging
         run: |
@@ -41,8 +42,7 @@ jobs:
           else
             echo "TAG is set to: $TAG"
           fi    
-      - name log
-        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      
       - name: Build the Docker image
         run: docker-compose build
       - name: Tagin frontend with version
