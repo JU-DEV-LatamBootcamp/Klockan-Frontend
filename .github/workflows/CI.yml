@@ -27,7 +27,20 @@ jobs:
             MAJOR_TAG: ${{ secrets.FRONTEND_MAJOR }}
             MINOR_TAG: ${{ secrets.FRONTEND_MINOR }}
             TAG: ${{ secrets.FRONTEND_MAJOR }}${{ secrets.FRONTEND_MINOR }}
-           
+       
+      - name: Debugging
+        run: |
+          echo "DOCKER_USERNAME: $DOCKER_USERNAME"
+          echo "DOCKER_PASSWORD: $DOCKER_PASSWORD"
+          echo "MAJOR_TAG: $MAJOR_TAG"
+          echo "MINOR_TAG: $MINOR_TAG"
+          echo "TAG: $TAG"
+          echo "Checking if $TAG is set properly"
+          if [ -z "$TAG" ]; then
+            echo "TAG is empty or not set."
+          else
+            echo "TAG is set to: $TAG"
+          fi    
 
         run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       - name: Build the Docker image
