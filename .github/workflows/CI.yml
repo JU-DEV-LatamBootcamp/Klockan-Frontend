@@ -30,7 +30,6 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Log in to Docker Hub
       - name: Login Dockerhub
         env:
             DOCKER_USERNAME: ${{secrets.DOCKER_HUB_USERNAME}}
