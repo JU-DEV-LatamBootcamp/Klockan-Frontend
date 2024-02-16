@@ -32,14 +32,15 @@ jobs:
             DOCKER_PASSWORD: ${{secrets.DOCKER_HUB_PASSWORD}}
             MAJOR_TAG: ${{ secrets.FRONTEND_MAJOR }}
             MINOR_TAG: ${{ secrets.FRONTEND_MINOR }}
-      
+            TAG: ${{ secrets.FRONTEND_MAJOR }}${{ secrets.FRONTEND_MINOR }}
+          
         run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       - name: Build the Docker image
         run: docker-compose build
       - name: Tagin frontend with version
-        run: docker tag klockan-frontend:"${MAJOR_TAG}.{MINOR_TAG}"  klockan/frontend:"${MAJOR_TAG}.{MINOR_TAG}"
+        run: docker tag klockan-frontend:echo ${MAJOR_TAG}.${MINOR_TAG}  klockan/frontend:echo ${MAJOR_TAG}.${MINOR_TAG}
       - name: Push to docker hub
-        run: docker push klockan/frontend:"${MAJOR_TAG}.{MINOR_TAG}"
+        run: docker push klockan/frontend:echo ${MAJOR_TAG}.${MINOR_TAG}
       - name: Tagin frontend with latest
         run: docker tag klockan-frontend:latest klockan/frontend:latest
       - name: Push to docker hub
