@@ -1,5 +1,5 @@
 # install node
-FROM node:20 AS build
+FROM node:16 AS build
 # define the working directory of the app in the container
 WORKDIR /app
 # copy the package.json and package-lock.json to the working directory
