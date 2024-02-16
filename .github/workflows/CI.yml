@@ -41,7 +41,7 @@ jobs:
           else
             echo "TAG is set to: $TAG"
           fi    
-
+      - name log
         run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       - name: Build the Docker image
         run: docker-compose build
