@@ -34,6 +34,9 @@ jobs:
             MINOR_TAG: ${{ secrets.FRONTEND_MINOR }}
             TAG: ${{ secrets.FRONTEND_MAJOR }}${{ secrets.FRONTEND_MINOR }}
           
+      - name: check var 1 
+        run: echo "MAJOR_TAG:${MAJOR_TAG}"
+      - name: log
         run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       - name: Build the Docker image
         run: docker-compose build
