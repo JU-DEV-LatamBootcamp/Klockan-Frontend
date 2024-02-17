@@ -38,7 +38,7 @@ jobs:
       - name: Look Images
         run: docker image ls
       - name: Tagin frontend with version
-        run: docker tag klockan-frontend:v${{ secrets.FRONTEND_MAJOR }}.${{ secrets.FRONTEND_MINOR }} klockan/frontend:v${{ secrets.FRONTEND_MAJOR }}.${{ secrets.FRONTEND_MINOR }}   
+        run: docker tag klockan-frontend:v1 klockan/frontend:v${{ secrets.FRONTEND_MAJOR }}.${{ secrets.FRONTEND_MINOR }}   
       - name: Push to docker hub
         run: docker push klockan/frontend:v${{ secrets.FRONTEND_MAJOR }}.${{ secrets.FRONTEND_MINOR }}
       - name: Tagin frontend with latest
