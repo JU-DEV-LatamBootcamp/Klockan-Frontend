@@ -28,27 +28,13 @@ jobs:
             MINOR_TAG: ${{ secrets.FRONTEND_MINOR }}
             TAG: 1.1
         run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-       
-      - name: Debugging
-        run: |
-          echo "DOCKER_USERNAME: $DOCKER_USERNAME"
-          echo "DOCKER_PASSWORD: $DOCKER_PASSWORD"
-          echo "MAJOR_TAG: ${{ secrets.FRONTEND_MAJOR }}
-          echo "MINOR_TAG: ${{ secrets.FRONTEND_MINOR }}
-          echo "TAG: ${TAG}"
-          echo "Checking if $TAG is set properly"
-          if [ -z "$TAG" ]; then
-            echo "TAG is empty or not set."
-          else
-            echo "TAG is set to: $TAG"
-          fi    
       
       - name: Build the Docker image
         run: docker-compose build
       - name: Tagin frontend with version
-        run: docker tag klockan-frontend:$TAG klockan/frontend:$TAG    
+        run: docker tag klockan-frontend:${{ secrets.FRONTEND_MAJOR }} klockan/frontend:${{ secrets.FRONTEND_MAJOR }}   
       - name: Push to docker hub
-        run: docker push klockan/frontend:$TAG
+        run: docker push klockan/frontend:${{ secrets.FRONTEND_MAJOR }}
       - name: Tagin frontend with latest
         run: docker tag klockan-frontend:latest klockan/frontend:latest
       - name: Push to docker hub
