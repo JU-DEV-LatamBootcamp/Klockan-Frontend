@@ -42,7 +42,7 @@ jobs:
       - name: Push to docker hub
         run: docker push klockan/frontend:v${{ secrets.FRONTEND_MAJOR }}.${{ secrets.FRONTEND_MINOR }}
       - name: Tagin frontend with latest
-        run: docker tag klockan-frontend:latest klockan/frontend:latest
+        run: docker tag klockan-frontend:v1 klockan/frontend:latest
       - name: Push to docker hub
         run: docker push klockan/frontend:latest 
 
