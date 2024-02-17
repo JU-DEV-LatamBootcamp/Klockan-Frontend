@@ -33,8 +33,8 @@ jobs:
         run: |
           echo "DOCKER_USERNAME: $DOCKER_USERNAME"
           echo "DOCKER_PASSWORD: $DOCKER_PASSWORD"
-          echo "MAJOR_TAG: $MAJOR_TAG"
-          echo "MINOR_TAG: $MINOR_TAG"
+          echo "MAJOR_TAG: ${{ secrets.FRONTEND_MAJOR }}
+          echo "MINOR_TAG: ${{ secrets.FRONTEND_MINOR }}
           echo "TAG: $TAG"
           echo "Checking if $TAG is set properly"
           if [ -z "$TAG" ]; then
