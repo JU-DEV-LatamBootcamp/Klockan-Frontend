@@ -32,9 +32,9 @@ jobs:
       - name: Build the Docker image
         run: docker-compose build
       - name: Tagin frontend with version
-        run: docker tag klockan-frontend:v${{ secrets.FRONTEND_MAJOR }}${{ secrets.FRONTEND_MINOR }} klockan/frontend:v${{ secrets.FRONTEND_MAJOR }}${{ secrets.FRONTEND_MINOR }}   
+        run: docker tag klockan-frontend:v${{ secrets.FRONTEND_MAJOR }}.${{ secrets.FRONTEND_MINOR }} klockan/frontend:v${{ secrets.FRONTEND_MAJOR }}.${{ secrets.FRONTEND_MINOR }}   
       - name: Push to docker hub
-        run: docker push klockan/frontend:${{ secrets.FRONTEND_MAJOR }}
+        run: docker push klockan/frontend:v${{ secrets.FRONTEND_MAJOR }}.${{ secrets.FRONTEND_MINOR }}
       - name: Tagin frontend with latest
         run: docker tag klockan-frontend:latest klockan/frontend:latest
       - name: Push to docker hub
