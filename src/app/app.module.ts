@@ -10,7 +10,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
 import { authConfig } from './shared/config/keycloak.config';
 import { JwtModule } from '@auth0/angular-jwt';
-import { AuthorizationService } from './core/services/authorization/authorization.service';
 import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 import { HttpClientModule } from '@angular/common/http';
 import { authServiceFactory } from './core/factories/auth-service.factory';
@@ -37,6 +36,7 @@ import { JWT_AUTH_SERVICE } from './core/injection-tokens/jwt-authentication.tok
       useFactory: (oAuthService: OAuthService) => async () => {
         oAuthService.configure(authConfig);
         oAuthService.tokenValidationHandler = new JwksValidationHandler();
+        await oAuthService.loadDiscoveryDocumentAndTryLogin();
       },
       deps: [OAuthService], // Inject OAuthService
       multi: true, // Allow multiple initializers if needed
@@ -46,7 +46,6 @@ import { JWT_AUTH_SERVICE } from './core/injection-tokens/jwt-authentication.tok
       useFactory: authServiceFactory,
       deps: [OAuthService],
     },
-    AuthorizationService,
   ],
   bootstrap: [AppComponent],
 })

@@ -2,7 +2,6 @@ import { Inject, Injectable } from '@angular/core';
 import { JWTAuthenticationService } from '../models/jwtauthentication-service';
 import { JWT_AUTH_SERVICE } from '../../injection-tokens/jwt-authentication.token';
 import { Router } from '@angular/router';
-import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +9,6 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class AuthService {
   constructor(
     @Inject(JWT_AUTH_SERVICE) private jwtAuthService: JWTAuthenticationService,
-    private jwtHelperService: JwtHelperService,
     private router: Router
   ) {}
   getPayloadFromToken(token: string) {
@@ -26,22 +24,15 @@ export class AuthService {
   }
 
   get token() {
-    return sessionStorage.getItem('token') || '';
+    return this.jwtAuthService.getToken();
   }
 
   tokenIsValid() {
-    const token = sessionStorage.getItem('token');
-    return (
-      token != null &&
-      token != '' &&
-      token != 'null' &&
-      !this.jwtHelperService.isTokenExpired(token)
-    );
+    return this.jwtAuthService.tokenIsValid();
   }
 
   logOut() {
     this.jwtAuthService.logOut();
-    sessionStorage.removeItem('token');
     this.router.navigateByUrl('/');
   }
 }

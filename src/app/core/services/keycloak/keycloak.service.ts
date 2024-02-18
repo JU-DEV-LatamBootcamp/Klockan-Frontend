@@ -36,10 +36,11 @@ export class KeycloakService implements JWTAuthenticationService {
   }
 
   async loginAndGetToken() {
-    await setTimeout(async () => {
-      await this._oAuthService.loadDiscoveryDocumentAndTryLogin();
-      this._oAuthService.initLoginFlow();
-    }, 500);
+    this._oAuthService.initImplicitFlow();
+    return this._oAuthService.getAccessToken();
+  }
+
+  getToken(): string {
     return this._oAuthService.getAccessToken();
   }
 
