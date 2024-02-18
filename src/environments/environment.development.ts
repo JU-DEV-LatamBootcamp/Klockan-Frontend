@@ -4,7 +4,7 @@ export const environment = {
   resourceServerId: 'api',
   keycloak: {
     issuer: 'http://localhost:8080/realms/Klockan',
-    redirectUri: 'https://localhost:4200/',
+    redirectUri: 'https://localhost/',
     realm: 'Klockan',
     clientId: 'frontend',
     scope: 'openid profile email',
