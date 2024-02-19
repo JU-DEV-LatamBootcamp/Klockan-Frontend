@@ -14,5 +14,6 @@ export const environment = {
     coursesEndpoint: '/v1/courses',
     classroomsEndpoint: '/v1/classrooms',
     meetingsEndpoint: '/v1/meetings',
+    usersEndpoint: '/v1/users',
   },
 };
