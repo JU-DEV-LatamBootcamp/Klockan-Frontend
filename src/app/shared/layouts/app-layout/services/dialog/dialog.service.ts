@@ -10,8 +10,10 @@ import {
   ErrorMessageComponent,
   ErrorMessageComponentData,
 } from 'src/app/shared/components/error-message/error-message.component';
-import { EditProgramComponentData, ProgramFormComponent } from 'src/app/modules/app/pages/programs/components/program-form/program-form.component';
-
+import {
+  EditProgramComponentData,
+  ProgramFormComponent,
+} from 'src/app/modules/app/pages/programs/components/program-form/program-form.component';
 
 @Injectable({
   providedIn: null,
@@ -55,7 +57,7 @@ export class DialogService {
   showEditDialog<T>(
     component: ComponentType<ProgramFormComponent>,
     data: EditProgramComponentData<T>
-  ){
+  ) {
     const dialogRef = this.dialog.open(component, { ...this._config, data });
     return dialogRef.afterClosed();
   }
