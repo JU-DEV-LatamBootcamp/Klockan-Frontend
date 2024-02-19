@@ -12,6 +12,7 @@ RUN npx ngcc --properties es2023 browser module main --first-only --create-ivy-e
 COPY . .
 # build the app
 RUN npm run build
+#build:dev For development
 
 # get image from nginx
 FROM nginx:stable
