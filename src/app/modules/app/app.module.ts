@@ -12,7 +12,10 @@ import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 // Components
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
@@ -24,6 +27,7 @@ import { ProgramsComponent } from './pages/programs/programs.component';
 import { UsersComponent } from './pages/users/users.component';
 import { ClassroomsComponent } from './pages/classrooms/classrooms.component';
 import { ProgramFormComponent } from './pages/programs/components/program-form/program-form.component';
+import { ClassroomFormComponent } from './pages/classrooms/components/classroom-form/classroom-form.component';
 
 // Shared
 import { TableComponent } from 'src/app/shared/components/table/table.component';
@@ -36,6 +40,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { MainHeaderComponent } from './components/main-header/main-header.component';
 
 @NgModule({
+  providers: [provideNativeDateAdapter()],
   imports: [
     CommonModule,
     AppRoutingModule,
@@ -55,6 +60,8 @@ import { MainHeaderComponent } from './components/main-header/main-header.compon
     MatProgressSpinnerModule,
     FormsModule,
     ReactiveFormsModule,
+    MatSelectModule,
+    MatDatepickerModule,
   ],
   declarations: [
     ButtonComponent,
@@ -73,6 +80,7 @@ import { MainHeaderComponent } from './components/main-header/main-header.compon
     NavbarComponent,
     SidebarComponent,
     MainHeaderComponent,
+    ClassroomFormComponent,
   ],
   exports: [DeleteConfirmationComponent],
 })
