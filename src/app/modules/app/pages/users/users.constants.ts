@@ -2,9 +2,9 @@ import {
   TableComponentCommonColumns,
   TableComponentTypeColumn,
 } from 'src/app/shared/components/table/table-component';
-import { User } from '../../../../shared/models/User';
+import { UserFlat } from '../../../../shared/models/User';
 
-export const userTypeColumns: TableComponentTypeColumn<User>[] = [
+export const userTypeColumns: TableComponentTypeColumn<UserFlat>[] = [
   {
     selector: 'id',
     header: 'ID',
@@ -23,10 +23,13 @@ export const userTypeColumns: TableComponentTypeColumn<User>[] = [
     selector: 'email',
   },
   {
-    selector: 'city',
+    selector: 'roleName',
   },
   {
-    selector: 'role',
+    selector: 'cityName',
+  },
+  {
+    selector: 'countryName',
   },
 ];
 
