@@ -10,9 +10,10 @@ import {
 
 import { userTypeColumns, userCommonColumns } from './users.constants';
 import { DialogService } from '../../../../shared/layouts/app-layout/services/dialog/dialog.service';
-import { User } from '../../../../shared/models/User';
+import { User, UserFlat } from '../../../../shared/models/User';
 import { ErrorMessageComponent } from 'src/app/shared/components/error-message/error-message.component';
 import { UserService } from '../../../../shared/services/user.service';
+import { mapUserToFlatObject } from '../../../../shared/utils/mapUserToFlatObject';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -26,7 +27,7 @@ export class UsersComponent {
 
   columns = userTypeColumns;
   commonColumns = userCommonColumns;
-  users: User[] = [];
+  users: UserFlat[] = [];
 
   constructor(
     private readonly dialogService: DialogService,
@@ -44,7 +45,7 @@ export class UsersComponent {
     });
   }
   private handleSuccess(users: User[]): void {
-    this.users = users;
+    this.users = this.mapUsersToFlatObject(users);
     this.isLoading = false;
   }
 
@@ -62,11 +63,15 @@ export class UsersComponent {
     );
   }
 
-  public showDeleteDialog(item: User): void {
+  public showDeleteDialog(item: UserFlat): void {
     return;
   }
 
-  public showEditDialog(item: User): void {
+  public showEditDialog(item: UserFlat): void {
     return;
+  }
+
+  mapUsersToFlatObject(users: User[]): UserFlat[] {
+    return users.map(user => mapUserToFlatObject(user));
   }
 }
