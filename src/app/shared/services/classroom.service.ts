@@ -3,10 +3,16 @@ import { BaseService } from './base.service';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
-import { Classroom, ClassroomFromService } from '../models/Classroom';
+import {
+  Classroom,
+  ClassroomFromService,
+  UpdateClassroom,
+} from '../models/Classroom';
 import {
   transformClassroomFromService,
+  transformDateToDateOnly,
   transformToClassroomFromService,
+  transformToUpdateClassroom,
 } from '../utils/classroom-mapper';
 
 @Injectable({
@@ -30,21 +36,9 @@ export class ClassroomService extends BaseService<Classroom> {
       );
   }
 
-  override edit(classroom: Classroom): Observable<Classroom> {
-    const token = this.oAuthService.getAccessToken();
-    const body = transformToClassroomFromService(classroom);
-    const headers = super.createHeaders(token);
-
-    return this.http.put<Classroom>(
-      `${this.baseRoute}${this.classroomPath}/${classroom.id}`,
-      body,
-      { headers }
-    );
-  }
-
   override create(classroom: Classroom): Observable<Classroom> {
     const token = this.oAuthService.getAccessToken();
-    const body = transformToClassroomFromService(classroom);
+    const body: UpdateClassroom = transformToUpdateClassroom(classroom);
     const headers = super.createHeaders(token);
 
     return this.http.post<Classroom>(
@@ -53,6 +47,18 @@ export class ClassroomService extends BaseService<Classroom> {
       {
         headers,
       }
+    );
+  }
+
+  override edit(classroom: Classroom): Observable<Classroom> {
+    const token = this.oAuthService.getAccessToken();
+    const body: UpdateClassroom = transformToUpdateClassroom(classroom);
+    const headers = super.createHeaders(token);
+
+    return this.http.put<Classroom>(
+      `${this.baseRoute}${this.classroomPath}/${classroom.id}`,
+      body,
+      { headers }
     );
   }
 

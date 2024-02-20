@@ -1,4 +1,9 @@
-import { Classroom, ClassroomFromService } from '../models/Classroom';
+import { DateOnly } from '../interfaces/date-only';
+import {
+  Classroom,
+  ClassroomFromService,
+  UpdateClassroom,
+} from '../models/Classroom';
 
 export function transformClassroomFromService(
   classroomsFromService: ClassroomFromService[]
@@ -24,4 +29,22 @@ export function transformToClassroomFromService(
     course: classroom.courseObject,
     program: classroom.programObject,
   };
+}
+
+export function transformToUpdateClassroom(
+  classroom: Classroom
+): UpdateClassroom {
+  return {
+    courseId: parseInt(classroom.courseObject?.id?.toString() || '-1'),
+    programId: parseInt(classroom.programObject?.id.toString() || '-1'),
+    startDate: transformDateToDateOnly(
+      classroom.starts ? new Date(classroom.starts) : undefined
+    ),
+  };
+}
+
+export function transformDateToDateOnly(date?: Date): string {
+  return date
+    ? `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+    : '2024-01-01';
 }

@@ -1,3 +1,4 @@
+import { DateOnly } from '../interfaces/date-only';
 import { Course } from './Courses';
 import { Program } from './Programs';
 
@@ -17,4 +18,10 @@ export interface Classroom {
   starts?: string;
   courseObject?: Course;
   programObject?: Program;
+}
+
+export interface UpdateClassroom {
+  programId: number;
+  courseId: number;
+  startDate: string;
 }

@@ -106,11 +106,11 @@ export class ClassroomFormComponent implements OnInit {
     const classroom = this.buildClassroomFromForm();
 
     if (this.data) {
-      this.createClassroom(classroom);
+      this.editClassroom(classroom);
       return;
     }
 
-    this.editClassroom(classroom);
+    this.createClassroom(classroom);
   }
 
   buildClassroomFromForm() {
