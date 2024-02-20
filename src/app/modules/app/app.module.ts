@@ -15,7 +15,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { provideNativeDateAdapter } from '@angular/material/core';
 
 // Components
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
@@ -38,9 +37,10 @@ import { ErrorMessageComponent } from 'src/app/shared/components/error-message/e
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { MainHeaderComponent } from './components/main-header/main-header.component';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
-  providers: [provideNativeDateAdapter()],
+  providers: [],
   imports: [
     CommonModule,
     AppRoutingModule,
@@ -62,6 +62,7 @@ import { MainHeaderComponent } from './components/main-header/main-header.compon
     ReactiveFormsModule,
     MatSelectModule,
     MatDatepickerModule,
+    MatNativeDateModule,
   ],
   declarations: [
     ButtonComponent,

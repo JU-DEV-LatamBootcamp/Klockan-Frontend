@@ -52,7 +52,6 @@ export class ClassroomsComponent implements OnInit {
   }
 
   private handleSuccess(data: Classroom[]): void {
-    console.log(data);
     this.classrooms = data;
     this.isLoading = false;
   }

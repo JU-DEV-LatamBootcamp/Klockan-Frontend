@@ -4,7 +4,10 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { Observable, map } from 'rxjs';
 import { SelectOption } from 'src/app/shared/interfaces/select-options';
-import { Classroom } from 'src/app/shared/models/Classroom';
+import {
+  Classroom,
+  ClassroomFromService,
+} from 'src/app/shared/models/Classroom';
 import { ClassroomService } from 'src/app/shared/services/classroom.service';
 import { CourseService } from 'src/app/shared/services/course.service';
 import { ProgramService } from 'src/app/shared/services/program.service';
@@ -21,7 +24,7 @@ import { ProgramService } from 'src/app/shared/services/program.service';
   ],
 })
 export class ClassroomFormComponent implements OnInit {
-  headerTypeLabel = 'Create Classroom';
+  title!: string;
   classroomForm!: FormGroup;
   programOptions: SelectOption[] = [];
   courseOptions: SelectOption[] = [];
@@ -36,11 +39,15 @@ export class ClassroomFormComponent implements OnInit {
 
   private initializeForm(): void {
     this.classroomForm = this.formBuilder.group({
-      name: [
-        this.data ? this.data.item.id : '',
-        [Validators.required, Validators.maxLength(200)],
+      course: [
+        this.data ? this.data.item.courseObject?.id?.toString() : '',
+        [Validators.required],
       ],
-      description: [this.data ? this.data.item.program : ''],
+      program: [
+        this.data ? this.data.item.programObject?.id.toString() : '',
+        [Validators.required],
+      ],
+      startingDate: [this.data ? this.data.item.starts : ''],
     });
   }
 
@@ -49,6 +56,7 @@ export class ClassroomFormComponent implements OnInit {
     this.fetchCourseOptions();
     this.fetchProgramOptions();
 
+    this.title = this.data ? 'Edit Classroom' : 'Create Classroom';
     this.initializeForm();
   }
 
@@ -96,5 +104,40 @@ export class ClassroomFormComponent implements OnInit {
     return null;
   }
 
-  onSubmit() {}
+  onSubmit() {
+    const classroom = this.buildClassroomFromForm();
+
+    if (this.data) {
+      this.createClassroom(classroom);
+      return;
+    }
+
+    this.editClassroom(classroom);
+  }
+
+  buildClassroomFromForm() {
+    const classroom: Classroom = {
+      id: this.data?.item?.id || -1,
+      courseObject: {
+        id: this.classroomForm.get('course')?.value,
+        name: '',
+        description: '',
+      },
+      programObject: {
+        id: this.classroomForm.get('program')?.value,
+        name: '',
+      },
+      starts: this.classroomForm.get('startingDate')?.value,
+    };
+
+    return classroom;
+  }
+
+  createClassroom(classroom: Classroom) {
+    this.classroomService.create(classroom).subscribe();
+  }
+
+  editClassroom(classroom: Classroom) {
+    this.classroomService.edit(classroom).subscribe();
+  }
 }

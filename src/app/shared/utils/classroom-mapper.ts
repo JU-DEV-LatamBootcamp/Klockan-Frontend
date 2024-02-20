@@ -12,3 +12,16 @@ export function transformClassroomFromService(
     programObject: program,
   }));
 }
+
+export function transformToClassroomFromService(
+  classroom: Classroom
+): ClassroomFromService {
+  return {
+    id: classroom.id || -1,
+    courseId: classroom.courseObject?.id,
+    programId: classroom.programObject?.id,
+    startDate: classroom.starts,
+    course: classroom.courseObject,
+    program: classroom.programObject,
+  };
+}

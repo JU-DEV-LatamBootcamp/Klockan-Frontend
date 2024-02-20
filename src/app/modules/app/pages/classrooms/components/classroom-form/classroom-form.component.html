@@ -1,6 +1,6 @@
 <app-dialog>
   <mat-toolbar ngProjectAs="[header]" class="dialog-title">
-    {{ headerTypeLabel }}
+    {{ title }}
     <button mat-icon-button mat-dialog-close>
       <mat-icon>close</mat-icon>
     </button>
@@ -9,34 +9,43 @@
   <form ngProjectAs="[content]" [formGroup]="classroomForm">
     <mat-form-field>
       <mat-label>Program</mat-label>
-      <mat-select>
+      <mat-select formControlName="program">
         <mat-option
           *ngFor="let option of programOptions"
           [value]="option.value"
           >{{ option.label }}</mat-option
         >
       </mat-select>
+      <mat-error *ngIf="classroomForm.get('program')?.touched">
+        {{ getFieldError('program') }}
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Course</mat-label>
-      <mat-select>
+      <mat-select formControlName="course">
         <mat-option
           *ngFor="let option of courseOptions"
           [value]="option.value"
           >{{ option.label }}</mat-option
         >
       </mat-select>
+      <mat-error *ngIf="classroomForm.get('course')?.touched">
+        {{ getFieldError('course') }}
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Choose a date</mat-label>
-      <input matInput [matDatepicker]="picker" />
+      <mat-label>Starting date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="startingDate" />
       <mat-hint>MM/DD/YYYY</mat-hint>
       <mat-datepicker-toggle
         matIconSuffix
         [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="classroomForm.get('startingDate')?.touched">
+        {{ getFieldError('startingDate') }}
+      </mat-error>
     </mat-form-field>
   </form>
 
