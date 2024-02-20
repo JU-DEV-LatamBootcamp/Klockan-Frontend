@@ -58,8 +58,9 @@ export class UserFormComponent implements OnInit {
   }
 
   fetchCountries(): void {
-    this.countriesService.getAll().subscribe({});
-    return;
+    this.countriesService.getAll().subscribe({
+      next: v => (this.countries = v),
+    });
   }
 
   public getFieldError(field: string): string | null {

@@ -9,7 +9,7 @@ import { Country } from '../models/Country';
   providedIn: 'root',
 })
 export class CountriesService extends BaseService<Country> {
-  countriesPath = environment.api.usersEndpoint;
+  countriesPath = environment.api.countriesEndpoint;
 
   override getAll(): Observable<Country[]> {
     const token = this.oAuthService.getAccessToken();
