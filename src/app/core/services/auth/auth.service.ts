@@ -19,8 +19,7 @@ export class AuthService {
   }
 
   async login() {
-    const token = await this.jwtAuthService.loginAndGetToken();
-    sessionStorage.setItem('token', token);
+    await this.jwtAuthService.loginAndGetToken();
   }
 
   get token() {
@@ -33,6 +32,5 @@ export class AuthService {
 
   logOut() {
     this.jwtAuthService.logOut();
-    this.router.navigateByUrl('/');
   }
 }

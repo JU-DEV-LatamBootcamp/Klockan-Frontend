@@ -49,6 +49,6 @@ export class KeycloakService implements JWTAuthenticationService {
   }
 
   logOut() {
-    this._oAuthService.logOut(false);
+    this._oAuthService.logOut();
   }
 }
