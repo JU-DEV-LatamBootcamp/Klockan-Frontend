@@ -9,6 +9,7 @@ import { Role } from 'src/app/shared/models/Role';
 import { User } from 'src/app/shared/models/User';
 import { CountriesService } from 'src/app/shared/services/countries.service';
 import { UserService } from 'src/app/shared/services/user.service';
+import { userRoles } from '../../users.constants';
 
 @Component({
   selector: 'app-user-form',
@@ -25,12 +26,7 @@ export class UserFormComponent implements OnInit {
   userForm!: FormGroup;
   countries: Country[] = [];
   cities: City[] = [];
-  roles: Role[] = [
-    { id: 1, name: 'Admin' },
-    { id: 2, name: 'Trainer' },
-    { id: 3, name: 'Student' },
-    { id: 4, name: 'Guest' },
-  ];
+  roles: Role[] = userRoles;
 
   constructor(
     private readonly formBuilder: FormBuilder,

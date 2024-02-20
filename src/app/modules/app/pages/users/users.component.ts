@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { API_ERROR_MESSAGE } from 'src/app/shared/constants/api.constants';
 import {
   SNACKBAR_ERROR_DEFAULTS,
+  SNACKBAR_SUCCESS_DEFAULTS,
   SnackbarConfig,
 } from 'src/app/shared/constants/snackbar.constants';
 import { userTypeColumns, userCommonColumns } from './users.constants';
@@ -67,12 +68,10 @@ export class UsersComponent {
     this.dialogService
       .show(UserFormComponent, user ?? null)
       .subscribe(result => {
-        // if (result && user) {
-        //   this.displayEditSnackbar(result);
-        // } else if (result) {
-        //   this.displayCreateSnackbar(result);
-        // }
-        this.fetchUsers();
+        if (result) {
+          this.displayCreateSnackbar(result);
+          this.fetchUsers();
+        }
       });
   }
 
@@ -82,6 +81,13 @@ export class UsersComponent {
 
   public showEditDialog(item: UserFlat): void {
     return;
+  }
+
+  private displayCreateSnackbar({ firstName, lastName }: User): void {
+    this.displaySnackbar(
+      `User ${firstName} ${lastName} created.`,
+      SNACKBAR_SUCCESS_DEFAULTS
+    );
   }
 
   mapUsersToFlatObject(users: User[]): UserFlat[] {
