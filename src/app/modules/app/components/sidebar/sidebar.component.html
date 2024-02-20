@@ -21,9 +21,9 @@
     </div>
   </div>
   <div class="sidebar__footer">
-    <section class="sidebar__section" tabindex="0" (click)="onLogOut()">
+    <section class="sidebar__section">
       <p class="sidebar__title">Settings</p>
-      <button class="field">
+      <button class="field" (click)="onLogOut()">
         <mat-icon
           class="field__icon material-symbols-outlined"
           [fontIcon]="'logout'" />
