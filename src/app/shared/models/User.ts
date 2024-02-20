@@ -22,11 +22,8 @@ export interface UserFlat {
   email: string;
   birthdate: string;
   city: string;
-  // cityName: string;
   cityCode: string;
   country: string;
-  // countryName: string;
   countryCode: string;
   role: string;
-  // roleName: string;
 }
