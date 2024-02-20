@@ -20,7 +20,12 @@ export class UserService extends BaseService<User> {
   }
 
   override create(entity: User): Observable<User> {
-    throw new Error('Method not implemented.');
+    const token = this.oAuthService.getAccessToken();
+    const headers = super.createHeaders(token);
+
+    return this.http.post<User>(`${this.baseRoute}${this.usersPath}`, entity, {
+      headers,
+    });
   }
   override edit(entity: User): Observable<User> {
     throw new Error('Method not implemented.');
