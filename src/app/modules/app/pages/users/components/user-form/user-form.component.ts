@@ -1,6 +1,8 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+
 import { User } from 'src/app/shared/models/User';
 import { UserService } from 'src/app/shared/services/user.service';
 
@@ -8,8 +10,14 @@ import { UserService } from 'src/app/shared/services/user.service';
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
   styleUrls: ['./user-form.component.sass'],
+  providers: [
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { appearance: 'outline', floatLabel: 'always' },
+    },
+  ],
 })
-export class UserFormComponent {
+export class UserFormComponent implements OnInit {
   userForm!: FormGroup;
 
   constructor(

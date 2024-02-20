@@ -1,13 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
 import { API_ERROR_MESSAGE } from 'src/app/shared/constants/api.constants';
 import {
   SNACKBAR_ERROR_DEFAULTS,
   SNACKBAR_SUCCESS_DEFAULTS,
   SnackbarConfig,
 } from 'src/app/shared/constants/snackbar.constants';
-
 import { userTypeColumns, userCommonColumns } from './users.constants';
 import { DialogService } from '../../../../shared/layouts/app-layout/services/dialog/dialog.service';
 import { User, UserFlat } from '../../../../shared/models/User';
@@ -45,6 +45,7 @@ export class UsersComponent {
       error: this.handleError.bind(this),
     });
   }
+
   private handleSuccess(users: User[]): void {
     this.users = this.mapUsersToFlatObject(users);
     this.isLoading = false;
