@@ -23,13 +23,13 @@ export const userTypeColumns: TableComponentTypeColumn<UserFlat>[] = [
     selector: 'email',
   },
   {
-    selector: 'roleName',
+    selector: 'role',
   },
   {
-    selector: 'cityName',
+    selector: 'city',
   },
   {
-    selector: 'countryName',
+    selector: 'country',
   },
 ];
 
@@ -41,3 +41,10 @@ export const userCommonColumns: TableComponentCommonColumns = {
     },
   },
 };
+
+export const userRoles = [
+  { id: 1, name: 'Admin' },
+  { id: 2, name: 'Trainer' },
+  { id: 3, name: 'Student' },
+  { id: 4, name: 'Guest' },
+];

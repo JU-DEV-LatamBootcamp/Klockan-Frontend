@@ -21,9 +21,9 @@ export interface UserFlat {
   avatar: string;
   email: string;
   birthdate: string;
-  cityName: string;
+  city: string;
   cityCode: string;
-  countryName: string;
+  country: string;
   countryCode: string;
-  roleName: string;
+  role: string;
 }

@@ -18,10 +18,10 @@ export function mapUserToFlatObject({
     avatar,
     email,
     birthdate,
-    cityName,
+    city: cityName,
     cityCode,
-    countryName,
+    country: countryName,
     countryCode,
-    roleName,
+    role: roleName,
   };
 }
