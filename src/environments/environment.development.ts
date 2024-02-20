@@ -3,7 +3,7 @@ export const environment = {
   apiBasePath: `https://localhost:5001/api`,
   resourceServerId: 'api',
   keycloak: {
-    issuer: 'http://localhost:8080/realms/Klockan',
+    issuer: 'https://localhost:8443/realms/Klockan',
     redirectUri: 'https://localhost/',
     realm: 'Klockan',
     clientId: 'frontend',
