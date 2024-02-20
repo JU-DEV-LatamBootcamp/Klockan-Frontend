@@ -2,8 +2,12 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { City } from 'src/app/shared/models/City';
+import { Country } from 'src/app/shared/models/Country';
+import { Role } from 'src/app/shared/models/Role';
 
 import { User } from 'src/app/shared/models/User';
+import { CountriesService } from 'src/app/shared/services/countries.service';
 import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
@@ -19,16 +23,26 @@ import { UserService } from 'src/app/shared/services/user.service';
 })
 export class UserFormComponent implements OnInit {
   userForm!: FormGroup;
+  countries: Country[] = [];
+  cities: City[] = [];
+  roles: Role[] = [
+    { id: 1, name: 'Admin' },
+    { id: 2, name: 'Trainer' },
+    { id: 3, name: 'Student' },
+    { id: 4, name: 'Guest' },
+  ];
 
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly userService: UserService,
+    private readonly countriesService: CountriesService,
     private readonly dialogRef: MatDialogRef<UserFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: User
   ) {}
 
   ngOnInit(): void {
     this.initializeForm();
+    this.fetchCountries();
   }
 
   initializeForm(): void {
@@ -36,7 +50,20 @@ export class UserFormComponent implements OnInit {
       id: [this.data?.id],
       firstName: [this.data ? this.data.firstName : '', Validators.required],
       lastName: [this.data ? this.data.lastName : '', Validators.required],
+      birthdate: [
+        this.data ? this.data.birthdate : new Date(),
+        Validators.required,
+      ],
+      email: [this.data ? this.data.email : '', Validators.required],
+      country: [this.data ? this.data.country : '', Validators.required],
+      city: [this.data ? this.data.city : '', Validators.required],
+      role: [this.data ? this.data.role : '', Validators.required],
     });
+  }
+
+  fetchCountries(): void {
+    this.countriesService.getAll().subscribe({});
+    return;
   }
 
   public getFieldError(field: string): string | null {

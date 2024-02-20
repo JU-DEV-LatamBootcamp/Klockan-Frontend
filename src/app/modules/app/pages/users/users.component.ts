@@ -5,13 +5,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { API_ERROR_MESSAGE } from 'src/app/shared/constants/api.constants';
 import {
   SNACKBAR_ERROR_DEFAULTS,
-  SNACKBAR_SUCCESS_DEFAULTS,
   SnackbarConfig,
 } from 'src/app/shared/constants/snackbar.constants';
 import { userTypeColumns, userCommonColumns } from './users.constants';
 import { DialogService } from '../../../../shared/layouts/app-layout/services/dialog/dialog.service';
 import { User, UserFlat } from '../../../../shared/models/User';
-import { ErrorMessageComponent } from 'src/app/shared/components/error-message/error-message.component';
 import { UserService } from '../../../../shared/services/user.service';
 import { mapUserToFlatObject } from '../../../../shared/utils/mapUserToFlatObject';
 import { UserFormComponent } from './components/user-form/user-form.component';

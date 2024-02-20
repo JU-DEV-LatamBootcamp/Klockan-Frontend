@@ -39,7 +39,7 @@
         <mat-label for="email">Email</mat-label>
         <input
           matInput
-          type="text"
+          type="email"
           name="email"
           formControlName="email"
           placeholder="example@mail.com" />
@@ -48,39 +48,50 @@
         </mat-error></mat-form-field
       >
       <mat-form-field class="birthdate-field">
-        <mat-label for="birthdate">Birthdate</mat-label>
-        <input
-          matInput
-          type="text"
-          name="birthdate"
-          formControlName="birthdate"
-          placeholder="Jhon" />
+        <mat-label>Birthdate</mat-label>
+        <input matInput [matDatepicker]="picker" />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
         <mat-error *ngIf="userForm.get('birthdate')?.touched">
           {{ getFieldError('birthdate') }}
-        </mat-error></mat-form-field
-      >
+        </mat-error>
+      </mat-form-field>
     </div>
     <div class="fields-container">
       <mat-form-field class="country-field">
-        <mat-label for="country">Country</mat-label>
+        <mat-label>Country</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let country of countries" [value]="country.id">
+            {{ country.name }}
+          </mat-option>
+        </mat-select>
+        <!-- <mat-label for="country">Country</mat-label>
         <input
           matInput
           type="text"
           name="country"
           formControlName="country"
-          placeholder="Country" />
+          placeholder="Country" /> -->
         <mat-error *ngIf="userForm.get('country')?.touched">
           {{ getFieldError('country') }}
         </mat-error></mat-form-field
       >
       <mat-form-field class="city-field">
         <mat-label for="city">City</mat-label>
-        <input
+        <mat-select>
+          <mat-option *ngFor="let city of cities" [value]="city.id">
+            {{ city.name }}
+          </mat-option>
+        </mat-select>
+        <!-- <input
           matInput
           type="text"
           name="city"
           formControlName="city"
-          placeholder="City" />
+          placeholder="City" /> -->
         <mat-error *ngIf="userForm.get('city')?.touched">
           {{ getFieldError('city') }}
         </mat-error></mat-form-field
@@ -88,12 +99,17 @@
     </div>
     <mat-form-field class="role-field">
       <mat-label for="role">Role</mat-label>
-      <input
+      <mat-select>
+        <mat-option *ngFor="let role of roles" [value]="role.id">
+          {{ role.name }}
+        </mat-option>
+      </mat-select>
+      <!-- <input
         matInput
         type="text"
         name="role"
         formControlName="role"
-        placeholder="User Role" />
+        placeholder="User Role" /> -->
       <mat-error *ngIf="userForm.get('role')?.touched">
         {{ getFieldError('role') }}
       </mat-error></mat-form-field
