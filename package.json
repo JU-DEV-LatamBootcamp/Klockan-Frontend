@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve -o",
-    "start:dev": "ng serve -o --configuration development",
+    "start": "ng serve -o --port 443",
+    "start:dev": "ng serve -o --configuration development --port 443",
     "build": "ng build",
     "build:dev": "ng build --configuration development",
     "watch": "ng build --watch --configuration development",
