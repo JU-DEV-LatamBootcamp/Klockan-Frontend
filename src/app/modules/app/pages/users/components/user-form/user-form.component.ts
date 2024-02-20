@@ -10,6 +10,7 @@ import { User } from 'src/app/shared/models/User';
 import { CountriesService } from 'src/app/shared/services/countries.service';
 import { UserService } from 'src/app/shared/services/user.service';
 import { userRoles } from '../../users.constants';
+import { formatDate } from 'src/app/shared/utils/date-formatter';
 
 @Component({
   selector: 'app-user-form',
@@ -46,14 +47,11 @@ export class UserFormComponent implements OnInit {
       id: [this.data?.id],
       firstName: [this.data ? this.data.firstName : '', Validators.required],
       lastName: [this.data ? this.data.lastName : '', Validators.required],
-      birthdate: [
-        this.data ? this.data.birthdate : new Date(),
-        Validators.required,
-      ],
+      birthdate: [this.data ? this.data.birthdate : '', Validators.required],
       email: [this.data ? this.data.email : '', Validators.required],
       country: [this.data ? this.data.country : '', Validators.required],
-      city: [this.data ? this.data.city : '', Validators.required],
-      role: [this.data ? this.data.role : '', Validators.required],
+      cityId: [this.data ? this.data.city : '', Validators.required],
+      roleId: [this.data ? this.data.role : '', Validators.required],
     });
   }
 
@@ -61,6 +59,11 @@ export class UserFormComponent implements OnInit {
     this.countriesService.getAll().subscribe({
       next: v => (this.countries = v),
     });
+  }
+
+  updateCities(id: number): void {
+    const country = this.countries.find(c => c.id === id);
+    if (country) this.cities = country.cities;
   }
 
   public getFieldError(field: string): string | null {
@@ -82,7 +85,10 @@ export class UserFormComponent implements OnInit {
   }
 
   private createUser(): void {
-    this.userService.create(this.userForm.value).subscribe({
+    const user = this.userForm.value;
+    const formattedBirthdate = formatDate(user.birthdate);
+    user.birthdate = formattedBirthdate;
+    this.userService.create(user).subscribe({
       next: user => {
         this.dialogRef.close(user);
       },
