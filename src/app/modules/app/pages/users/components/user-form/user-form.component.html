@@ -1,0 +1,49 @@
+<app-dialog>
+  <mat-toolbar ngProjectAs="[header]" class="dialog-title">
+    {{ data ? 'Edit User' : 'Create User' }}
+    <button mat-icon-button mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <form ngProjectAs="[content]" class="dialog-content" [formGroup]="userForm">
+    <mat-form-field class="firstName-field">
+      <mat-label for="firstName">First Name</mat-label>
+      <input
+        matInput
+        type="text"
+        name="firstName"
+        formControlName="firstName"
+        placeholder="Jhon" />
+      <mat-error *ngIf="userForm.get('firstName')?.touched">
+        {{ getFieldError('firstName') }}
+      </mat-error></mat-form-field
+    >
+
+    <div class="fields-container">
+      <mat-form-field class="lastName-field">
+        <mat-label for="lastName">Last Name</mat-label>
+        <input
+          matInput
+          type="number"
+          name="lastName"
+          formControlName="lastName"
+          placeholder="Doe" />
+        <mat-error *ngIf="userForm.get('lastName')?.touched">
+          {{ getFieldError('lastName') }}
+        </mat-error></mat-form-field
+      >
+    </div>
+  </form>
+
+  <div ngProjectAs="[actions]" class="dialog-actions">
+    <button mat-button mat-dialog-close class="cancel-button">Cancel</button>
+    <button
+      mat-button
+      class="confirm-button"
+      (click)="onSubmit()"
+      [disabled]="!userForm.valid">
+      Confirm
+    </button>
+  </div>
+</app-dialog>
