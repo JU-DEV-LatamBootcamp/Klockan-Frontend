@@ -1,17 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from './base.service';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
-import {
-  Classroom,
-  ClassroomFromService,
-  UpdateClassroom,
-} from '../models/Classroom';
+import { Classroom, ClassroomFromService } from '../models/Classroom';
 import {
   transformClassroomFromService,
-  transformDateToDateOnly,
-  transformToClassroomFromService,
+  transformToCreateClassroom,
   transformToUpdateClassroom,
 } from '../utils/classroom-mapper';
 
@@ -38,7 +33,7 @@ export class ClassroomService extends BaseService<Classroom> {
 
   override create(classroom: Classroom): Observable<Classroom> {
     const token = this.oAuthService.getAccessToken();
-    const body: UpdateClassroom = transformToUpdateClassroom(classroom);
+    const body = transformToCreateClassroom(classroom);
     const headers = super.createHeaders(token);
 
     return this.http.post<Classroom>(
@@ -52,7 +47,7 @@ export class ClassroomService extends BaseService<Classroom> {
 
   override edit(classroom: Classroom): Observable<Classroom> {
     const token = this.oAuthService.getAccessToken();
-    const body: UpdateClassroom = transformToUpdateClassroom(classroom);
+    const body = transformToUpdateClassroom(classroom);
     const headers = super.createHeaders(token);
 
     return this.http.put<Classroom>(

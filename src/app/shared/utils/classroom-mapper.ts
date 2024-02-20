@@ -4,6 +4,7 @@ import {
   ClassroomFromService,
   UpdateClassroom,
 } from '../models/Classroom';
+import { transformDateToDateOnly } from './date-mapper';
 
 export function transformClassroomFromService(
   classroomsFromService: ClassroomFromService[]
@@ -31,6 +32,18 @@ export function transformToClassroomFromService(
   };
 }
 
+export function transformToCreateClassroom(
+  classroom: Classroom
+): UpdateClassroom {
+  return {
+    courseId: parseInt(classroom.courseObject?.id?.toString() || '-1'),
+    programId: parseInt(classroom.programObject?.id.toString() || '-1'),
+    startDate: transformDateToDateOnly(
+      new Date(classroom.starts || '2024-01-01')
+    ),
+  };
+}
+
 export function transformToUpdateClassroom(
   classroom: Classroom
 ): UpdateClassroom {
@@ -38,13 +51,7 @@ export function transformToUpdateClassroom(
     courseId: parseInt(classroom.courseObject?.id?.toString() || '-1'),
     programId: parseInt(classroom.programObject?.id.toString() || '-1'),
     startDate: transformDateToDateOnly(
-      classroom.starts ? new Date(classroom.starts) : undefined
+      new Date(classroom.starts || '2024-01-01')
     ),
   };
-}
-
-export function transformDateToDateOnly(date?: Date): string {
-  return date
-    ? `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
-    : '2024-01-01';
 }

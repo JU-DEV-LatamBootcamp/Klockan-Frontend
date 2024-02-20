@@ -20,6 +20,12 @@ export interface Classroom {
   programObject?: Program;
 }
 
+export interface CreateClassroom {
+  programId: number;
+  courseId: number;
+  startDate: string;
+}
+
 export interface UpdateClassroom {
   programId: number;
   courseId: number;
