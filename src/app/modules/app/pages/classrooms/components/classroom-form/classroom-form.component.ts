@@ -1,13 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { Observable, map } from 'rxjs';
+import { map } from 'rxjs';
 import { SelectOption } from 'src/app/shared/interfaces/select-options';
-import {
-  Classroom,
-  ClassroomFromService,
-} from 'src/app/shared/models/Classroom';
+import { Classroom } from 'src/app/shared/models/Classroom';
 import { ClassroomService } from 'src/app/shared/services/classroom.service';
 import { CourseService } from 'src/app/shared/services/course.service';
 import { ProgramService } from 'src/app/shared/services/program.service';
@@ -34,6 +31,7 @@ export class ClassroomFormComponent implements OnInit {
     public readonly programService: ProgramService,
     public readonly courseService: CourseService,
     private readonly formBuilder: FormBuilder,
+    private readonly dialogRef: MatDialogRef<ClassroomFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { item: Classroom }
   ) {}
 
@@ -134,10 +132,24 @@ export class ClassroomFormComponent implements OnInit {
   }
 
   createClassroom(classroom: Classroom) {
-    this.classroomService.create(classroom).subscribe();
+    this.classroomService.create(classroom).subscribe({
+      next: classroom => {
+        this.dialogRef.close(classroom);
+      },
+      error: error => {
+        console.error('Error creating classroom:', error);
+      },
+    });
   }
 
   editClassroom(classroom: Classroom) {
-    this.classroomService.edit(classroom).subscribe();
+    this.classroomService.edit(classroom).subscribe({
+      next: classroom => {
+        this.dialogRef.close(classroom);
+      },
+      error: error => {
+        console.error('Error editing classroom:', error);
+      },
+    });
   }
 }

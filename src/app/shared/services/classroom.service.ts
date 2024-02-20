@@ -29,6 +29,7 @@ export class ClassroomService extends BaseService<Classroom> {
         )
       );
   }
+
   override edit(classroom: Classroom): Observable<Classroom> {
     const token = this.oAuthService.getAccessToken();
     const body = transformToClassroomFromService(classroom);

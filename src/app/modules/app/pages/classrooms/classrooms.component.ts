@@ -86,7 +86,7 @@ export class ClassroomsComponent implements OnInit {
       .subscribe(res => {
         if (res) {
           this.fetchClassrooms();
-          // TODO: show snackbar
+
           if (classroom) {
             this.displaySnackbar(
               `Classroom ${res.id} edited.`,
