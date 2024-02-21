@@ -12,9 +12,10 @@ import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 // Components
@@ -38,7 +39,7 @@ import { ErrorMessageComponent } from 'src/app/shared/components/error-message/e
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { MainHeaderComponent } from './components/main-header/main-header.component';
-import { MatNativeDateModule } from '@angular/material/core';
+import { UserFormComponent } from './pages/users/components/user-form/user-form.component';
 
 @NgModule({
   providers: [],
@@ -55,6 +56,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatListModule,
     MatFormFieldModule,
     MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule,
     TableComponent,
     FormsModule,
     ReactiveFormsModule,
@@ -83,6 +87,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     NavbarComponent,
     SidebarComponent,
     MainHeaderComponent,
+    UserFormComponent,
     ClassroomFormComponent,
   ],
   exports: [DeleteConfirmationComponent],

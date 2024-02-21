@@ -16,6 +16,8 @@ import { DialogService } from 'src/app/shared/layouts/app-layout/services/dialog
 import { ClassroomFormComponent } from './components/classroom-form/classroom-form.component';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { PanelService } from 'src/app/shared/layouts/app-layout/services/panel/panel.service';
+import { ErrorMessageComponent } from 'src/app/shared/components/error-message/error-message.component';
+import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 
 @Component({
   selector: 'app-classrooms',
@@ -102,5 +104,33 @@ export class ClassroomsComponent implements OnInit {
           }
         }
       });
+  }
+
+  private displayDeleteSnackbar({ course }: Classroom): void {
+    this.displaySnackbar(`Classroom for ${course} deleted.`);
+  }
+
+  showDeleteDialog(classroom: Classroom) {
+    this.dialogService
+      .showDeleteConfirmation(DeleteConfirmationComponent<Classroom>, {
+        item: classroom,
+        identifier: 'course',
+      })
+      .subscribe(confirmed => {
+        if (!confirmed) return;
+        this.deleteClassroom(classroom);
+      });
+  }
+
+  private deleteClassroom(classroom: Classroom) {
+    this.classroomService.delete(classroom).subscribe({
+      next: () => {
+        this.displayDeleteSnackbar(classroom);
+        this.fetchClassrooms();
+      },
+      error: error => {
+        this.dialogService.showErrorMessage(ErrorMessageComponent, error.error);
+      },
+    });
   }
 }

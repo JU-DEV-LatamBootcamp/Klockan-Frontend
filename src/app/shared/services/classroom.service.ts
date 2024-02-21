@@ -57,7 +57,13 @@ export class ClassroomService extends BaseService<Classroom> {
     );
   }
 
-  override delete(): Observable<Classroom> {
-    throw new Error('Method not implemented.');
+  override delete(entity: Classroom): Observable<Classroom> {
+    const token = this.oAuthService.getAccessToken();
+    const headers = super.createHeaders(token);
+
+    return this.http.delete<Classroom>(
+      `${this.baseRoute}${this.classroomPath}/${entity.id}`,
+      { headers }
+    );
   }
 }

@@ -1,19 +1,19 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
 import { API_ERROR_MESSAGE } from 'src/app/shared/constants/api.constants';
 import {
   SNACKBAR_ERROR_DEFAULTS,
   SNACKBAR_SUCCESS_DEFAULTS,
   SnackbarConfig,
 } from 'src/app/shared/constants/snackbar.constants';
-
 import { userTypeColumns, userCommonColumns } from './users.constants';
 import { DialogService } from '../../../../shared/layouts/app-layout/services/dialog/dialog.service';
 import { User, UserFlat } from '../../../../shared/models/User';
-import { ErrorMessageComponent } from 'src/app/shared/components/error-message/error-message.component';
 import { UserService } from '../../../../shared/services/user.service';
 import { mapUserToFlatObject } from '../../../../shared/utils/mapUserToFlatObject';
+import { UserFormComponent } from './components/user-form/user-form.component';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -44,6 +44,7 @@ export class UsersComponent {
       error: this.handleError.bind(this),
     });
   }
+
   private handleSuccess(users: User[]): void {
     this.users = this.mapUsersToFlatObject(users);
     this.isLoading = false;
@@ -63,12 +64,30 @@ export class UsersComponent {
     );
   }
 
+  public showFormDialog(user?: User): void {
+    this.dialogService
+      .show(UserFormComponent, user ?? null)
+      .subscribe(result => {
+        if (result) {
+          this.displayCreateSnackbar(result);
+          this.fetchUsers();
+        }
+      });
+  }
+
   public showDeleteDialog(item: UserFlat): void {
     return;
   }
 
   public showEditDialog(item: UserFlat): void {
     return;
+  }
+
+  private displayCreateSnackbar({ firstName, lastName }: User): void {
+    this.displaySnackbar(
+      `User ${firstName} ${lastName} created.`,
+      SNACKBAR_SUCCESS_DEFAULTS
+    );
   }
 
   mapUsersToFlatObject(users: User[]): UserFlat[] {
