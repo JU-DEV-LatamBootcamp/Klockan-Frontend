@@ -23,6 +23,15 @@
   <div class="sidebar__footer">
     <section class="sidebar__section">
       <p class="sidebar__title">Settings</p>
+      <a
+        class="field field--link"
+        routerLinkActive="field--selected"
+        [routerLink]="['', 'app', 'profile']">
+        <mat-icon
+          class="field__icon material-symbols-outlined"
+          [fontIcon]="'person'" />
+        <span class="field__label">Profile</span>
+      </a>
       <button class="field" (click)="onLogOut()">
         <mat-icon
           class="field__icon material-symbols-outlined"
