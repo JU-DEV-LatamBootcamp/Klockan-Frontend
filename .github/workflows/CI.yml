@@ -25,8 +25,12 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm run build --if-present
-
-             
+      - name: Get Time
+        id: time
+        uses: nanzm/get-time-action@master
+        with:
+          timeZone: GMT-3
+          format: 'YYYY-MM-DD-T'             
       - name: Login Dockerhub
         env:
             DOCKER_USERNAME: ${{secrets.DOCKER_HUB_USERNAME}}
@@ -36,9 +40,9 @@ jobs:
       - name: Build the Docker image
         run: docker-compose build
       - name: Tagin frontend with version
-        run: docker tag klockan-frontend:v1 klockan/frontend:v${{ secrets.FRONTEND_MAJOR }}.${{ secrets.FRONTEND_MINOR }}   
+        run: docker tag klockan-frontend:v1 klockan/frontend:v${{ secrets.FRONTEND_MAJOR }}.${{ secrets.FRONTEND_MINOR }}.${{ steps.time.outputs.time }}    
       - name: Push to docker hub
-        run: docker push klockan/frontend:v${{ secrets.FRONTEND_MAJOR }}.${{ secrets.FRONTEND_MINOR }}
+        run: docker push klockan/frontend:v${{ secrets.FRONTEND_MAJOR }}.${{ secrets.FRONTEND_MINOR }}.${{ steps.time.outputs.time }} 
       - name: Tagin frontend with latest
         run: docker tag klockan-frontend:v1 klockan/frontend:latest
       - name: Push to docker hub
