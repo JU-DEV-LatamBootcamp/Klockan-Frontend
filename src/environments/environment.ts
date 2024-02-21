@@ -4,7 +4,7 @@ export const environment = {
   resourceServerId: 'api',
   keycloak: {
     issuer: `https://ec2-3-17-150-102.us-east-2.compute.amazonaws.com:8443/realms/Klockan`,
-    redirectUri: `http://ec2-3-17-150-102.us-east-2.compute.amazonaws.com/`,
+    redirectUri: `https://ec2-3-17-150-102.us-east-2.compute.amazonaws.com/`,
     realm: 'Klockan',
     clientId: 'frontend',
     scope: 'openid profile email',
