@@ -24,4 +24,9 @@ export const sidebarLinks: SidebarLink[] = [
     href: ['', 'app', 'meetings'],
     icon: 'cast',
   },
+  {
+    label: 'users',
+    href: ['', 'app', 'users'],
+    icon: 'group',
+  },
 ];

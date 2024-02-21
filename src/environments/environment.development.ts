@@ -3,7 +3,7 @@ export const environment = {
   apiBasePath: `https://localhost:5001/api`,
   resourceServerId: 'api',
   keycloak: {
-    issuer: 'http://localhost:8080/realms/Klockan',
+    issuer: 'https://localhost:8443/realms/Klockan',
     redirectUri: 'https://localhost/',
     realm: 'Klockan',
     clientId: 'frontend',
@@ -14,5 +14,7 @@ export const environment = {
     coursesEndpoint: '/v1/courses',
     classroomsEndpoint: '/v1/classrooms',
     meetingsEndpoint: '/v1/meetings',
+    usersEndpoint: '/v1/users',
+    countriesEndpoint: '/v1/countries',
   },
 };

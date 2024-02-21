@@ -13,6 +13,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
 
 // Components
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
@@ -24,7 +27,6 @@ import { ProgramsComponent } from './pages/programs/programs.component';
 import { UsersComponent } from './pages/users/users.component';
 import { ClassroomsComponent } from './pages/classrooms/classrooms.component';
 import { ProgramFormComponent } from './pages/programs/components/program-form/program-form.component';
-import { MeetingFormComponent } from './pages/meetings/components/meeting-form/meeting-form.component';
 
 // Shared
 import { TableComponent } from 'src/app/shared/components/table/table.component';
@@ -35,13 +37,7 @@ import { ErrorMessageComponent } from 'src/app/shared/components/error-message/e
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { MainHeaderComponent } from './components/main-header/main-header.component';
-import { MatSelectModule } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import {
-  NgxMaterialTimepickerComponent,
-  NgxMaterialTimepickerModule,
-} from 'ngx-material-timepicker';
+import { UserFormComponent } from './pages/users/components/user-form/user-form.component';
 
 @NgModule({
   imports: [
@@ -57,16 +53,15 @@ import {
     MatListModule,
     MatFormFieldModule,
     MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule,
     TableComponent,
     FormsModule,
     ReactiveFormsModule,
     MatProgressSpinnerModule,
     FormsModule,
     ReactiveFormsModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    NgxMaterialTimepickerModule,
   ],
   declarations: [
     ButtonComponent,
@@ -85,7 +80,7 @@ import {
     NavbarComponent,
     SidebarComponent,
     MainHeaderComponent,
-    MeetingFormComponent,
+    UserFormComponent,
   ],
   exports: [DeleteConfirmationComponent],
 })
