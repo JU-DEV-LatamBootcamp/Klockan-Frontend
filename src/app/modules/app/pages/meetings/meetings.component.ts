@@ -5,6 +5,9 @@ import { MeetingService } from 'src/app/shared/services/meeting.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { API_ERROR_MESSAGE } from 'src/app/shared/constants/api.constants';
 import { SNACKBAR_ERROR_DEFAULTS } from 'src/app/shared/constants/snackbar.constants';
+import { ProgramFormComponent } from '../programs/components/program-form/program-form.component';
+import { DialogService } from '../../../../shared/layouts/app-layout/services/dialog/dialog.service';
+import { MeetingFormComponent } from './components/meeting-form/meeting-form.component';
 
 @Component({
   selector: 'app-meetings',
@@ -19,7 +22,8 @@ export class MeetingsComponent implements OnInit {
 
   constructor(
     public meetingService: MeetingService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialogService: DialogService
   ) {}
 
   ngOnInit() {
@@ -51,5 +55,11 @@ export class MeetingsComponent implements OnInit {
       SNACKBAR_ERROR_DEFAULTS.CLOSE_BUTTON_TEXT,
       SNACKBAR_ERROR_DEFAULTS.CONFIG
     );
+  }
+
+  public showCreateDialog(): void {
+    this.dialogService.show(MeetingFormComponent).subscribe(result => {
+      // if (result) this.createProgram(result);
+    });
   }
 }

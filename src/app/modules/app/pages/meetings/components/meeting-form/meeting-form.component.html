@@ -1,0 +1,37 @@
+<app-dialog>
+  <mat-toolbar ngProjectAs="[header]" class="dialog-title">
+    {{ headerTypeLabel }}
+    <button mat-icon-button mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+  <form ngProjectAs="[content]" [formGroup]="meetingForm">
+    <mat-form-field>
+      <mat-label>Classroom</mat-label>
+      <mat-select>
+        <mat-option
+          *ngFor="let classroom of classrooms"
+          [value]="classroom.id"
+          >{{ classroom.id }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Choose a date</mat-label>
+      <input matInput [matDatepicker]="picker" />
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Add students</mat-label>
+      <mat-select> </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Add teacher</mat-label>
+      <mat-select> </mat-select>
+    </mat-form-field>
+  </form>
+</app-dialog>

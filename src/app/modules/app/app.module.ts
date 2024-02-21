@@ -24,6 +24,7 @@ import { ProgramsComponent } from './pages/programs/programs.component';
 import { UsersComponent } from './pages/users/users.component';
 import { ClassroomsComponent } from './pages/classrooms/classrooms.component';
 import { ProgramFormComponent } from './pages/programs/components/program-form/program-form.component';
+import { MeetingFormComponent } from './pages/meetings/components/meeting-form/meeting-form.component';
 
 // Shared
 import { TableComponent } from 'src/app/shared/components/table/table.component';
@@ -34,6 +35,13 @@ import { ErrorMessageComponent } from 'src/app/shared/components/error-message/e
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { MainHeaderComponent } from './components/main-header/main-header.component';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import {
+  NgxMaterialTimepickerComponent,
+  NgxMaterialTimepickerModule,
+} from 'ngx-material-timepicker';
 
 @NgModule({
   imports: [
@@ -55,6 +63,10 @@ import { MainHeaderComponent } from './components/main-header/main-header.compon
     MatProgressSpinnerModule,
     FormsModule,
     ReactiveFormsModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    NgxMaterialTimepickerModule,
   ],
   declarations: [
     ButtonComponent,
@@ -73,6 +85,7 @@ import { MainHeaderComponent } from './components/main-header/main-header.compon
     NavbarComponent,
     SidebarComponent,
     MainHeaderComponent,
+    MeetingFormComponent,
   ],
   exports: [DeleteConfirmationComponent],
 })
