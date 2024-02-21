@@ -1,4 +1,3 @@
-import { DateOnly } from '../interfaces/date-only';
 import {
   Classroom,
   ClassroomFromService,
@@ -41,6 +40,7 @@ export function transformToCreateClassroom(
     startDate: transformDateToDateOnly(
       new Date(classroom.starts || '2024-01-01')
     ),
+    schedule: classroom.schedule || [],
   };
 }
 
@@ -53,5 +53,6 @@ export function transformToUpdateClassroom(
     startDate: transformDateToDateOnly(
       new Date(classroom.starts || '2024-01-01')
     ),
+    schedule: classroom.schedule || [],
   };
 }

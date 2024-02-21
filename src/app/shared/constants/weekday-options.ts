@@ -3,30 +3,30 @@ import { SelectOption } from '../interfaces/select-options';
 export const weekdayOptions: SelectOption[] = [
   {
     label: 'Sunday',
-    value: '0',
-  },
-  {
-    label: 'Monday',
     value: '1',
   },
   {
-    label: 'Tuesday',
+    label: 'Monday',
     value: '2',
   },
   {
-    label: 'Wednesday',
+    label: 'Tuesday',
     value: '3',
   },
   {
-    label: 'Thursday',
+    label: 'Wednesday',
     value: '4',
   },
   {
-    label: 'Friday',
+    label: 'Thursday',
     value: '5',
   },
   {
-    label: 'Saturday',
+    label: 'Friday',
     value: '6',
+  },
+  {
+    label: 'Saturday',
+    value: '7',
   },
 ];

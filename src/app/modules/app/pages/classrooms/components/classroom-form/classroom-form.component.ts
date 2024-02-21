@@ -15,6 +15,7 @@ import { Classroom } from 'src/app/shared/models/Classroom';
 import { ClassroomService } from 'src/app/shared/services/classroom.service';
 import { CourseService } from 'src/app/shared/services/course.service';
 import { ProgramService } from 'src/app/shared/services/program.service';
+import { transform24TimeTo12Time } from 'src/app/shared/utils/date-mapper';
 
 export type ScheduleForm = FormGroup<{
   weekday: FormControl<string | null>;
@@ -34,7 +35,6 @@ export type ScheduleForm = FormGroup<{
   ],
 })
 export class ClassroomFormComponent implements OnInit {
-  defaultTime: string = '12:00 AM';
   title!: string;
   classroomForm!: FormGroup;
   programOptions: SelectOption[] = [];
@@ -52,13 +52,16 @@ export class ClassroomFormComponent implements OnInit {
 
   private initializeForm(): void {
     this.classroomForm = this.formBuilder.group({
-      startingDate: [this.data ? this.data.item.starts : ''],
       course: [
         this.data ? this.data.item.courseObject?.id?.toString() : '',
         [Validators.required],
       ],
       program: [
         this.data ? this.data.item.programObject?.id.toString() : '',
+        [Validators.required],
+      ],
+      startingDate: [
+        this.data ? this.data.item.starts : '',
         [Validators.required],
       ],
       schedules: new FormArray<ScheduleForm>([]),
@@ -70,7 +73,7 @@ export class ClassroomFormComponent implements OnInit {
   }
 
   addSchedule() {
-    let schedule: ScheduleForm = this.formBuilder.group({
+    const schedule: ScheduleForm = this.formBuilder.group({
       weekday: ['', [Validators.required]],
       startingTime: ['', [Validators.required]],
       endingTime: ['', [Validators.required]],
@@ -90,7 +93,6 @@ export class ClassroomFormComponent implements OnInit {
 
     this.title = this.data ? 'Edit Classroom' : 'Create Classroom';
     this.initializeForm();
-    this.addSchedule();
   }
 
   fetchCourseOptions() {
@@ -141,11 +143,11 @@ export class ClassroomFormComponent implements OnInit {
     const classroom = this.buildClassroomFromForm();
 
     if (this.data) {
-      this.editClassroom(classroom);
+      this.classroomService.edit(classroom).subscribe(this.requestHandler);
       return;
     }
 
-    this.createClassroom(classroom);
+    this.classroomService.create(classroom).subscribe(this.requestHandler);
   }
 
   buildClassroomFromForm() {
@@ -163,28 +165,30 @@ export class ClassroomFormComponent implements OnInit {
       starts: this.classroomForm.get('startingDate')?.value,
     };
 
+    const schedule = this.scheduleControls.map(group => {
+      return {
+        weekdayId: group.get('weekday')?.value,
+        startTime: transform24TimeTo12Time(group.get('startingTime')?.value),
+        finishTime: transform24TimeTo12Time(group.get('endingTime')?.value),
+      };
+    });
+
+    classroom.schedule = schedule;
+
     return classroom;
   }
 
-  createClassroom(classroom: Classroom) {
-    this.classroomService.create(classroom).subscribe({
-      next: classroom => {
+  get requestHandler() {
+    return {
+      next: (classroom: Classroom) => {
         this.dialogRef.close(classroom);
       },
-      error: error => {
-        console.error('Error creating classroom:', error);
+      error: (error: Error) => {
+        console.error(
+          `Error ${this.data ? 'editing' : 'creating'} classroom:`,
+          error
+        );
       },
-    });
-  }
-
-  editClassroom(classroom: Classroom) {
-    this.classroomService.edit(classroom).subscribe({
-      next: classroom => {
-        this.dialogRef.close(classroom);
-      },
-      error: error => {
-        console.error('Error editing classroom:', error);
-      },
-    });
+    };
   }
 }
