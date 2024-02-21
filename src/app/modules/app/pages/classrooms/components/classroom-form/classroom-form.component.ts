@@ -63,8 +63,6 @@ export class ClassroomFormComponent implements OnInit {
       ],
       schedules: new FormArray<ScheduleForm>([]),
     });
-
-    this.addSchedule();
   }
 
   get schedules(): FormArray {
@@ -74,8 +72,8 @@ export class ClassroomFormComponent implements OnInit {
   addSchedule() {
     let schedule: ScheduleForm = this.formBuilder.group({
       weekday: ['', [Validators.required]],
-      startingTime: [this.defaultTime, [Validators.required]],
-      endingTime: [this.defaultTime, [Validators.required]],
+      startingTime: ['', [Validators.required]],
+      endingTime: ['', [Validators.required]],
     });
 
     this.schedules.push(schedule);
@@ -92,6 +90,7 @@ export class ClassroomFormComponent implements OnInit {
 
     this.title = this.data ? 'Edit Classroom' : 'Create Classroom';
     this.initializeForm();
+    this.addSchedule();
   }
 
   fetchCourseOptions() {

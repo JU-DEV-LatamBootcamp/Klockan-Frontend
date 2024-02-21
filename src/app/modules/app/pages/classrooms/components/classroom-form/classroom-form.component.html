@@ -9,7 +9,7 @@
   <form ngProjectAs="[content]" [formGroup]="classroomForm">
     <mat-form-field>
       <mat-label>Program</mat-label>
-      <mat-select formControlName="program">
+      <mat-select formControlName="program" placeholder="Choose a program">
         <mat-option
           *ngFor="let option of programOptions"
           [value]="option.value"
@@ -23,7 +23,7 @@
 
     <mat-form-field>
       <mat-label>Course</mat-label>
-      <mat-select formControlName="course">
+      <mat-select formControlName="course" placeholder="Choose a course">
         <mat-option
           *ngFor="let option of courseOptions"
           [value]="option.value"
@@ -39,9 +39,11 @@
       <mat-label>Starting date</mat-label>
       <input
         matInput
+        placeholder="e.g. 10/01/2024"
         [matDatepicker]="startingDatePicker"
         formControlName="startingDate" />
       <mat-hint>MM/DD/YYYY</mat-hint>
+
       <mat-datepicker-toggle
         matIconSuffix
         [for]="startingDatePicker"></mat-datepicker-toggle>
@@ -63,7 +65,9 @@
             <mat-form-field>
               <mat-label>Weekday</mat-label>
 
-              <mat-select formControlName="weekday">
+              <mat-select
+                formControlName="weekday"
+                placeholder="Choose a weekday">
                 <mat-option
                   *ngFor="let option of weekdayOptions"
                   [value]="option.value"
@@ -83,7 +87,7 @@
               <input
                 formControlName="startingTime"
                 matInput
-                [placeholder]="defaultTime"
+                placeholder="e.g. 4:30 PM"
                 [ngxTimepicker]="startingTimePicker" />
 
               <mat-error *ngIf="schedule.get('startingTime')?.touched">
@@ -92,7 +96,7 @@
 
               <ngx-material-timepicker
                 #startingTimePicker
-                [defaultTime]="defaultTime"
+                class="time-picker"
                 [preventOverlayClick]="false"></ngx-material-timepicker>
             </mat-form-field>
 
@@ -101,7 +105,7 @@
               <input
                 matInput
                 formControlName="endingTime"
-                [placeholder]="defaultTime"
+                placeholder="e.g. 5:30 PM"
                 [ngxTimepicker]="endingTimePicker" />
 
               <mat-error *ngIf="schedule.get('endingTime')?.touched">
@@ -110,7 +114,6 @@
 
               <ngx-material-timepicker
                 #endingTimePicker
-                [defaultTime]="defaultTime"
                 [preventOverlayClick]="false"></ngx-material-timepicker>
             </mat-form-field>
           </div>
