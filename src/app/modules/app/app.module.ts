@@ -15,6 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 // Components
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
@@ -63,6 +64,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    NgxMaterialTimepickerModule,
   ],
   declarations: [
     ButtonComponent,

@@ -1,4 +1,4 @@
-<app-dialog>
+<app-dialog size="xl">
   <mat-toolbar ngProjectAs="[header]" class="dialog-title">
     {{ title }}
     <button mat-icon-button mat-dialog-close>
@@ -37,16 +37,103 @@
 
     <mat-form-field>
       <mat-label>Starting date</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="startingDate" />
+      <input
+        matInput
+        [matDatepicker]="startingDatePicker"
+        formControlName="startingDate" />
       <mat-hint>MM/DD/YYYY</mat-hint>
       <mat-datepicker-toggle
         matIconSuffix
-        [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
+        [for]="startingDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #startingDatePicker></mat-datepicker>
       <mat-error *ngIf="classroomForm.get('startingDate')?.touched">
         {{ getFieldError('startingDate') }}
       </mat-error>
     </mat-form-field>
+
+    <div class="schedule__container" formArrayName="schedules">
+      <h2 class="form__title">Schedule</h2>
+
+      <div
+        class="schedule"
+        *ngFor="let schedule of scheduleControls; let i = index"
+        [formGroup]="schedule">
+        <div class="schedule__content">
+          <div class="schedule__row">
+            <mat-form-field>
+              <mat-label>Weekday</mat-label>
+
+              <mat-select formControlName="weekday">
+                <mat-option
+                  *ngFor="let option of weekdayOptions"
+                  [value]="option.value"
+                  >{{ option.label }}</mat-option
+                >
+              </mat-select>
+
+              <mat-error *ngIf="schedule.get('weekday')?.touched">
+                This field is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="schedule__row">
+            <mat-form-field appearance="outline">
+              <mat-label>Starting time</mat-label>
+              <input
+                formControlName="startingTime"
+                matInput
+                [placeholder]="defaultTime"
+                [ngxTimepicker]="startingTimePicker" />
+
+              <mat-error *ngIf="schedule.get('startingTime')?.touched">
+                This field is required
+              </mat-error>
+
+              <ngx-material-timepicker
+                #startingTimePicker
+                [defaultTime]="defaultTime"
+                [preventOverlayClick]="false"></ngx-material-timepicker>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Ending time</mat-label>
+              <input
+                matInput
+                formControlName="endingTime"
+                [placeholder]="defaultTime"
+                [ngxTimepicker]="endingTimePicker" />
+
+              <mat-error *ngIf="schedule.get('endingTime')?.touched">
+                This field is required
+              </mat-error>
+
+              <ngx-material-timepicker
+                #endingTimePicker
+                [defaultTime]="defaultTime"
+                [preventOverlayClick]="false"></ngx-material-timepicker>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="schedule__actions">
+          <button mat-icon-button (click)="schedules.removeAt(i)">
+            <mat-icon class="material-symbols-outlined" fontIcon="delete" />
+          </button>
+        </div>
+      </div>
+
+      <div class="schedule__container-actions">
+        <button
+          mat-stroked-button
+          color="primary"
+          type="button"
+          (click)="addSchedule()">
+          <mat-icon class="material-symbols-outlined" fontIcon="add" />
+          <span>Add Schedule</span>
+        </button>
+      </div>
+    </div>
   </form>
 
   <div ngProjectAs="[actions]" class="dialog-actions">

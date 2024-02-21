@@ -15,6 +15,7 @@ import {
 import { DialogService } from 'src/app/shared/layouts/app-layout/services/dialog/dialog.service';
 import { ClassroomFormComponent } from './components/classroom-form/classroom-form.component';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { PanelService } from 'src/app/shared/layouts/app-layout/services/panel/panel.service';
 
 @Component({
   selector: 'app-classrooms',
@@ -35,6 +36,7 @@ export class ClassroomsComponent implements OnInit {
 
   constructor(
     private readonly dialogService: DialogService,
+    private readonly panelService: PanelService,
     private readonly snackBar: MatSnackBar,
     public readonly classroomService: ClassroomService
   ) {}

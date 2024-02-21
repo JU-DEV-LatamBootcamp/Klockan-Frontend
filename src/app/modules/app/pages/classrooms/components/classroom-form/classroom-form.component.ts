@@ -1,13 +1,26 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { map } from 'rxjs';
+import { weekdayOptions } from 'src/app/shared/constants/weekday-options';
 import { SelectOption } from 'src/app/shared/interfaces/select-options';
 import { Classroom } from 'src/app/shared/models/Classroom';
 import { ClassroomService } from 'src/app/shared/services/classroom.service';
 import { CourseService } from 'src/app/shared/services/course.service';
 import { ProgramService } from 'src/app/shared/services/program.service';
+
+export type ScheduleForm = FormGroup<{
+  weekday: FormControl<string | null>;
+  startingTime: FormControl<string | null>;
+  endingTime: FormControl<string | null>;
+}>;
 
 @Component({
   selector: 'app-classroom-form',
@@ -21,10 +34,12 @@ import { ProgramService } from 'src/app/shared/services/program.service';
   ],
 })
 export class ClassroomFormComponent implements OnInit {
+  defaultTime: string = '12:00 AM';
   title!: string;
   classroomForm!: FormGroup;
   programOptions: SelectOption[] = [];
   courseOptions: SelectOption[] = [];
+  weekdayOptions = weekdayOptions;
 
   constructor(
     public readonly classroomService: ClassroomService,
@@ -37,6 +52,7 @@ export class ClassroomFormComponent implements OnInit {
 
   private initializeForm(): void {
     this.classroomForm = this.formBuilder.group({
+      startingDate: [this.data ? this.data.item.starts : ''],
       course: [
         this.data ? this.data.item.courseObject?.id?.toString() : '',
         [Validators.required],
@@ -45,8 +61,28 @@ export class ClassroomFormComponent implements OnInit {
         this.data ? this.data.item.programObject?.id.toString() : '',
         [Validators.required],
       ],
-      startingDate: [this.data ? this.data.item.starts : ''],
+      schedules: new FormArray<ScheduleForm>([]),
     });
+
+    this.addSchedule();
+  }
+
+  get schedules(): FormArray {
+    return this.classroomForm.get('schedules') as FormArray<ScheduleForm>;
+  }
+
+  addSchedule() {
+    let schedule: ScheduleForm = this.formBuilder.group({
+      weekday: ['', [Validators.required]],
+      startingTime: [this.defaultTime, [Validators.required]],
+      endingTime: [this.defaultTime, [Validators.required]],
+    });
+
+    this.schedules.push(schedule);
+  }
+
+  get scheduleControls(): FormGroup[] {
+    return this.schedules.controls as FormGroup[];
   }
 
   ngOnInit(): void {

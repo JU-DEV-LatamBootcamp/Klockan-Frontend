@@ -1,4 +1,4 @@
-<div class="dialog">
+<div class="dialog" [ngClass]="{ 'dialog--xl': size === 'xl' }">
   <ng-content select="[header]"></ng-content>
   <mat-divider></mat-divider>
   <mat-dialog-content class="mat-typography">
