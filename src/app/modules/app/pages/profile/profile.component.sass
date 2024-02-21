@@ -1,1 +1,52 @@
+@import "variables"
 
+.profile-container
+  width: 100%
+  max-width: 650px
+  margin: 0 auto
+  border: solid 1px var(--mat-sidenav-container-divider-color)
+  border-radius: 8px
+  overflow: hidden
+  color: $text-color
+
+.profile-header
+  background-color: $table-header-bg
+  text-align: center
+  padding: 20px
+  h1
+    margin: 0
+
+.profile-image
+  width: 150px
+  height: 150px
+  border-radius: 50%
+  margin-bottom: 10px
+
+.profile-body
+  padding: 20px
+
+.information
+  h2
+    margin-bottom: 10px
+  p
+    margin: 5px 0
+    line-height: 1.6
+
+.info-field
+  display: flex
+  justify-content: space-between
+  padding: 10px 0
+
+.field-title
+  font-weight: 600
+
+.mat-divider
+  margin: 8px 0
+
+@media (max-width: 599px)
+  .info-field
+    flex-direction: column
+    text-align: center
+
+  .field-content
+    padding-top: 4px
