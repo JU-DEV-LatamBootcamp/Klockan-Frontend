@@ -23,7 +23,10 @@
 
     <mat-form-field>
       <mat-label>Course</mat-label>
-      <mat-select formControlName="course" placeholder="Choose a course">
+      <mat-select
+        formControlName="course"
+        placeholder="Choose a course"
+        (selectionChange)="updateDefaultDuration()">
         <mat-option
           *ngFor="let option of courseOptions"
           [value]="option.value"
@@ -56,10 +59,20 @@
     <div class="schedule__container" formArrayName="schedules">
       <h2 class="form__title">Schedule</h2>
 
+      <p class="form__hint" *ngIf="defaultDuration">
+        Meeting duration set to {{ defaultDuration }} minutes in selected
+        course.
+      </p>
+
       <div
         class="schedule"
         *ngFor="let schedule of scheduleControls; let i = index"
-        [formGroup]="schedule">
+        [formGroup]="schedule"
+        [ngClass]="{
+          'schedule--p-sm':
+            schedule.get('startingTime')?.valid ||
+            schedule.get('startingTime')?.untouched
+        }">
         <div class="schedule__content">
           <div class="schedule__row">
             <mat-form-field>
@@ -80,43 +93,25 @@
               </mat-error>
             </mat-form-field>
           </div>
+          <mat-form-field appearance="outline">
+            <mat-label>Starting time</mat-label>
+            <input
+              formControlName="startingTime"
+              matInput
+              placeholder="e.g. 4:30 PM"
+              [ngxTimepicker]="startingTimePicker" />
 
-          <div class="schedule__row">
-            <mat-form-field appearance="outline">
-              <mat-label>Starting time</mat-label>
-              <input
-                formControlName="startingTime"
-                matInput
-                placeholder="e.g. 4:30 PM"
-                [ngxTimepicker]="startingTimePicker" />
+            <mat-error *ngIf="schedule.get('startingTime')?.touched">
+              This field is required
+            </mat-error>
 
-              <mat-error *ngIf="schedule.get('startingTime')?.touched">
-                This field is required
-              </mat-error>
+            <ngx-material-timepicker
+              #startingTimePicker
+              class="time-picker"
+              [preventOverlayClick]="false"></ngx-material-timepicker>
+          </mat-form-field>
 
-              <ngx-material-timepicker
-                #startingTimePicker
-                class="time-picker"
-                [preventOverlayClick]="false"></ngx-material-timepicker>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Ending time</mat-label>
-              <input
-                matInput
-                formControlName="endingTime"
-                placeholder="e.g. 5:30 PM"
-                [ngxTimepicker]="endingTimePicker" />
-
-              <mat-error *ngIf="schedule.get('endingTime')?.touched">
-                This field is required
-              </mat-error>
-
-              <ngx-material-timepicker
-                #endingTimePicker
-                [preventOverlayClick]="false"></ngx-material-timepicker>
-            </mat-form-field>
-          </div>
+          <div class="schedule__row"></div>
         </div>
 
         <div class="schedule__actions">
