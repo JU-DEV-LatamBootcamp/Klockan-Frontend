@@ -6,10 +6,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
 import { CoreModule } from './core/core.module';
-import { LoginComponent } from './modules/auth/components/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { HttpClientModule } from '@angular/common/http';
+import { AppProviders } from './core/providers/app.providers';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,9 +22,8 @@ import { HttpClientModule } from '@angular/common/http';
     StoreModule.forRoot({}, {}),
     BrowserAnimationsModule,
     FormsModule,
-    LoginComponent,
   ],
-  providers: [],
+  providers: AppProviders,
   bootstrap: [AppComponent],
 })
 export class AppModule {}

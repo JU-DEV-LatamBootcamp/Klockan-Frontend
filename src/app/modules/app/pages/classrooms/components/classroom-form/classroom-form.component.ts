@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
@@ -8,10 +9,11 @@ import {
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { map } from 'rxjs';
+import { map, tap } from 'rxjs';
 import { weekdayOptions } from 'src/app/shared/constants/weekday-options';
 import { SelectOption } from 'src/app/shared/interfaces/select-options';
 import { Classroom } from 'src/app/shared/models/Classroom';
+import { Course } from 'src/app/shared/models/Courses';
 import { ClassroomService } from 'src/app/shared/services/classroom.service';
 import { CourseService } from 'src/app/shared/services/course.service';
 import { ProgramService } from 'src/app/shared/services/program.service';
@@ -20,7 +22,6 @@ import { transform24TimeTo12Time } from 'src/app/shared/utils/date-mapper';
 export type ScheduleForm = FormGroup<{
   weekday: FormControl<string | null>;
   startingTime: FormControl<string | null>;
-  endingTime: FormControl<string | null>;
 }>;
 
 @Component({
@@ -39,7 +40,9 @@ export class ClassroomFormComponent implements OnInit {
   classroomForm!: FormGroup;
   programOptions: SelectOption[] = [];
   courseOptions: SelectOption[] = [];
+  courses: Course[] = [];
   weekdayOptions = weekdayOptions;
+  defaultDuration?: string;
 
   constructor(
     public readonly classroomService: ClassroomService,
@@ -76,7 +79,6 @@ export class ClassroomFormComponent implements OnInit {
     const schedule: ScheduleForm = this.formBuilder.group({
       weekday: ['', [Validators.required]],
       startingTime: ['', [Validators.required]],
-      endingTime: ['', [Validators.required]],
     });
 
     this.schedules.push(schedule);
@@ -86,23 +88,27 @@ export class ClassroomFormComponent implements OnInit {
     return this.schedules.controls as FormGroup[];
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     // IMPROVEMENT: this data should be managed in a stream serivce of courses and programs
-    this.fetchCourseOptions();
-    this.fetchProgramOptions();
-
     this.title = this.data ? 'Edit Classroom' : 'Create Classroom';
     this.initializeForm();
+
+    await this.fetchCourseOptions();
+    await this.fetchProgramOptions();
   }
 
   fetchCourseOptions() {
     this.courseService
       .getAll()
       .pipe(
+        tap(courses => {
+          this.courses = courses;
+          this.updateDefaultDuration();
+        }),
         map((courses): SelectOption[] =>
-          courses.map(course => ({
-            label: course.name,
-            value: course.id!.toString(),
+          courses.map(({ name, id }) => ({
+            label: name,
+            value: id!.toString(),
           }))
         )
       )
@@ -116,15 +122,28 @@ export class ClassroomFormComponent implements OnInit {
       .getAll()
       .pipe(
         map((programs): SelectOption[] =>
-          programs.map(program => ({
-            label: program.name,
-            value: program.id.toString(),
+          programs.map(({ name, id }) => ({
+            label: name,
+            value: id.toString(),
           }))
         )
       )
       .subscribe(options => {
         this.programOptions = options;
       });
+  }
+
+  updateDefaultDuration() {
+    const courseId: string = this.classroomForm.get('course')?.value;
+    if (!courseId) return;
+
+    const course = this.courses.find(
+      course => course?.id?.toString() === courseId
+    );
+
+    if (!course?.duration) return;
+
+    this.defaultDuration = course.duration.toString();
   }
 
   public getFieldError(field: string): string | null {
@@ -169,7 +188,6 @@ export class ClassroomFormComponent implements OnInit {
       return {
         weekdayId: group.get('weekday')?.value,
         startTime: transform24TimeTo12Time(group.get('startingTime')?.value),
-        finishTime: transform24TimeTo12Time(group.get('endingTime')?.value),
       };
     });
 

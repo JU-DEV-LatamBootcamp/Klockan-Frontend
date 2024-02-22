@@ -4,7 +4,6 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { LoginComponent } from './components/login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { OAuthModule } from 'angular-oauth2-oidc';
 import { ComposedLayoutComponent } from './components/composed-layout/composed-layout.component';
 import { AuthLayoutModule } from 'src/app/shared/layouts/auth-layout/auth-layout.module';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -15,9 +14,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     AuthRoutingModule,
     HttpClientModule,
     AuthLayoutModule,
-    OAuthModule.forRoot(),
     MatToolbarModule,
-    // components
     LoginComponent,
   ],
   declarations: [ComposedLayoutComponent],
