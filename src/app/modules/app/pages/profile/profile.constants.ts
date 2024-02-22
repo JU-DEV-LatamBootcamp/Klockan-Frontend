@@ -1,5 +1,3 @@
-import { Profile, ProfileField } from './profile.types';
-
 export const BASE_PROFILE: Profile = {
   name: '',
   email: '',

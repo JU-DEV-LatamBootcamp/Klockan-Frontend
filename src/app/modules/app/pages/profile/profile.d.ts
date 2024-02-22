@@ -1,4 +1,4 @@
-export interface Profile {
+interface Profile {
   name: string;
   email: string;
   familyName: string;
@@ -11,7 +11,7 @@ export interface Profile {
   image: string;
 }
 
-export type ProfileKey =
+type ProfileKey =
   | 'name'
   | 'email'
   | 'userName'
@@ -20,7 +20,7 @@ export type ProfileKey =
   | 'address'
   | 'birthday';
 
-export interface ProfileField {
+interface ProfileField {
   title: string;
   key: ProfileKey;
 }
