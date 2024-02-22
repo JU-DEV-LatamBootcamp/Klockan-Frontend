@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { OAuthService } from 'angular-oauth2-oidc';
-import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
-import { authConfig } from 'src/app/shared/config/keycloak.config';
+import { JWTAuthenticationService } from '../models/jwtauthentication-service';
 
 type KeycloakTokenPayload = {
   preferred_username: string;
@@ -10,10 +9,12 @@ type KeycloakTokenPayload = {
 @Injectable({
   providedIn: 'root',
 })
-export class KeycloakService {
+export class KeycloakService implements JWTAuthenticationService {
   constructor(private readonly _oAuthService: OAuthService) {}
 
-  getPreferredUsername(payload: KeycloakTokenPayload): string | null {
+  getPreferredUsernameFromPayload(
+    payload: KeycloakTokenPayload
+  ): string | null {
     return payload?.preferred_username || null;
   }
 
@@ -34,14 +35,17 @@ export class KeycloakService {
     }
   }
 
-  async configureSingleSingOn() {
-    this._oAuthService.configure(authConfig);
-    this._oAuthService.tokenValidationHandler = new JwksValidationHandler();
-    await this._oAuthService.loadDiscoveryDocumentAndTryLogin();
+  async loginAndGetToken() {
+    this._oAuthService.initImplicitFlow();
+    return this._oAuthService.getAccessToken();
   }
 
-  get token() {
+  getToken(): string {
     return this._oAuthService.getAccessToken();
+  }
+
+  tokenIsValid() {
+    return this._oAuthService.hasValidAccessToken();
   }
 
   logOut() {

@@ -1,8 +1,7 @@
 import { CdkPortal } from '@angular/cdk/portal';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/modules/auth/services/auth/auth.service';
-import { KeycloakService } from 'src/app/modules/auth/services/keycloak/keycloak.service';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { DialogService } from 'src/app/shared/layouts/app-layout/services/dialog/dialog.service';
 import { NotificationService } from 'src/app/shared/layouts/app-layout/services/notification/notification.service';
 import { OPanelService } from 'src/app/shared/layouts/app-layout/services/o-panel/o-panel.service';
@@ -21,7 +20,6 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private readonly _authService: AuthService,
-    private readonly _keycloakService: KeycloakService,
     public readonly router: Router,
     public readonly screenSizeService: ScreenSizeService,
     public readonly panelService: PanelService,
@@ -31,18 +29,12 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    await this._keycloakService.configureSingleSingOn();
-    const token = this._keycloakService.token;
+    const token = this._authService.token;
 
-    if (!token) {
-      this.router.navigate(['/auth']);
-      return;
-    }
-
-    const payload = this._keycloakService.getPayloadFromToken(token);
+    const payload = this._authService.getPayloadFromToken(token);
     if (!payload) return;
 
-    this.username = this._keycloakService.getPreferredUsername(payload);
+    this.username = this._authService.getUsername(payload);
   }
 
   openPanelFromComponent() {
