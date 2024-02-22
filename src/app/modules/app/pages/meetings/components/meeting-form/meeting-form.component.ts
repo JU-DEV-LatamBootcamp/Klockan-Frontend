@@ -10,7 +10,8 @@ import { User } from '../../../../../../shared/models/User';
 import { UserService } from '../../../../../../shared/services/user.service';
 import { SelectOption } from '../../../../../../shared/interfaces/select-options';
 import { map } from 'rxjs/operators';
-import { Meeting } from '../../../../../../shared/models/Meetings';
+import { CreateMeeting, Meeting } from '../../../../../../shared/models/Meetings';
+import getTimeOnlyFromString from '../../../../../../shared/utils/date-only-formater';
 
 @Component({
   selector: 'app-meeting-form',
@@ -25,14 +26,28 @@ export class MeetingFormComponent implements OnInit, OnDestroy {
   subscription!: Subscription;
   headerTypeLabel = 'Create Meeting';
   meetingForm!: FormGroup;
+  todayDate: Date = new Date();
+
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly dialogRef: MatDialogRef<MeetingFormComponent>,
     private readonly meetingService: MeetingService,
     private readonly classroomService: ClassroomService,
     private readonly userService: UserService,
-    @Inject(MAT_DIALOG_DATA) public data: { item: Meeting }
-  ) {}
+    @Inject(MAT_DIALOG_DATA) public data: { item: Meeting },
+  ) {
+  }
+
+  get requestHandler() {
+    return {
+      next: (meeting: CreateMeeting) => {
+        this.dialogRef.close(meeting);
+      },
+      error: (error: Error) => {
+        console.error(`Error creating classroom:`, error);
+      },
+    };
+  }
 
   ngOnInit(): void {
     this.initializeForm();
@@ -46,6 +61,40 @@ export class MeetingFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  onSubmit(): void {
+    if (!this.meetingForm.invalid) {
+      const formData = this.meetingForm.value;
+      const meeting = {
+        date: this.formatDateToDateOnly(formData.startingDate),
+        time: getTimeOnlyFromString(formData.startingTime),
+        classroomId: formData.classroom,
+        trainerId: formData.trainer,
+        users: formData.students,
+      };
+      this.meetingService.create(meeting).subscribe({
+        next: meeting => {
+          this.dialogRef.close(meeting);
+        },
+      });
+    } else {
+      Object.keys(this.meetingForm.controls).forEach(key => {
+        this.meetingForm?.get(key)?.markAsTouched();
+      });
+    }
+  }
+
+  public getFieldError(field: string): string | null {
+    const control = this.meetingForm.get(field);
+    if (control?.hasError('required')) {
+      return 'This field is required.';
+    } else if (control?.hasError('maxlength')) {
+      const errors = control.errors ? control.errors['maxlength'] : null;
+      const maxLength = errors ? errors.requiredLength : 0;
+      return `This field cannot be longer than ${maxLength} characters.`;
+    }
+    return null;
+  }
+
   private initializeForm(): void {
     this.meetingForm = this.formBuilder.group({
       classroom: [null, Validators.required],
@@ -54,24 +103,6 @@ export class MeetingFormComponent implements OnInit, OnDestroy {
       startingDate: [null, Validators.required],
       startingTime: [null, Validators.required],
     });
-  }
-
-  onSubmit(): void {
-    if (!this.meetingForm.invalid) {
-      const formData = this.meetingForm.value;
-      const meeting = {
-        date: this.getDateObject(formData.startingDate),
-        time: this.getTimeObject(formData.startingTime),
-        classroomId: formData.classroom,
-        trainerId: formData.trainer,
-        users: formData.students,
-      };
-      console.log(meeting);
-    } else {
-      Object.keys(this.meetingForm.controls).forEach(key => {
-        this.meetingForm?.get(key)?.markAsTouched();
-      });
-    }
   }
 
   private fetchClassroomOptions(): void {
@@ -83,8 +114,8 @@ export class MeetingFormComponent implements OnInit, OnDestroy {
           classrooms.map(classroom => ({
             label: 'Classroom ' + classroom.id,
             value: classroom.id?.toString(),
-          }))
-        )
+          })),
+        ),
       )
       .subscribe(options => {
         this.classroomOptions = options;
@@ -97,7 +128,7 @@ export class MeetingFormComponent implements OnInit, OnDestroy {
       .pipe(
         map(
           (
-            users: User[]
+            users: User[],
           ): { trainers: SelectOption[]; students: SelectOption[] } => {
             const trainers: SelectOption[] = users
               .filter(user => user.role.id === 2)
@@ -114,8 +145,8 @@ export class MeetingFormComponent implements OnInit, OnDestroy {
               }));
 
             return { trainers, students };
-          }
-        )
+          },
+        ),
       )
       .subscribe({
         next: ({ trainers, students }) => {
@@ -131,40 +162,7 @@ export class MeetingFormComponent implements OnInit, OnDestroy {
     this.isLoading = false;
   }
 
-  private getTimeObject(timeString: string): { hour: number; minute: number } {
-    const parts = timeString.split(':');
-    const hour = parseInt(parts[0], 10);
-    let minute = 0;
-    if (parts[1].includes('PM')) {
-      minute = parseInt(parts[1].split(' ')[0], 10) + 12;
-    } else {
-      minute = parseInt(parts[1].split(' ')[0], 10);
-    }
-    return { hour, minute };
-  }
-
-  private getDateObject(dateInput: Date): {
-    year: number;
-    month: number;
-    day: number;
-  } {
-    // Extract year, month, and day from the Date object
-    const year = dateInput.getFullYear();
-    const month = dateInput.getMonth() + 1; // Months are zero-based, so add 1
-    const day = dateInput.getDate();
-
-    return { year, month, day };
-  }
-
-  public getFieldError(field: string): string | null {
-    const control = this.meetingForm.get(field);
-    if (control?.hasError('required')) {
-      return 'This field is required.';
-    } else if (control?.hasError('maxlength')) {
-      const errors = control.errors ? control.errors['maxlength'] : null;
-      const maxLength = errors ? errors.requiredLength : 0;
-      return `This field cannot be longer than ${maxLength} characters.`;
-    }
-    return null;
+  private formatDateToDateOnly(date: Date): string {
+    return date.toISOString().split('T')[0];
   }
 }

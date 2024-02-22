@@ -52,6 +52,7 @@
           matInput
           placeholder="e.g. 10/01/2024"
           [matDatepicker]="startingDatePicker"
+          [min]="todayDate"
           formControlName="startingDate" />
         <mat-hint>MM/DD/YYYY</mat-hint>
 
