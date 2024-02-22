@@ -1,28 +1,25 @@
-<main class="main">
-  <div class="main__header">
-    <app-main-header title="Profile"></app-main-header>
-    <div class="profile-container">
-      <div class="profile-header">
-        <img
-          [src]="userDetails.image"
-          alt="{{ userDetails.name }}"
-          class="profile-image" />
-        <h1>{{ userDetails.name }}</h1>
-        <p>{{ userDetails.userName }}</p>
-      </div>
+<div class="profile-container">
+  <button mat-icon-button class="back-button" (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <div class="profile-header">
+    <img
+      [src]="userDetails.image"
+      alt="{{ userDetails.name }}"
+      class="profile-image" />
+    <h1>{{ userDetails.name }}</h1>
+    <p>{{ userDetails.userName }}</p>
+  </div>
 
-      <div class="profile-body">
-        <div class="information">
-          <h2>Information</h2>
-          <ng-container *ngFor="let field of infoFields">
-            <div class="info-field">
-              <span class="field-title">{{ field.title }}</span>
-              <span class="field-content">{{ userDetails[field.key] }}</span>
-            </div>
-            <mat-divider></mat-divider>
-          </ng-container>
+  <div class="profile-body">
+    <div class="information">
+      <ng-container *ngFor="let field of infoFields; let last = last">
+        <div class="info-field">
+          <span class="field-title">{{ field.title }}</span>
+          <span class="field-content">{{ userDetails[field.key] }}</span>
         </div>
-      </div>
+        <mat-divider *ngIf="!last" />
+      </ng-container>
     </div>
   </div>
-</main>
+</div>
