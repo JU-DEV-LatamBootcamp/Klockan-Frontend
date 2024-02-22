@@ -2,9 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
 
-import { KeycloakService } from 'src/app/modules/auth/services/keycloak/keycloak.service';
 import { BASE_PROFILE, PROFILE_FIELDS } from './profile.constants';
 import { Profile, ProfileField } from './profile.types';
+import { KeycloakService } from 'src/app/core/services/keycloak/keycloak.service';
 
 @Component({
   selector: 'app-profile',
@@ -27,7 +27,7 @@ export class ProfileComponent implements OnInit {
   }
 
   private initializeUserProfile(): void {
-    if (!this.keycloakService.token) {
+    if (!this.keycloakService.getToken) {
       this.router.navigate(['/auth']);
     } else {
       this.setUserDetails();
