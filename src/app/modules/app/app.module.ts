@@ -38,6 +38,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { MainHeaderComponent } from './components/main-header/main-header.component';
 import { UserFormComponent } from './pages/users/components/user-form/user-form.component';
+import { MeetingFormComponent } from './pages/meetings/components/meeting-form/meeting-form.component';
 
 @NgModule({
   imports: [
@@ -81,6 +82,7 @@ import { UserFormComponent } from './pages/users/components/user-form/user-form.
     SidebarComponent,
     MainHeaderComponent,
     UserFormComponent,
+    MeetingFormComponent,
   ],
   exports: [DeleteConfirmationComponent],
 })
