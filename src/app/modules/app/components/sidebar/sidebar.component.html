@@ -23,12 +23,15 @@
   <div class="sidebar__footer">
     <section class="sidebar__section">
       <p class="sidebar__title">Settings</p>
-      <button class="field" (click)="onLogOut()">
-        <mat-icon
-          class="field__icon material-symbols-outlined"
-          [fontIcon]="'logout'" />
-        <span class="field__label">Logout</span>
-      </button>
+
+      <ng-container *ngFor="let btn of buttons">
+        <button class="field" (click)="btn.action()">
+          <mat-icon class="field__icon material-symbols-outlined">
+            {{ btn.icon }}
+          </mat-icon>
+          <span class="field__label">{{ btn.label }}</span>
+        </button>
+      </ng-container>
     </section>
   </div>
 </nav>

@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { OAuthService } from 'angular-oauth2-oidc';
-import { JWTAuthenticationService } from '../models/jwtauthentication-service';
 
-type KeycloakTokenPayload = {
-  preferred_username: string;
-};
+import { JWTAuthenticationService } from '../models/jwtauthentication-service';
+import { KeycloakTokenPayload, ProfileFromKeycloak } from './keycloak.types';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +14,21 @@ export class KeycloakService implements JWTAuthenticationService {
     payload: KeycloakTokenPayload
   ): string | null {
     return payload?.preferred_username || null;
+  }
+
+  getUserDetails(): ProfileFromKeycloak | null {
+    const token = this.getToken();
+    const payload = token ? this.getPayloadFromToken(token) : null;
+
+    return payload
+      ? {
+          name: payload.name,
+          email: payload.email,
+          familyName: payload.family_name,
+          givenName: payload.given_name,
+          userName: payload.preferred_username,
+        }
+      : null;
   }
 
   getPayloadFromToken(token: string): KeycloakTokenPayload | null {
@@ -44,11 +57,11 @@ export class KeycloakService implements JWTAuthenticationService {
     return this._oAuthService.getAccessToken();
   }
 
-  tokenIsValid() {
+  tokenIsValid(): boolean {
     return this._oAuthService.hasValidAccessToken();
   }
 
-  logOut() {
+  logOut(): void {
     this._oAuthService.logOut();
   }
 }

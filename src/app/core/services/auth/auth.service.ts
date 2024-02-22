@@ -1,20 +1,20 @@
 import { Inject, Injectable } from '@angular/core';
+
 import { JWTAuthenticationService } from '../models/jwtauthentication-service';
 import { JWT_AUTH_SERVICE } from '../../injection-tokens/jwt-authentication.token';
-import { Router } from '@angular/router';
+import { KeycloakTokenPayload } from '../keycloak/keycloak.types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   constructor(
-    @Inject(JWT_AUTH_SERVICE) private jwtAuthService: JWTAuthenticationService,
-    private router: Router
+    @Inject(JWT_AUTH_SERVICE) private jwtAuthService: JWTAuthenticationService
   ) {}
   getPayloadFromToken(token: string) {
     return this.jwtAuthService.getPayloadFromToken(token);
   }
-  getUsername(payload: unknown): string | null {
+  getUsername(payload: KeycloakTokenPayload): string | null {
     return this.jwtAuthService.getPreferredUsernameFromPayload(payload);
   }
 
