@@ -1,6 +1,14 @@
 <main class="main">
   <div class="main__header">
-    <app-main-header title="Classrooms"> </app-main-header>
+    <app-main-header title="Classrooms">
+      <button
+        class="theme-button"
+        mat-raised-button
+        (click)="showClassroomForm()">
+        <mat-icon class="material-symbols-outlined" fontIcon="add" />
+        <span>New Classroom</span>
+      </button>
+    </app-main-header>
   </div>
 
   <div class="main__content">
@@ -17,5 +25,6 @@
     [data]="classrooms"
     [columns]="columns"
     [commonColumns]="commonColumns"
-    (onRowDelete)="showDeleteDialog($event)"></app-table>
+    (onRowDelete)="showDeleteDialog($event)"
+    (onRowEdit)="showClassroomForm($event)"></app-table>
 </ng-template>

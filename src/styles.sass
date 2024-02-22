@@ -157,3 +157,31 @@ html, body
 
 .mat-mdc-dialog-surface
   border-radius: 8px !important
+
+ngx-material-timepicker-container
+  --button-color: #6210cc !important
+  --dial-background-color: #6210cc !important
+  --dial-editable-active-color: #6210cc !important
+  --clock-hand-color: #6210cc !important
+
+  .timepicker-backdrop-overlay
+    background-color: transparent !important
+    z-index: 9999 !important
+
+  .timepicker-overlay
+    z-index: 9999 !important
+
+    .timepicker
+      border-radius: 6px !important
+      overflow: hidden !important
+      width: 336px
+
+      &__body
+        padding-top: 1.5rem
+
+      &__actions
+        padding-bottom: 1.5rem
+  
+  .timepicker-button
+    border-radius: 4px !important
+    height: auto !important

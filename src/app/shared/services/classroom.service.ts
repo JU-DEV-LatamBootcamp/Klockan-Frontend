@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from './base.service';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { Classroom, ClassroomFromService } from '../models/Classroom';
-import { transformClassroomFromService } from '../utils/classroom-mapper';
+import {
+  transformClassroomFromService,
+  transformToCreateClassroom,
+  transformToUpdateClassroom,
+} from '../utils/classroom-mapper';
 
 @Injectable({
   providedIn: 'root',
@@ -27,8 +31,30 @@ export class ClassroomService extends BaseService<Classroom> {
       );
   }
 
-  override edit(): Observable<Classroom> {
-    throw new Error('Method not implemented.');
+  override create(classroom: Classroom): Observable<Classroom> {
+    const token = this.oAuthService.getAccessToken();
+    const body = transformToCreateClassroom(classroom);
+    const headers = super.createHeaders(token);
+
+    return this.http.post<Classroom>(
+      this.baseRoute + this.classroomPath,
+      body,
+      {
+        headers,
+      }
+    );
+  }
+
+  override edit(classroom: Classroom): Observable<Classroom> {
+    const token = this.oAuthService.getAccessToken();
+    const body = transformToUpdateClassroom(classroom);
+    const headers = super.createHeaders(token);
+
+    return this.http.put<Classroom>(
+      `${this.baseRoute}${this.classroomPath}/${classroom.id}`,
+      body,
+      { headers }
+    );
   }
 
   override delete(entity: Classroom): Observable<Classroom> {
@@ -39,8 +65,5 @@ export class ClassroomService extends BaseService<Classroom> {
       `${this.baseRoute}${this.classroomPath}/${entity.id}`,
       { headers }
     );
-  }
-  override create(): Observable<Classroom> {
-    throw new Error('Method not implemented.');
   }
 }
