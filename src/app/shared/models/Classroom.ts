@@ -1,5 +1,6 @@
 import { Course } from './Courses';
 import { Program } from './Programs';
+import { Schedule } from './Schedule';
 
 export interface ClassroomFromService {
   id: number;
@@ -17,4 +18,19 @@ export interface Classroom {
   starts?: string;
   courseObject?: Course;
   programObject?: Program;
+  schedule?: Schedule[];
+}
+
+export interface CreateClassroom {
+  programId: number;
+  courseId: number;
+  startDate: string;
+  schedule: Schedule[];
+}
+
+export interface UpdateClassroom {
+  programId: number;
+  courseId: number;
+  startDate: string;
+  schedule: Schedule[];
 }

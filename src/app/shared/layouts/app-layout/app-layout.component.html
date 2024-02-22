@@ -33,6 +33,7 @@
             [mode]="
               !screenSizeService.matchEqualOrAbove('large') ? 'over' : 'side'
             "
+            [disableClose]="screenSizeService.matchEqualOrAbove('large')"
             position="start">
             <!-- sidebar outlet -->
             <ng-content select="[sidebar]"></ng-content>

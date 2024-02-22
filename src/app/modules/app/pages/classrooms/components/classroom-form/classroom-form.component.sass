@@ -1,0 +1,54 @@
+@import "components/buttons"
+@import "components/dialogs"
+@import "components/forms"
+
+:host
+  width: 100%
+  box-sizing: border-box
+
+.form
+  &__title
+    font-size: 1.2rem
+    margin-top: 2rem
+    margin-bottom: 0.5rem
+
+  &__hint
+    font-size: 0.9rem
+    margin-bottom: 1.5rem
+
+.schedule
+  box-sizing: border-box
+  width: 100%
+  display: flex
+  gap: 1rem
+  padding: 1rem
+  border: solid 1px #aaa
+  border-radius: 4px
+
+  &--p-sm
+    padding-bottom: 0.2rem
+
+  &:not(:last-of-type)
+    margin-bottom: 1rem 
+    
+  &__container
+    width: 100%
+    box-sizing: border-box
+
+  &__container-actions
+    margin-top: 1rem
+
+  &__content
+    width: calc(100% - 4rem) 
+    flex: 1 1 0
+
+  &__row
+    display: flex
+    gap: 1rem
+
+  &__actions 
+    flex-shrink: 0
+    margin-top: 1rem
+
+.time-picker
+  background: red !important

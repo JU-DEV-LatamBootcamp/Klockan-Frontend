@@ -1,0 +1,147 @@
+<app-dialog size="xl">
+  <mat-toolbar ngProjectAs="[header]" class="dialog-title">
+    {{ title }}
+    <button mat-icon-button mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <form ngProjectAs="[content]" [formGroup]="classroomForm">
+    <mat-form-field>
+      <mat-label>Program</mat-label>
+      <mat-select formControlName="program" placeholder="Choose a program">
+        <mat-option
+          *ngFor="let option of programOptions"
+          [value]="option.value"
+          >{{ option.label }}</mat-option
+        >
+      </mat-select>
+      <mat-error *ngIf="classroomForm.get('program')?.touched">
+        {{ getFieldError('program') }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Course</mat-label>
+      <mat-select
+        formControlName="course"
+        placeholder="Choose a course"
+        (selectionChange)="updateDefaultDuration()">
+        <mat-option
+          *ngFor="let option of courseOptions"
+          [value]="option.value"
+          >{{ option.label }}</mat-option
+        >
+      </mat-select>
+      <mat-error *ngIf="classroomForm.get('course')?.touched">
+        {{ getFieldError('course') }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Starting date</mat-label>
+      <input
+        matInput
+        placeholder="e.g. 10/01/2024"
+        [matDatepicker]="startingDatePicker"
+        formControlName="startingDate" />
+      <mat-hint>MM/DD/YYYY</mat-hint>
+
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="startingDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #startingDatePicker></mat-datepicker>
+      <mat-error *ngIf="classroomForm.get('startingDate')?.touched">
+        {{ getFieldError('startingDate') }}
+      </mat-error>
+    </mat-form-field>
+
+    <div class="schedule__container" formArrayName="schedules">
+      <h2 class="form__title">Schedule</h2>
+
+      <p class="form__hint" *ngIf="defaultDuration">
+        Meeting duration set to {{ defaultDuration }} minutes in selected
+        course.
+      </p>
+
+      <div
+        class="schedule"
+        *ngFor="let schedule of scheduleControls; let i = index"
+        [formGroup]="schedule"
+        [ngClass]="{
+          'schedule--p-sm':
+            schedule.get('startingTime')?.valid ||
+            schedule.get('startingTime')?.untouched
+        }">
+        <div class="schedule__content">
+          <div class="schedule__row">
+            <mat-form-field>
+              <mat-label>Weekday</mat-label>
+
+              <mat-select
+                formControlName="weekday"
+                placeholder="Choose a weekday">
+                <mat-option
+                  *ngFor="let option of weekdayOptions"
+                  [value]="option.value"
+                  >{{ option.label }}</mat-option
+                >
+              </mat-select>
+
+              <mat-error *ngIf="schedule.get('weekday')?.touched">
+                This field is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <mat-form-field appearance="outline">
+            <mat-label>Starting time</mat-label>
+            <input
+              formControlName="startingTime"
+              matInput
+              placeholder="e.g. 4:30 PM"
+              [ngxTimepicker]="startingTimePicker" />
+
+            <mat-error *ngIf="schedule.get('startingTime')?.touched">
+              This field is required
+            </mat-error>
+
+            <ngx-material-timepicker
+              #startingTimePicker
+              class="time-picker"
+              [preventOverlayClick]="false"></ngx-material-timepicker>
+          </mat-form-field>
+
+          <div class="schedule__row"></div>
+        </div>
+
+        <div class="schedule__actions">
+          <button mat-icon-button (click)="schedules.removeAt(i)">
+            <mat-icon class="material-symbols-outlined" fontIcon="delete" />
+          </button>
+        </div>
+      </div>
+
+      <div class="schedule__container-actions">
+        <button
+          mat-stroked-button
+          color="primary"
+          type="button"
+          (click)="addSchedule()">
+          <mat-icon class="material-symbols-outlined" fontIcon="add" />
+          <span>Add Schedule</span>
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <div ngProjectAs="[actions]" class="dialog-actions">
+    <button mat-button mat-dialog-close class="cancel-button">Cancel</button>
+    <button
+      mat-button
+      class="confirm-button"
+      (click)="onSubmit()"
+      [disabled]="!classroomForm.valid">
+      Confirm
+    </button>
+  </div>
+</app-dialog>
