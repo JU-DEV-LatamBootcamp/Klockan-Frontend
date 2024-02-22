@@ -5,7 +5,6 @@ import { ComposedLayoutComponent } from './components/composed-layout/composed-l
 import { CoursesComponent } from './pages/courses/courses.component';
 import { ProgramsComponent } from './pages/programs/programs.component';
 import { MeetingsComponent } from './pages/meetings/meetings.component';
-import { ProfileComponent } from './pages/profile/profile.component';
 import { UsersComponent } from './pages/users/users.component';
 import { ClassroomsComponent } from './pages/classrooms/classrooms.component';
 
@@ -29,10 +28,6 @@ const routes: Routes = [
       {
         path: 'meetings',
         component: MeetingsComponent,
-      },
-      {
-        path: 'profile',
-        component: ProfileComponent,
       },
       {
         path: 'users',

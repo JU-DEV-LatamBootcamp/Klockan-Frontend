@@ -1,4 +1,4 @@
-export const sidebarLinks: SidebarLink[] = [
+export const SIDEBAR_LINKS: SidebarLink[] = [
   {
     label: 'dashboard',
     href: ['', 'app', 'dashboard'],
@@ -30,3 +30,13 @@ export const sidebarLinks: SidebarLink[] = [
     icon: 'group',
   },
 ];
+
+export const PROFILE_BUTTON: Omit<SidebarButton, 'action'> = {
+  icon: 'person',
+  label: 'Profile',
+};
+
+export const LOGOUT_BUTTON: Omit<SidebarButton, 'action'> = {
+  icon: 'logout',
+  label: 'Logout',
+};
