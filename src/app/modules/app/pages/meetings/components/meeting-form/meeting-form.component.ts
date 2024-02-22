@@ -10,7 +10,10 @@ import { User } from '../../../../../../shared/models/User';
 import { UserService } from '../../../../../../shared/services/user.service';
 import { SelectOption } from '../../../../../../shared/interfaces/select-options';
 import { map } from 'rxjs/operators';
-import { CreateMeeting, Meeting } from '../../../../../../shared/models/Meetings';
+import {
+  CreateMeeting,
+  Meeting,
+} from '../../../../../../shared/models/Meetings';
 import getTimeOnlyFromString from '../../../../../../shared/utils/date-only-formater';
 
 @Component({
@@ -34,9 +37,8 @@ export class MeetingFormComponent implements OnInit, OnDestroy {
     private readonly meetingService: MeetingService,
     private readonly classroomService: ClassroomService,
     private readonly userService: UserService,
-    @Inject(MAT_DIALOG_DATA) public data: { item: Meeting },
-  ) {
-  }
+    @Inject(MAT_DIALOG_DATA) public data: { item: Meeting }
+  ) {}
 
   get requestHandler() {
     return {
@@ -114,8 +116,8 @@ export class MeetingFormComponent implements OnInit, OnDestroy {
           classrooms.map(classroom => ({
             label: 'Classroom ' + classroom.id,
             value: classroom.id?.toString(),
-          })),
-        ),
+          }))
+        )
       )
       .subscribe(options => {
         this.classroomOptions = options;
@@ -128,7 +130,7 @@ export class MeetingFormComponent implements OnInit, OnDestroy {
       .pipe(
         map(
           (
-            users: User[],
+            users: User[]
           ): { trainers: SelectOption[]; students: SelectOption[] } => {
             const trainers: SelectOption[] = users
               .filter(user => user.role.id === 2)
@@ -145,8 +147,8 @@ export class MeetingFormComponent implements OnInit, OnDestroy {
               }));
 
             return { trainers, students };
-          },
-        ),
+          }
+        )
       )
       .subscribe({
         next: ({ trainers, students }) => {

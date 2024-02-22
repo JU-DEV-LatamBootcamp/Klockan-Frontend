@@ -34,9 +34,7 @@ import { ClassroomFormComponent } from './pages/classrooms/components/classroom-
 import { TableComponent } from 'src/app/shared/components/table/table.component';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 import { CourseFormComponent } from './pages/courses/components/course-form/course-form.component';
-import {
-  DeleteConfirmationComponent,
-} from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
+import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 import { ErrorMessageComponent } from 'src/app/shared/components/error-message/error-message.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
@@ -96,5 +94,4 @@ import { MeetingFormComponent } from './pages/meetings/components/meeting-form/m
   ],
   exports: [DeleteConfirmationComponent],
 })
-export class AppModule {
-}
+export class AppModule {}
