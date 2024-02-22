@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { sidebarLinks } from './sidebar-component.constants';
-import { KeycloakService } from 'src/app/modules/auth/services/keycloak/keycloak.service';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,9 +10,9 @@ import { KeycloakService } from 'src/app/modules/auth/services/keycloak/keycloak
 export class SidebarComponent {
   links = sidebarLinks;
 
-  constructor(private readonly keycloakService: KeycloakService) {}
+  constructor(private readonly authService: AuthService) {}
 
   onLogOut() {
-    this.keycloakService.logOut();
+    this.authService.logOut();
   }
 }
