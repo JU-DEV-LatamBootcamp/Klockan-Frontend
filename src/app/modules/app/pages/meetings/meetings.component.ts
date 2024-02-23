@@ -4,7 +4,14 @@ import { Meeting } from 'src/app/shared/models/Meetings';
 import { MeetingService } from 'src/app/shared/services/meeting.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { API_ERROR_MESSAGE } from 'src/app/shared/constants/api.constants';
-import { SNACKBAR_ERROR_DEFAULTS } from 'src/app/shared/constants/snackbar.constants';
+import {
+  SNACKBAR_ERROR_DEFAULTS,
+  SNACKBAR_SUCCESS_DEFAULTS,
+  SnackbarConfig,
+} from 'src/app/shared/constants/snackbar.constants';
+import { ProgramFormComponent } from '../programs/components/program-form/program-form.component';
+import { DialogService } from '../../../../shared/layouts/app-layout/services/dialog/dialog.service';
+import { MeetingFormComponent } from './components/meeting-form/meeting-form.component';
 
 @Component({
   selector: 'app-meetings',
@@ -19,7 +26,8 @@ export class MeetingsComponent implements OnInit {
 
   constructor(
     public meetingService: MeetingService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialogService: DialogService
   ) {}
 
   ngOnInit() {
@@ -42,14 +50,25 @@ export class MeetingsComponent implements OnInit {
   private handleError(error: Error): void {
     console.error(API_ERROR_MESSAGE, error);
     this.isLoading = false;
-    this.displaySnackbar(API_ERROR_MESSAGE);
+    this.displaySnackbar(API_ERROR_MESSAGE, SNACKBAR_ERROR_DEFAULTS);
   }
 
-  private displaySnackbar(message: string): void {
+  private displaySnackbar(message: string, customConfig: SnackbarConfig): void {
     this.snackBar.open(
       message,
-      SNACKBAR_ERROR_DEFAULTS.CLOSE_BUTTON_TEXT,
-      SNACKBAR_ERROR_DEFAULTS.CONFIG
+      customConfig.CLOSE_BUTTON_TEXT,
+      customConfig.CONFIG
     );
+  }
+
+  public showCreateDialog(): void {
+    this.dialogService.show(MeetingFormComponent).subscribe(result => {
+      if (result) this.createMeeting(result);
+    });
+  }
+
+  public createMeeting({ id }: Meeting): void {
+    this.displaySnackbar(`Meeting created`, SNACKBAR_SUCCESS_DEFAULTS);
+    this.fetchData();
   }
 }

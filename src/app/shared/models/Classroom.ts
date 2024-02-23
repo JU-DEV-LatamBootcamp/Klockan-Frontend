@@ -12,7 +12,7 @@ export interface ClassroomFromService {
 }
 
 export interface Classroom {
-  id?: number;
+  id: number;
   course?: string;
   program?: string;
   starts?: string;

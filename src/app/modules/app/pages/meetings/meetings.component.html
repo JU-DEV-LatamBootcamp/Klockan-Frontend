@@ -1,6 +1,14 @@
 <main class="main">
   <div class="main__header">
-    <app-main-header title="Meetings"> </app-main-header>
+    <app-main-header title="Meetings">
+      <button
+        class="theme-button"
+        mat-raised-button
+        (click)="showCreateDialog()">
+        <mat-icon class="material-symbols-outlined" fontIcon="add" />
+        <span>New Meeting</span>
+      </button>
+    </app-main-header>
   </div>
 
   <div class="main__content">

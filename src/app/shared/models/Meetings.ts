@@ -12,4 +12,14 @@ export interface Meeting {
   date: Date;
   time: Date;
   classroom: number;
+  users?: number[];
+  trainer?: number;
+}
+
+export interface CreateMeeting {
+  date: string;
+  time: string;
+  classroomId: number;
+  trainerId: number;
+  users: number[];
 }

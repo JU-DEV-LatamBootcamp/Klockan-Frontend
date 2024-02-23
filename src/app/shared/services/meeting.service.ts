@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { BaseService } from './base.service';
-import { Meeting, MeetingFromService } from '../models/Meetings';
+import { CreateMeeting, Meeting, MeetingFromService } from '../models/Meetings';
 import { Observable, map } from 'rxjs';
 import { transformMeetingFromService } from '../utils/meeting-mapper';
 
 @Injectable({
   providedIn: 'root',
 })
-export class MeetingService extends BaseService<Meeting> {
+export class MeetingService extends BaseService<Meeting | CreateMeeting> {
   meetingPath = environment.api.meetingsEndpoint;
 
   override getAll(): Observable<Meeting[]> {
@@ -25,9 +25,14 @@ export class MeetingService extends BaseService<Meeting> {
       );
   }
 
-  override create(entity: Meeting): Observable<Meeting> {
-    alert('Editing MEETING' + entity.id);
-    throw new Error('Method not implemented.');
+  override create(meeting: CreateMeeting): Observable<CreateMeeting> {
+    const token = this.oAuthService.getAccessToken();
+    const headers = super.createHeaders(token);
+    return this.http.post<CreateMeeting>(
+      `${this.baseRoute}${this.meetingPath}`,
+      meeting,
+      { headers }
+    );
   }
 
   override edit(entity: Meeting): Observable<Meeting> {

@@ -1,0 +1,92 @@
+<app-dialog>
+  <mat-toolbar ngProjectAs="[header]" class="dialog-title">
+    {{ headerTypeLabel }}
+    <button mat-icon-button mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+  <form ngProjectAs="[content]" [formGroup]="meetingForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Classroom</mat-label>
+      <mat-select formControlName="classroom">
+        <mat-option
+          *ngFor="let option of classroomOptions"
+          [value]="+option.value"
+          >{{ option.label }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="meetingForm.get('classroom')?.touched">
+        {{ getFieldError('classroom') }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Add students</mat-label>
+      <mat-select [multiple]="true" formControlName="students">
+        <mat-option
+          *ngFor="let option of studentOptions"
+          [value]="+option.value">
+          {{ option.label }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="meetingForm.get('students')?.touched">
+        {{ getFieldError('students') }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Add trainer</mat-label>
+      <mat-select formControlName="trainer">
+        <mat-option
+          *ngFor="let option of trainerOptions"
+          [value]="+option.value">
+          {{ option.label }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="meetingForm.get('trainer')?.touched">
+        {{ getFieldError('trainer') }}
+      </mat-error>
+    </mat-form-field>
+    <div class="schedule__row">
+      <mat-form-field appearance="outline">
+        <mat-label>Starting date</mat-label>
+        <input
+          matInput
+          placeholder="e.g. 10/01/2024"
+          [matDatepicker]="startingDatePicker"
+          [min]="todayDate"
+          formControlName="startingDate" />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="startingDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #startingDatePicker></mat-datepicker>
+        <mat-error *ngIf="meetingForm.get('startingDate')?.touched">
+          {{ getFieldError('startingDate') }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Starting time</mat-label>
+        <input
+          formControlName="startingTime"
+          matInput
+          placeholder="e.g. 4:30 PM"
+          [ngxTimepicker]="startingTimePicker" />
+
+        <ngx-material-timepicker
+          #startingTimePicker
+          class="time-picker"
+          [preventOverlayClick]="false"></ngx-material-timepicker>
+
+        <mat-error *ngIf="meetingForm.get('startingTime')?.touched">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </form>
+  <div ngProjectAs="[actions]" class="dialog-actions">
+    <button mat-button mat-dialog-close class="cancel-button">Cancel</button>
+    <button mat-button class="confirm-button" (click)="onSubmit()">
+      Confirm
+    </button>
+  </div>
+</app-dialog>
