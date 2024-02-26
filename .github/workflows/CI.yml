@@ -1,7 +1,4 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
-name: Node.js CI
+name: Build and Push to Docker Hub
 
 on:
   push:
@@ -11,11 +8,10 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
-        matrix:
-          node-version: [18.10.0]
-          # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+      matrix:
+        node-version: [18.10.0]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
-   
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
@@ -25,28 +21,18 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm run build --if-present
-      - name: Get Time
-        id: time
-        uses: nanzm/get-time-action@master
-        with:
-          timeZone: GMT-3
-          format: 'YYYY-MM-DD'             
       - name: Login Dockerhub
         env:
-            DOCKER_USERNAME: ${{secrets.DOCKER_HUB_USERNAME}}
-            DOCKER_PASSWORD: ${{secrets.DOCKER_HUB_PASSWORD}}
+          DOCKER_USERNAME: ${{secrets.DOCKER_HUB_USERNAME}}
+          DOCKER_PASSWORD: ${{secrets.DOCKER_HUB_PASSWORD}}
         run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-      
       - name: Build the Docker image
         run: docker-compose build
       - name: Tagin frontend with version
-        run: docker tag klockan-frontend:v1 klockan/frontend:v${{ secrets.FRONTEND_MAJOR }}.${{ secrets.FRONTEND_MINOR }}.${{ steps.time.outputs.time }}    
+        run: docker tag klockan-frontend:v1 klockan/frontend:v${{ secrets.FRONTEND_MAJOR }}.${{ secrets.FRONTEND_MINOR }}.${{ github.sha }}
       - name: Push to docker hub
-        run: docker push klockan/frontend:v${{ secrets.FRONTEND_MAJOR }}.${{ secrets.FRONTEND_MINOR }}.${{ steps.time.outputs.time }} 
-      - name: Tagin frontend with latest
+        run: docker push klockan/frontend:v${{ secrets.FRONTEND_MAJOR }}.${{ secrets.FRONTEND_MINOR }}.${{ github.sha }}
+      - name: Tagin frontend with tag latest
         run: docker tag klockan-frontend:v1 klockan/frontend:latest
       - name: Push to docker hub
-        run: docker push klockan/frontend:latest 
-
-
-
+        run: docker push klockan/frontend:latest
