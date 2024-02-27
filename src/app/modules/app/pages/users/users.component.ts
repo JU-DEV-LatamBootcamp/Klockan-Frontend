@@ -8,12 +8,17 @@ import {
   SNACKBAR_SUCCESS_DEFAULTS,
   SnackbarConfig,
 } from 'src/app/shared/constants/snackbar.constants';
-import { userTypeColumns, userCommonColumns } from './users.constants';
+import {
+  userTypeColumns,
+  userCommonColumns,
+  userTrainerColumns,
+} from './users.constants';
 import { DialogService } from '../../../../shared/layouts/app-layout/services/dialog/dialog.service';
 import { User, UserFlat } from '../../../../shared/models/User';
 import { UserService } from '../../../../shared/services/user.service';
 import { mapUserToFlatObject } from '../../../../shared/utils/mapUserToFlatObject';
 import { UserFormComponent } from './components/user-form/user-form.component';
+import { KeycloakService } from 'src/app/core/services/keycloak/keycloak.service';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -24,16 +29,19 @@ export class UsersComponent {
 
   public isSidenavOpen = true;
   public isLoading = true;
-
+  userRoles: string[] | undefined;
   columns = userTypeColumns;
   commonColumns = userCommonColumns;
+  trainerColumns = userTrainerColumns;
   users: UserFlat[] = [];
 
   constructor(
     private readonly dialogService: DialogService,
     private readonly userService: UserService,
+    private readonly keycloakService: KeycloakService,
     public readonly snackBar: MatSnackBar
   ) {
+    this.userRoles = keycloakService.getUserDetails()?.roles;
     this.fetchUsers();
   }
 

@@ -1,10 +1,15 @@
 <main class="main">
   <div class="main__header">
     <app-main-header title="Users">
-      <button class="theme-button" mat-raised-button (click)="showFormDialog()">
-        <mat-icon class="material-symbols-outlined" fontIcon="add" />
-        <span>New User</span>
-      </button>
+      <ng-container *ngIf="userRoles?.includes('admin')">
+        <button
+          class="theme-button"
+          mat-raised-button
+          (click)="showFormDialog()">
+          <mat-icon class="material-symbols-outlined" fontIcon="add" />
+          <span>New User</span>
+        </button>
+      </ng-container>
     </app-main-header>
   </div>
 
@@ -18,12 +23,22 @@
 </main>
 
 <ng-template #table>
-  <app-table
-    [data]="users"
-    [columns]="columns"
-    [commonColumns]="commonColumns"
-    (onRowEdit)="showEditDialog($event)"
-    (onRowDelete)="showDeleteDialog($event)"></app-table>
+  <ng-container *ngIf="this.userRoles?.includes('admin')">
+    <app-table
+      [data]="users"
+      [columns]="columns"
+      [commonColumns]="commonColumns"
+      (onRowEdit)="showEditDialog($event)"
+      (onRowDelete)="showDeleteDialog($event)"></app-table
+  ></ng-container>
+  <ng-container *ngIf="this.userRoles?.includes('trainer')">
+    <app-table
+      [data]="users"
+      [columns]="columns"
+      [commonColumns]="trainerColumns"
+      (onRowEdit)="showEditDialog($event)"
+      (onRowDelete)="showDeleteDialog($event)"></app-table
+  ></ng-container>
 </ng-template>
 
 <ng-template #dialog>
