@@ -1,10 +1,10 @@
 export const environment = {
   production: true,
-  apiBasePath: `https://ec2-18-116-68-43.us-east-2.compute.amazonaws.com:5001/api`,
+  apiBasePath: `https://ec2-13-59-173-197.us-east-2.compute.amazonaws.com:5001/api`,
   resourceServerId: 'api',
   keycloak: {
-    issuer: `https://ec2-18-116-68-43.us-east-2.compute.amazonaws.com:8443/realms/Klockan`,
-    redirectUri: `https://ec2-18-116-68-43.us-east-2.compute.amazonaws.com/`,
+    issuer: `https://ec2-13-59-173-197.us-east-2.compute.amazonaws.com:8443/realms/Klockan`,
+    redirectUri: `https://ec2-13-59-173-197.us-east-2.compute.amazonaws.com/`,
     realm: 'Klockan',
     clientId: 'frontend',
     scope: 'openid profile email',
