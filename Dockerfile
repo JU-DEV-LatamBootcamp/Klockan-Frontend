@@ -24,5 +24,5 @@ COPY ./certificates /usr/share/nginx/certs
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
 # expose the static resource in port 80
-EXPOSE 80
-EXPOSE 443
+EXPOSE 3000
+EXPOSE 4000
