@@ -7,6 +7,7 @@ import { ProgramsComponent } from './pages/programs/programs.component';
 import { MeetingsComponent } from './pages/meetings/meetings.component';
 import { UsersComponent } from './pages/users/users.component';
 import { ClassroomsComponent } from './pages/classrooms/classrooms.component';
+import { validateRoleGuard } from 'src/app/core/guards/validate-role/validate-role.guard';
 
 const routes: Routes = [
   {
@@ -20,10 +21,12 @@ const routes: Routes = [
       {
         path: 'courses',
         component: CoursesComponent,
+        canActivate: [validateRoleGuard],
       },
       {
         path: 'programs',
         component: ProgramsComponent,
+        canActivate: [validateRoleGuard],
       },
       {
         path: 'meetings',
