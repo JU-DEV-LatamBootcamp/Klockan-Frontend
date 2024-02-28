@@ -23,22 +23,12 @@
 </main>
 
 <ng-template #table>
-  <ng-container *ngIf="this.userRoles?.includes('admin')">
-    <app-table
-      [data]="users"
-      [columns]="columns"
-      [commonColumns]="commonColumns"
-      (onRowEdit)="showEditDialog($event)"
-      (onRowDelete)="showDeleteDialog($event)"></app-table
-  ></ng-container>
-  <ng-container *ngIf="!this.userRoles?.includes('admin')">
-    <app-table
-      [data]="users"
-      [columns]="columns"
-      [commonColumns]="trainerColumns"
-      (onRowEdit)="showEditDialog($event)"
-      (onRowDelete)="showDeleteDialog($event)"></app-table
-  ></ng-container>
+  <app-table
+    [data]="users"
+    [columns]="columns"
+    [commonColumns]="commonColumns"
+    (onRowEdit)="showEditDialog($event)"
+    (onRowDelete)="showDeleteDialog($event)"></app-table>
 </ng-template>
 
 <ng-template #dialog>

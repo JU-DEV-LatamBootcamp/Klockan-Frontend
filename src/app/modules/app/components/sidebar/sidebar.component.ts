@@ -17,8 +17,7 @@ import { KeycloakService } from 'src/app/core/services/keycloak/keycloak.service
   styleUrls: ['./sidebar.component.sass'],
 })
 export class SidebarComponent {
-  links = SIDEBAR_LINKS;
-  trainerLinks = TRAINER_SIDEBAR_LINKS;
+  links: SidebarLink[];
   userRoles: string[] | undefined;
   buttons: SidebarButton[] = [
     {
@@ -37,6 +36,9 @@ export class SidebarComponent {
     private readonly oPanelService: OPanelService
   ) {
     this.userRoles = keycloakService.getUserDetails()?.roles;
+    this.links = this.userRoles?.includes('admin')
+      ? SIDEBAR_LINKS
+      : TRAINER_SIDEBAR_LINKS;
   }
 
   onLogOut() {

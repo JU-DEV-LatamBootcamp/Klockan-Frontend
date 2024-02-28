@@ -8,30 +8,16 @@
   <div class="sidebar__main">
     <div class="sidebar__section">
       <p class="sidebar__title">Menu</p>
-      <ng-container *ngIf="userRoles?.includes('admin')">
-        <a
-          *ngFor="let link of links"
-          class="field field--link"
-          routerLinkActive="field--selected"
-          [routerLink]="link.href">
-          <mat-icon
-            class="field__icon material-symbols-outlined"
-            [fontIcon]="link.icon" />
-          <span class="field__label">{{ link.label }}</span>
-        </a></ng-container
-      >
-      <ng-container *ngIf="!userRoles?.includes('admin')">
-        <a
-          *ngFor="let link of trainerLinks"
-          class="field field--link"
-          routerLinkActive="field--selected"
-          [routerLink]="link.href">
-          <mat-icon
-            class="field__icon material-symbols-outlined"
-            [fontIcon]="link.icon" />
-          <span class="field__label">{{ link.label }}</span>
-        </a>
-      </ng-container>
+      <a
+        *ngFor="let link of links"
+        class="field field--link"
+        routerLinkActive="field--selected"
+        [routerLink]="link.href">
+        <mat-icon
+          class="field__icon material-symbols-outlined"
+          [fontIcon]="link.icon" />
+        <span class="field__label">{{ link.label }}</span>
+      </a>
     </div>
   </div>
   <div class="sidebar__footer">

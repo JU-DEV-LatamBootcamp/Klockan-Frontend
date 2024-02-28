@@ -10,6 +10,6 @@ export const validateRoleGuard: CanActivateFn = async (): Promise<
   if (keycloakService.getUserDetails()?.roles.includes('admin')) {
     return true;
   } else {
-    return router.createUrlTree(['/app/dashboard']);
+    return router.navigate(['/app/dashboard']);
   }
 };

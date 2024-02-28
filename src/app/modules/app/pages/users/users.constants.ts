@@ -42,12 +42,14 @@ export const userCommonColumns: TableComponentCommonColumns = {
   },
 };
 
-// This is to skip the actions column for trainers
-export const userTrainerColumns: TableComponentCommonColumns = {};
-
 export const userRoles = [
   { id: 1, name: 'Admin' },
   { id: 2, name: 'Trainer' },
   { id: 3, name: 'Student' },
   { id: 4, name: 'Guest' },
 ];
+
+export const roleData = {
+  admin: userCommonColumns,
+  trainer: {},
+};
