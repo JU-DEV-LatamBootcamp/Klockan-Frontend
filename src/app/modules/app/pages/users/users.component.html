@@ -1,10 +1,15 @@
 <main class="main">
   <div class="main__header">
     <app-main-header title="Users">
-      <button class="theme-button" mat-raised-button (click)="showFormDialog()">
-        <mat-icon class="material-symbols-outlined" fontIcon="add" />
-        <span>New User</span>
-      </button>
+      <ng-container *ngIf="userRoles?.includes('admin')">
+        <button
+          class="theme-button"
+          mat-raised-button
+          (click)="showFormDialog()">
+          <mat-icon class="material-symbols-outlined" fontIcon="add" />
+          <span>New User</span>
+        </button>
+      </ng-container>
     </app-main-header>
   </div>
 
