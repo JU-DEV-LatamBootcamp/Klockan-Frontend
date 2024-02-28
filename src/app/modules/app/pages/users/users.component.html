@@ -31,7 +31,7 @@
       (onRowEdit)="showEditDialog($event)"
       (onRowDelete)="showDeleteDialog($event)"></app-table
   ></ng-container>
-  <ng-container *ngIf="this.userRoles?.includes('trainer')">
+  <ng-container *ngIf="!this.userRoles?.includes('admin')">
     <app-table
       [data]="users"
       [columns]="columns"
