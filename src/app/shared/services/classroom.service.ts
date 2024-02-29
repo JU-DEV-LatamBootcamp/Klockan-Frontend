@@ -9,6 +9,7 @@ import {
   transformToCreateClassroom,
   transformToUpdateClassroom,
 } from '../utils/classroom-mapper';
+import { Schedule } from '../models/Schedule';
 
 @Injectable({
   providedIn: 'root',
@@ -65,5 +66,14 @@ export class ClassroomService extends BaseService<Classroom> {
       `${this.baseRoute}${this.classroomPath}/${entity.id}`,
       { headers }
     );
+  }
+
+  getSchedules(classroomId: number) {
+    const token = this.oAuthService.getAccessToken();
+    const headers = super.createHeaders(token);
+    const schedulesPath =
+      this.baseRoute + environment.api.schedulesEndpoint(classroomId);
+
+    return this.http.get<Schedule[]>(schedulesPath, { headers });
   }
 }

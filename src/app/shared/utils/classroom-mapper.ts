@@ -3,6 +3,7 @@ import {
   ClassroomFromService,
   UpdateClassroom,
 } from '../models/Classroom';
+import { Schedule } from '../models/Schedule';
 import { transformDateToDateOnly } from './date-mapper';
 
 export function transformClassroomFromService(
@@ -53,6 +54,18 @@ export function transformToUpdateClassroom(
     startDate: transformDateToDateOnly(
       new Date(classroom.starts || '2024-01-01')
     ),
-    schedule: classroom.schedule || [],
+    schedule:
+      classroom.schedule?.map(s => {
+        const schedule: Schedule = {
+          startTime: s.startTime,
+          weekdayId: s.weekdayId,
+        };
+
+        if (s.id) {
+          schedule.id = s.id;
+        }
+
+        return schedule;
+      }) || [],
   };
 }

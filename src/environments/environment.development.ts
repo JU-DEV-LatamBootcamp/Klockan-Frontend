@@ -3,8 +3,8 @@ export const environment = {
   apiBasePath: `https://localhost:5001/api`,
   resourceServerId: 'api',
   keycloak: {
-    issuer: 'https://localhost:8443/realms/Klockan',
-    redirectUri: 'https://localhost/',
+    issuer: 'http://localhost:8080/realms/Klockan',
+    redirectUri: 'https://localhost:4000/',
     realm: 'Klockan',
     clientId: 'frontend',
     scope: 'openid profile email',
@@ -16,5 +16,7 @@ export const environment = {
     meetingsEndpoint: '/v1/meetings',
     usersEndpoint: '/v1/users',
     countriesEndpoint: '/v1/countries',
+    schedulesEndpoint: (classroomId: number) =>
+      `/v1/classrooms/${classroomId}/schedules`,
   },
 };
