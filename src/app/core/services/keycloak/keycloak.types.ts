@@ -4,7 +4,7 @@ export type KeycloakTokenPayload = {
   email: string;
   family_name: string;
   given_name: string;
-  realm_access: { roles: string[] };
+  roles: string[];
 };
 
 export interface ProfileFromKeycloak {
