@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import {
-  AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
@@ -14,12 +13,17 @@ import { weekdayOptions } from 'src/app/shared/constants/weekday-options';
 import { SelectOption } from 'src/app/shared/interfaces/select-options';
 import { Classroom } from 'src/app/shared/models/Classroom';
 import { Course } from 'src/app/shared/models/Courses';
+import { Schedule } from 'src/app/shared/models/Schedule';
 import { ClassroomService } from 'src/app/shared/services/classroom.service';
 import { CourseService } from 'src/app/shared/services/course.service';
 import { ProgramService } from 'src/app/shared/services/program.service';
-import { transform24TimeTo12Time } from 'src/app/shared/utils/date-mapper';
+import {
+  transform12TimeTo24Time,
+  transformDateTimeToTimePickerString,
+} from 'src/app/shared/utils/time-mapper';
 
 export type ScheduleForm = FormGroup<{
+  id: FormControl<string | null>;
   weekday: FormControl<string | null>;
   startingTime: FormControl<string | null>;
 }>;
@@ -52,6 +56,30 @@ export class ClassroomFormComponent implements OnInit {
     private readonly dialogRef: MatDialogRef<ClassroomFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { item: Classroom }
   ) {}
+  async ngOnInit(): Promise<void> {
+    // IMPROVEMENT: this data should be managed in a stream serivce of courses and programs
+    this.title = this.data ? 'Edit Classroom' : 'Create Classroom';
+    this.initializeForm();
+
+    await this.fetchClassroomSchedules();
+    await this.fetchCourseOptions();
+    await this.fetchProgramOptions();
+  }
+
+  private fetchClassroomSchedules() {
+    if (!this.data) return;
+
+    this.classroomService
+      .getSchedules(this.data.item.id)
+      .subscribe(schedules => {
+        schedules.forEach(schedule => {
+          schedule.startTime = transformDateTimeToTimePickerString(
+            schedule.startTime
+          );
+          this.addSchedule(schedule);
+        });
+      });
+  }
 
   private initializeForm(): void {
     this.classroomForm = this.formBuilder.group({
@@ -75,26 +103,21 @@ export class ClassroomFormComponent implements OnInit {
     return this.classroomForm.get('schedules') as FormArray<ScheduleForm>;
   }
 
-  addSchedule() {
-    const schedule: ScheduleForm = this.formBuilder.group({
-      weekday: ['', [Validators.required]],
-      startingTime: ['', [Validators.required]],
+  addSchedule(schedule: Schedule | null = null) {
+    const scheduleGroup: ScheduleForm = this.formBuilder.group({
+      id: [schedule?.id ? schedule.id.toString() : ''],
+      weekday: [
+        schedule ? schedule.weekdayId.toString() : '',
+        [Validators.required],
+      ],
+      startingTime: [schedule ? schedule.startTime : '', [Validators.required]],
     });
 
-    this.schedules.push(schedule);
+    this.schedules.push(scheduleGroup);
   }
 
   get scheduleControls(): FormGroup[] {
     return this.schedules.controls as FormGroup[];
-  }
-
-  async ngOnInit(): Promise<void> {
-    // IMPROVEMENT: this data should be managed in a stream serivce of courses and programs
-    this.title = this.data ? 'Edit Classroom' : 'Create Classroom';
-    this.initializeForm();
-
-    await this.fetchCourseOptions();
-    await this.fetchProgramOptions();
   }
 
   fetchCourseOptions() {
@@ -184,10 +207,11 @@ export class ClassroomFormComponent implements OnInit {
       starts: this.classroomForm.get('startingDate')?.value,
     };
 
-    const schedule = this.scheduleControls.map(group => {
+    const schedule: Schedule[] = this.scheduleControls.map(group => {
       return {
+        id: group.get('id')?.value || 0,
         weekdayId: group.get('weekday')?.value,
-        startTime: transform24TimeTo12Time(group.get('startingTime')?.value),
+        startTime: transform12TimeTo24Time(group.get('startingTime')?.value),
       };
     });
 
