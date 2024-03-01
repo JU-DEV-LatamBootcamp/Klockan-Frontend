@@ -17,12 +17,8 @@ export class CourseService extends BaseService<Course> {
   coursesPath = environment.api.coursesEndpoint;
 
   override getAll(): Observable<Course[]> {
-    const token = this.oAuthService.getAccessToken();
-    const headers = super.createHeaders(token);
     return this.http
-      .get<CourseFromService[]>(`${this.baseRoute}${this.coursesPath}`, {
-        headers,
-      })
+      .get<CourseFromService[]>(`${this.baseRoute}${this.coursesPath}`)
       .pipe(
         map(coursesFromService =>
           transformCourseFromService(coursesFromService)
@@ -31,38 +27,26 @@ export class CourseService extends BaseService<Course> {
   }
 
   override create(entity: Course): Observable<Course> {
-    const token = this.oAuthService.getAccessToken();
-    const headers = super.createHeaders(token);
     const courseToService = transformCourseToService(entity);
 
     return this.http.post<Course>(
       `${this.baseRoute}${this.coursesPath}`,
-      courseToService,
-      {
-        headers,
-      }
+      courseToService
     );
   }
 
   override edit(entity: Course): Observable<Course> {
-    const token = this.oAuthService.getAccessToken();
-    const headers = super.createHeaders(token);
     const courseToService = transformCourseService(entity);
 
     return this.http.put<Course>(
       `${this.baseRoute}${this.coursesPath}/${courseToService.id}`,
-      courseToService,
-      { headers }
+      courseToService
     );
   }
 
   override delete(entity: Course): Observable<Course> {
-    const token = this.oAuthService.getAccessToken();
-    const headers = super.createHeaders(token);
-
     return this.http.delete<Course>(
-      `${this.baseRoute}${this.coursesPath}/${entity.id}`,
-      { headers }
+      `${this.baseRoute}${this.coursesPath}/${entity.id}`
     );
   }
 }
