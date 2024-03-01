@@ -12,39 +12,25 @@ export class ProgramService extends BaseService<Program> {
   programsPath = environment.api.programsEndpoint;
 
   override getAll(): Observable<Program[]> {
-    const token = this.oAuthService.getAccessToken();
-    const headers = super.createHeaders(token);
-    return this.http.get<Program[]>(this.baseRoute + this.programsPath, {
-      headers,
-    });
+    return this.http.get<Program[]>(this.baseRoute + this.programsPath);
   }
 
   override create(program: Program): Observable<Program> {
-    const token = this.oAuthService.getAccessToken();
     const body = transformProgramForService(program);
-    const headers = super.createHeaders(token);
-    return this.http.post<Program>(this.baseRoute + this.programsPath, body, {
-      headers,
-    });
+
+    return this.http.post<Program>(this.baseRoute + this.programsPath, body);
   }
 
   override edit(entity: Program): Observable<Program> {
-    const token = this.oAuthService.getAccessToken();
-    const headers = super.createHeaders(token);
     return this.http.put<Program>(
       `${this.baseRoute}${this.programsPath}`,
-      entity,
-      { headers }
+      entity
     );
   }
 
   override delete(entity: Program): Observable<Program> {
-    const token = this.oAuthService.getAccessToken();
-    const headers = super.createHeaders(token);
-
     return this.http.delete<Program>(
-      `${this.baseRoute}${this.programsPath}/${entity.id}`,
-      { headers }
+      `${this.baseRoute}${this.programsPath}/${entity.id}`
     );
   }
 }
