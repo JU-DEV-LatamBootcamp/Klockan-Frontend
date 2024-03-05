@@ -27,6 +27,7 @@ export class KeycloakService implements JWTAuthenticationService {
           familyName: payload.family_name,
           givenName: payload.given_name,
           userName: payload.preferred_username,
+          roles: payload.roles,
         }
       : null;
   }

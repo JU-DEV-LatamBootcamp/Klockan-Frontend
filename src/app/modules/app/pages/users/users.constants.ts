@@ -48,3 +48,8 @@ export const userRoles = [
   { id: 3, name: 'Student' },
   { id: 4, name: 'Guest' },
 ];
+
+export const roleData = {
+  admin: userCommonColumns,
+  trainer: {},
+};

@@ -12,19 +12,18 @@ export class CountriesService extends BaseService<Country> {
   countriesPath = environment.api.countriesEndpoint;
 
   override getAll(): Observable<Country[]> {
-    const token = this.oAuthService.getAccessToken();
-    const headers = super.createHeaders(token);
-    return this.http.get<Country[]>(this.baseRoute + this.countriesPath, {
-      headers,
-    });
+    return this.http.get<Country[]>(this.baseRoute + this.countriesPath);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   override create(entity: Country): Observable<Country> {
     throw new Error('Method not implemented.');
   }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   override edit(entity: Country): Observable<Country> {
     throw new Error('Method not implemented.');
   }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   override delete(entity: Country): Observable<Country> {
     throw new Error('Method not implemented.');
   }
