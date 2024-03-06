@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -6,11 +6,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { map, tap } from 'rxjs';
 import { weekdayOptions } from 'src/app/shared/constants/weekday-options';
 import { SelectOption } from 'src/app/shared/interfaces/select-options';
+import { OPanelService } from 'src/app/shared/layouts/app-layout/services/o-panel/o-panel.service';
 import { Classroom } from 'src/app/shared/models/Classroom';
 import { Course } from 'src/app/shared/models/Courses';
 import { Schedule } from 'src/app/shared/models/Schedule';
@@ -27,6 +27,12 @@ export type ScheduleForm = FormGroup<{
   weekday: FormControl<string | null>;
   startingTime: FormControl<string | null>;
 }>;
+
+export type ClassroomFormData = {
+  classroom?: Classroom;
+  onConfirm?: () => void;
+  onCancel?: () => void;
+};
 
 @Component({
   selector: 'app-classroom-form',
@@ -47,17 +53,17 @@ export class ClassroomFormComponent implements OnInit {
   courses: Course[] = [];
   weekdayOptions = weekdayOptions;
   defaultDuration?: string;
+  data?: ClassroomFormData;
 
   constructor(
     public readonly classroomService: ClassroomService,
     public readonly programService: ProgramService,
     public readonly courseService: CourseService,
     private readonly formBuilder: FormBuilder,
-    private readonly dialogRef: MatDialogRef<ClassroomFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { item: Classroom }
+    private readonly panelService: OPanelService
   ) {}
   async ngOnInit(): Promise<void> {
-    // IMPROVEMENT: this data should be managed in a stream serivce of courses and programs
+    this.data = this.panelService.data as ClassroomFormData;
     this.title = this.data ? 'Edit Classroom' : 'Create Classroom';
     this.initializeForm();
 
@@ -67,10 +73,10 @@ export class ClassroomFormComponent implements OnInit {
   }
 
   private fetchClassroomSchedules() {
-    if (!this.data) return;
+    if (!this.data?.classroom) return;
 
     this.classroomService
-      .getSchedules(this.data.item.id)
+      .getSchedules(this.data.classroom.id)
       .subscribe(schedules => {
         schedules.forEach(schedule => {
           schedule.startTime = transformDateTimeToTimePickerString(
@@ -84,15 +90,15 @@ export class ClassroomFormComponent implements OnInit {
   private initializeForm(): void {
     this.classroomForm = this.formBuilder.group({
       course: [
-        this.data ? this.data.item.courseObject?.id?.toString() : '',
+        this.data ? this.data.classroom?.courseObject?.id?.toString() : '',
         [Validators.required],
       ],
       program: [
-        this.data ? this.data.item.programObject?.id.toString() : '',
+        this.data ? this.data.classroom?.programObject?.id.toString() : '',
         [Validators.required],
       ],
       startingDate: [
-        this.data ? this.data.item.starts : '',
+        this.data ? this.data.classroom?.starts : '',
         [Validators.required],
       ],
       schedules: new FormArray<ScheduleForm>([]),
@@ -194,7 +200,7 @@ export class ClassroomFormComponent implements OnInit {
 
   buildClassroomFromForm() {
     const classroom: Classroom = {
-      id: this.data?.item?.id || -1,
+      id: this.data?.classroom?.id || -1,
       courseObject: {
         id: this.classroomForm.get('course')?.value,
         name: '',
@@ -223,7 +229,9 @@ export class ClassroomFormComponent implements OnInit {
   get requestHandler() {
     return {
       next: (classroom: Classroom) => {
-        this.dialogRef.close(classroom);
+        // TODO: fix this
+        // this.dialogRef.close(classroom);
+        this.panelService.close();
       },
       error: (error: Error) => {
         console.error(

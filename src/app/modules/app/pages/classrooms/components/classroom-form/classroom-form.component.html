@@ -1,12 +1,12 @@
-<app-dialog size="xl">
-  <mat-toolbar ngProjectAs="[header]" class="dialog-title">
+<div class="panel">
+  <mat-toolbar class="panel__header">
     {{ title }}
     <button mat-icon-button mat-dialog-close>
       <mat-icon>close</mat-icon>
     </button>
   </mat-toolbar>
 
-  <form ngProjectAs="[content]" [formGroup]="classroomForm">
+  <form class="panel__content form" [formGroup]="classroomForm">
     <mat-form-field>
       <mat-label>Program</mat-label>
       <mat-select formControlName="program" placeholder="Choose a program">
@@ -107,7 +107,9 @@
 
             <ngx-material-timepicker
               #startingTimePicker
+              [classList]="'time-picker'"
               class="time-picker"
+              [appendToInput]="true"
               [preventOverlayClick]="false"></ngx-material-timepicker>
           </mat-form-field>
 
@@ -134,7 +136,7 @@
     </div>
   </form>
 
-  <div ngProjectAs="[actions]" class="dialog-actions">
+  <div class="panel__actions">
     <button mat-button mat-dialog-close class="cancel-button">Cancel</button>
     <button
       mat-button
@@ -144,4 +146,4 @@
       Confirm
     </button>
   </div>
-</app-dialog>
+</div>

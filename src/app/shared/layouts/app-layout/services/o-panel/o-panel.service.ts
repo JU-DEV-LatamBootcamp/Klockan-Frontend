@@ -6,15 +6,23 @@ import {
   ComponentType,
   TemplatePortal,
 } from '@angular/cdk/portal';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: null,
 })
 export class OPanelService {
+  private _data$ = new BehaviorSubject<unknown>(null);
+  public readonly data$ = this._data$.asObservable();
+
   constructor(
     private readonly _appLayoutStream: AppLayoutStream,
     private readonly _oPanelBridgeStream: OPanelBridgeStream
   ) {}
+
+  public get data() {
+    return this._data$.getValue();
+  }
 
   openFromComponent<T>(component: ComponentType<T>) {
     const componentPortal = new ComponentPortal<T>(component);
@@ -26,9 +34,22 @@ export class OPanelService {
   }
 
   toggle() {
-    const oPanel = this._appLayoutStream.oPanel;
-    if (!oPanel) return;
+    this._appLayoutStream.oPanel?.toggle();
+  }
 
-    oPanel.toggle();
+  open() {
+    this._appLayoutStream.oPanel?.open();
+  }
+
+  close() {
+    this._appLayoutStream.oPanel?.close();
+  }
+
+  setData<T>(data: T) {
+    this._data$.next(data);
+  }
+
+  clearData() {
+    this._data$.next(null);
   }
 }

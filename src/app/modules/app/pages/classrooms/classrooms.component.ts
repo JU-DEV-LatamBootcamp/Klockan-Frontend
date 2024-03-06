@@ -18,6 +18,7 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { PanelService } from 'src/app/shared/layouts/app-layout/services/panel/panel.service';
 import { ErrorMessageComponent } from 'src/app/shared/components/error-message/error-message.component';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
+import { OPanelService } from 'src/app/shared/layouts/app-layout/services/o-panel/o-panel.service';
 
 @Component({
   selector: 'app-classrooms',
@@ -38,7 +39,7 @@ export class ClassroomsComponent implements OnInit {
 
   constructor(
     private readonly dialogService: DialogService,
-    private readonly panelService: PanelService,
+    private readonly panelService: OPanelService,
     private readonly snackBar: MatSnackBar,
     public readonly classroomService: ClassroomService
   ) {}
@@ -78,6 +79,7 @@ export class ClassroomsComponent implements OnInit {
   }
 
   showClassroomForm(classroom?: Classroom) {
+    // TODO: fix this
     this.dialogService
       .show(
         ClassroomFormComponent,
@@ -132,5 +134,15 @@ export class ClassroomsComponent implements OnInit {
         this.dialogService.showErrorMessage(ErrorMessageComponent, error.error);
       },
     });
+  }
+
+  openClassroomForm(classroom?: Classroom) {
+    this.panelService.openFromComponent(ClassroomFormComponent);
+    this.panelService.setData({
+      classroom,
+      onCancel: console.error,
+      onConfirm: console.error,
+    });
+    this.panelService.open();
   }
 }
