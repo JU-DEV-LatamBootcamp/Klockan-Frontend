@@ -3,6 +3,7 @@ import { BASE_PROFILE, PROFILE_FIELDS } from '../profile/profile.constants';
 import { Router } from '@angular/router';
 import { KeycloakService } from 'src/app/core/services/keycloak/keycloak.service';
 import { UserService } from 'src/app/shared/services/user.service';
+import { FormBuilder, Validators } from '@angular/forms';
 interface User {
   email: string;
   name: string;
@@ -24,13 +25,15 @@ export class EditProfileComponent implements OnInit {
   togglePasswordChange = true;
 
   password = '';
+  passwordError = '';
 
   excludedFields = ['Email', 'Country', 'City', 'Address'];
 
   constructor(
     private readonly router: Router,
     private readonly keycloakService: KeycloakService,
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -57,11 +60,13 @@ export class EditProfileComponent implements OnInit {
   submitForm() {
     const user: Partial<User> = {};
     user.email = this.userDetails.email;
-
     if (!this.togglePasswordChange) {
       user.password = this.password;
-      console.log('Password changed');
-      console.log(user);
+      if (this.password.length < 6) {
+        this.passwordError = 'La contraseña tiene que tener 6 caracteres o más';
+        return;
+      }
+      this.passwordError = '';
     } else {
       console.log('Profile changed');
       if (this.userDetails.name != this.originalUserDetails.name) {
