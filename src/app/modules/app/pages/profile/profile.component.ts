@@ -42,4 +42,9 @@ export class ProfileComponent implements OnInit {
   public goBack(): void {
     this.oPanelService.toggle();
   }
+
+  public editProfile(): void {
+    this.oPanelService.toggle();
+    this.router.navigate(['app/edit-profile']);
+  }
 }

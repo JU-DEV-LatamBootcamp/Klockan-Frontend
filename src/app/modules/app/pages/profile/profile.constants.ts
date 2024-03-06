@@ -41,4 +41,8 @@ export const PROFILE_FIELDS: ProfileField[] = [
     title: 'Birthday',
     key: 'birthday',
   },
+  {
+    title: 'Image',
+    key: 'image',
+  },
 ];

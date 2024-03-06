@@ -18,7 +18,8 @@ type ProfileKey =
   | 'country'
   | 'city'
   | 'address'
-  | 'birthday';
+  | 'birthday'
+  | 'image';
 
 interface ProfileField {
   title: string;

@@ -1,0 +1,49 @@
+<div class="main__header">
+  <app-main-header title="Edit profile"> </app-main-header>
+</div>
+<main>
+  <section id="profile-image">
+    <img
+      [src]="userDetails.image"
+      alt="{{ userDetails.name }}"
+      class="profile-image" />
+  </section>
+  <section id="profile-data" *ngIf="togglePasswordChange">
+    <ng-container *ngFor="let field of infoFields; let last = last">
+      <div *ngIf="!excludedFields.includes(field.title)" class="info-field">
+        <mat-form-field appearance="fill">
+          <mat-label>{{ field.title }}</mat-label>
+          <input
+            matInput
+            [(ngModel)]="userDetails[field.key]"
+            name="{{ field.key }}"
+            [type]="field.key === 'birthday' ? 'date' : 'text'" />
+        </mat-form-field>
+      </div>
+      <mat-divider
+        *ngIf="!excludedFields.includes(field.title) && !last"></mat-divider>
+    </ng-container>
+  </section>
+  <section *ngIf="!togglePasswordChange" class="password">
+    <div class="info-field">
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          [(ngModel)]="password"
+          name="password"
+          type="password" />
+      </mat-form-field>
+    </div>
+  </section>
+  <div class="buttons">
+    <button mat-raised-button color="primary" (click)="submitForm()">
+      Enviar
+    </button>
+    or
+    <button mat-button color="primary" (click)="togglePassword()">
+      {{ !togglePasswordChange ? 'Change Personal data' : 'Change password' }}
+    </button>
+  </div>
+  <section id="profile-password"></section>
+</main>

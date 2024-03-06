@@ -1,7 +1,12 @@
 <div class="profile-container">
-  <button mat-icon-button class="back-button" (click)="goBack()">
-    <mat-icon>arrow_back</mat-icon>
-  </button>
+  <section id="profile-action-buttons">
+    <button mat-icon-button class="back-button" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <button mat-icon-button class="back-button" (click)="editProfile()">
+      <mat-icon>edit</mat-icon>
+    </button>
+  </section>
   <div class="profile-header">
     <img
       [src]="userDetails.image"
