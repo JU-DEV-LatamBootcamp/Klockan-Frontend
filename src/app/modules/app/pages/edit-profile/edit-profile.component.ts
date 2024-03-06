@@ -22,11 +22,6 @@ export class EditProfileComponent implements OnInit {
   originalUserDetails: Profile = BASE_PROFILE;
   infoFields: ProfileField[] = PROFILE_FIELDS;
 
-  togglePasswordChange = true;
-
-  password = '';
-  passwordError = '';
-
   excludedFields = ['Email', 'Country', 'City', 'Address'];
 
   constructor(
@@ -60,33 +55,23 @@ export class EditProfileComponent implements OnInit {
   submitForm() {
     const user: Partial<User> = {};
     user.email = this.userDetails.email;
-    if (!this.togglePasswordChange) {
-      user.password = this.password;
-      if (this.password.length < 6) {
-        this.passwordError = 'La contraseña tiene que tener 6 caracteres o más';
-        return;
-      }
-      this.passwordError = '';
-    } else {
-      console.log('Profile changed');
-      if (this.userDetails.name != this.originalUserDetails.name) {
-        user.name = this.userDetails.name;
-      }
-      if (this.userDetails.userName != this.originalUserDetails.userName) {
-        user.userName = this.userDetails.userName;
-      }
-      if (this.userDetails.birthday != this.originalUserDetails.birthday) {
-        user.birthday = this.userDetails.birthday;
-      }
-      if (this.userDetails.image != this.originalUserDetails.image) {
-        user.image = this.userDetails.image;
-      }
-      console.log(user);
-    }
-    this.userService.edit(user);
-  }
 
-  togglePassword() {
-    this.togglePasswordChange = !this.togglePasswordChange;
+    console.log('Profile changed');
+    if (this.userDetails.name != this.originalUserDetails.name) {
+      user.name = this.userDetails.name;
+    }
+    if (this.userDetails.userName != this.originalUserDetails.userName) {
+      user.userName = this.userDetails.userName;
+    }
+    if (this.userDetails.birthday != this.originalUserDetails.birthday) {
+      user.birthday = this.userDetails.birthday;
+      const fechaNormal = new Date(this.userDetails.birthday);
+      user.birthday = fechaNormal.toISOString();
+    }
+    if (this.userDetails.image != this.originalUserDetails.image) {
+      user.image = this.userDetails.image;
+    }
+
+    this.userService.edit(user);
   }
 }

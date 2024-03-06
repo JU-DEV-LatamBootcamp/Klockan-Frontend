@@ -8,44 +8,41 @@
       alt="{{ userDetails.name }}"
       class="profile-image" />
   </section>
-  <section id="profile-data" *ngIf="togglePasswordChange">
+  <section id="profile-data">
     <ng-container *ngFor="let field of infoFields; let last = last">
       <div *ngIf="!excludedFields.includes(field.title)" class="info-field">
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" *ngIf="field.key !== 'birthday'">
           <mat-label>{{ field.title }}</mat-label>
           <input
             matInput
             [(ngModel)]="userDetails[field.key]"
             name="{{ field.key }}"
-            [type]="field.key === 'birthday' ? 'date' : 'text'" />
+            [disabled]="field.key === 'userName'" />
+        </mat-form-field>
+        <mat-form-field appearance="fill" *ngIf="field.key === 'birthday'">
+          <mat-label>{{ field.title }}</mat-label>
+          <input
+            matInput
+            [(ngModel)]="userDetails[field.key]"
+            name="{{ field.key }}"
+            id="birthday-date"
+            [matDatepicker]="picker" />
+          <mat-hint>MM/DD/YYYY</mat-hint>
+
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"></mat-datepicker-toggle>
+
+          <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
       <mat-divider
         *ngIf="!excludedFields.includes(field.title) && !last"></mat-divider>
     </ng-container>
   </section>
-  <section *ngIf="!togglePasswordChange" class="password">
-    <div class="info-field">
-      <mat-form-field appearance="fill">
-        <mat-label>Password</mat-label>
-        <input
-          matInput
-          [(ngModel)]="password"
-          name="password"
-          type="password" />
-      </mat-form-field>
-      <mat-error *ngIf="passwordError.length !== 0">
-        {{ passwordError }}
-      </mat-error>
-    </div>
-  </section>
   <div class="buttons">
     <button mat-raised-button color="primary" (click)="submitForm()">
       Enviar
-    </button>
-    or
-    <button mat-button color="primary" (click)="togglePassword()">
-      {{ !togglePasswordChange ? 'Change Personal data' : 'Change password' }}
     </button>
   </div>
   <section id="profile-password"></section>

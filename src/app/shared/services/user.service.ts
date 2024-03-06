@@ -19,8 +19,7 @@ export class UserService extends BaseService<User> {
     return this.http.post<User>(`${this.baseRoute}${this.usersPath}`, entity);
   }
   override edit(entity: Partial<User>): Observable<User> {
-    alert(`editando usuario ${JSON.stringify(entity)}`);
-    console.log('editando usuario', entity);
+    console.log(entity);
     return this.http.put<User>(`${this.baseRoute}${this.usersPath}`, entity);
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
