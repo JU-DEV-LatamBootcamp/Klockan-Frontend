@@ -12,12 +12,8 @@ export class MeetingService extends BaseService<Meeting | CreateMeeting> {
   meetingPath = environment.api.meetingsEndpoint;
 
   override getAll(): Observable<Meeting[]> {
-    const token = this.oAuthService.getAccessToken();
-    const headers = super.createHeaders(token);
     return this.http
-      .get<MeetingFromService[]>(`${this.baseRoute}${this.meetingPath}`, {
-        headers,
-      })
+      .get<MeetingFromService[]>(`${this.baseRoute}${this.meetingPath}`)
       .pipe(
         map(meetingsFromService =>
           transformMeetingFromService(meetingsFromService)
@@ -26,12 +22,9 @@ export class MeetingService extends BaseService<Meeting | CreateMeeting> {
   }
 
   override create(meeting: CreateMeeting): Observable<CreateMeeting> {
-    const token = this.oAuthService.getAccessToken();
-    const headers = super.createHeaders(token);
     return this.http.post<CreateMeeting>(
       `${this.baseRoute}${this.meetingPath}`,
-      meeting,
-      { headers }
+      meeting
     );
   }
 

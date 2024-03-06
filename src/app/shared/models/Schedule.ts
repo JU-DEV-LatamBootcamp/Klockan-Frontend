@@ -1,5 +1,5 @@
 export interface Schedule {
-  id?: string;
-  weekdayId: string;
+  id?: number;
+  weekdayId: number;
   startTime: string;
 }

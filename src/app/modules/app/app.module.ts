@@ -16,6 +16,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import {
+  MatMomentDateModule,
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+} from '@angular/material-moment-adapter';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 // Components
@@ -44,7 +48,9 @@ import { MeetingFormComponent } from './pages/meetings/components/meeting-form/m
 import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
 
 @NgModule({
-  providers: [],
+  providers: [
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+  ],
   imports: [
     CommonModule,
     AppRoutingModule,
@@ -70,6 +76,7 @@ import { EditProfileComponent } from './pages/edit-profile/edit-profile.componen
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatMomentDateModule,
     NgxMaterialTimepickerModule,
   ],
   declarations: [
