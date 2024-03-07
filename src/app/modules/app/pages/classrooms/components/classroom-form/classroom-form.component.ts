@@ -203,14 +203,12 @@ export class ClassroomFormComponent implements OnInit {
     if (this.isEditing) {
       this.classroomService.edit(classroom).subscribe(this.requestHandler);
     } else {
-      this.classroomService.create(classroom).subscribe(this.requestHandler);
+      this.classroomService.create(classroom).subscribe(e => {
+        const meeting = this.buildMeetingFromForm(e, classroom);
+        this.meetingService.createmultiple(meeting);
+      });
+      this.panelService.close();
     }
-
-    this.classroomService.create(classroom).subscribe(e => {
-      const meeting = this.buildMeetingFromForm(e);
-      this.meetingService.createmultiple(meeting);
-    });
-    this.panelService.close();
   }
 
   getClassroomFromForm(): Classroom {
@@ -227,7 +225,6 @@ export class ClassroomFormComponent implements OnInit {
       },
       starts: this.classroomForm.get('startingDate')?.value,
     };
-
     const schedule: Schedule[] = this.scheduleControls.map(group => {
       return {
         id: group.get('id')?.value || 0,
@@ -241,12 +238,12 @@ export class ClassroomFormComponent implements OnInit {
     return classroom;
   }
 
-  buildMeetingFromForm(data: any) {
+  buildMeetingFromForm(data: any, classroom: Classroom) {
     const meeting: CreateMultipleMeeting = {
       startdate: data.startDate,
       quantity: this.duration,
       classroomId: data.id,
-      schedules: [],
+      schedules: classroom.schedule,
     };
 
     const schedule: Schedule[] = this.scheduleControls.map(group => {
@@ -258,9 +255,6 @@ export class ClassroomFormComponent implements OnInit {
     });
 
     meeting.schedules = schedule;
-
-    console.log(meeting);
-
     return meeting;
   }
 

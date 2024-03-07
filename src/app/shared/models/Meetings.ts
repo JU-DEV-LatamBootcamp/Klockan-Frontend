@@ -30,5 +30,5 @@ export interface CreateMultipleMeeting {
   startdate: string;
   quantity: number;
   classroomId: number;
-  schedules: Schedule[];
+  schedules?: Schedule[];
 }
