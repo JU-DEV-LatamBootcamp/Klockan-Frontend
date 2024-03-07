@@ -49,6 +49,7 @@ export class ClassroomFormComponent implements OnInit {
   courses: Course[] = [];
   weekdayOptions = weekdayOptions;
   defaultDuration?: string;
+  duration = 0;
 
   constructor(
     public readonly classroomService: ClassroomService,
@@ -94,6 +95,7 @@ export class ClassroomFormComponent implements OnInit {
         this.data ? this.data.item.programObject?.id.toString() : '',
         [Validators.required],
       ],
+
       startingDate: [
         this.data ? this.data.item.starts : '',
         [Validators.required],
@@ -170,6 +172,7 @@ export class ClassroomFormComponent implements OnInit {
     if (!course?.duration) return;
 
     this.defaultDuration = course.duration.toString();
+    this.duration = course.duration;
   }
 
   public getFieldError(field: string): string | null {
@@ -193,9 +196,10 @@ export class ClassroomFormComponent implements OnInit {
     }
 
     this.classroomService.create(classroom).subscribe(e => {
-      this.requestHandler;
-      const meeting = this.buildMeetingFromForm(e, 5); //5 requiere the use of sessións from from.
-      this.meetingService.createmultiple(meeting).subscribe();
+      const meeting = this.buildMeetingFromForm(e);
+      this.meetingService.createmultiple(meeting).subscribe(m => {
+        this.dialogRef.close(classroom);
+      });
     });
   }
 
@@ -227,12 +231,12 @@ export class ClassroomFormComponent implements OnInit {
     return classroom;
   }
 
-  buildMeetingFromForm(data: any, quantity: number) {
+  buildMeetingFromForm(data: any) {
     const meeting: CreateMultipleMeeting = {
-      startdate: this.classroomForm.get('startingDate')?.value,
-      quantity: quantity,
-      classroomId: this.data?.item?.id || -1,
-      schedule: [],
+      startdate: data.startDate,
+      quantity: this.duration,
+      classroomId: data.id,
+      schedules: [],
     };
 
     const schedule: Schedule[] = this.scheduleControls.map(group => {
@@ -243,7 +247,9 @@ export class ClassroomFormComponent implements OnInit {
       };
     });
 
-    meeting.schedule = schedule;
+    meeting.schedules = schedule;
+
+    console.log(meeting);
 
     return meeting;
   }
