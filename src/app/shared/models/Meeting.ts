@@ -26,6 +26,10 @@ export interface CreateMeeting {
   users: number[];
 }
 
+export interface UpdateMeeting {
+  date: string;
+  time: string;
+}
 export interface CreateMultipleMeeting {
   startdate: string;
   quantity: number;
