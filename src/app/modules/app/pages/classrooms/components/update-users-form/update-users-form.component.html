@@ -22,7 +22,7 @@
         [formGroup]="user"
         [ngClass]="{
           'user--p-sm':
-            user.get('userId')?.valid || user.get('userId')?.untouched
+            user.get('roleId')?.valid || user.get('roleId')?.untouched
         }">
         <div class="user__content">
           <div class="user__row">
@@ -33,6 +33,7 @@
                 <mat-option
                   *ngFor="let option of userOptions"
                   [value]="option.value"
+                  [disabled]="isUserSelected(option.value)"
                   >{{ option.label }}</mat-option
                 >
               </mat-select>

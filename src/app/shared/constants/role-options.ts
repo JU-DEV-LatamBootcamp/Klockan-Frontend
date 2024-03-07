@@ -18,3 +18,7 @@ export const roleOptions: SelectOption[] = [
     value: '4',
   },
 ];
+
+export const classroomRoleOptions = roleOptions.filter(
+  role => role.label !== 'Admin'
+);

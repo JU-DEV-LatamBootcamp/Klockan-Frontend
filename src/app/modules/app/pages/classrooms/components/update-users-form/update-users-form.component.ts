@@ -7,20 +7,23 @@ import {
   Validators,
 } from '@angular/forms';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { weekdayOptions } from 'src/app/shared/constants/weekday-options';
 import { SelectOption } from 'src/app/shared/interfaces/select-options';
 import { OPanelService } from 'src/app/shared/layouts/app-layout/services/o-panel/o-panel.service';
 import { Classroom } from 'src/app/shared/models/Classroom';
-import { Schedule } from 'src/app/shared/models/Schedule';
 import { ClassroomService } from 'src/app/shared/services/classroom.service';
 import { CourseService } from 'src/app/shared/services/course.service';
 import { ProgramService } from 'src/app/shared/services/program.service';
-import { transform12TimeTo24Time } from 'src/app/shared/utils/time-mapper';
 import { ClassroomFormComponent } from '../classroom-form/classroom-form.component';
 import { map, tap } from 'rxjs';
 import { ClassroomUser } from 'src/app/shared/models/ClassroomUser';
 import { UserService } from 'src/app/shared/services/user.service';
-import { roleOptions } from 'src/app/shared/constants/role-options';
+import { classroomRoleOptions } from 'src/app/shared/constants/role-options';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  SNACKBAR_ERROR_DEFAULTS,
+  SNACKBAR_SUCCESS_DEFAULTS,
+  SnackbarConfig,
+} from 'src/app/shared/constants/snackbar.constants';
 
 export type UpdateUsersForm = FormGroup<{
   id: FormControl<string | null>;
@@ -46,13 +49,14 @@ export type UpdateUsersFormData = {
   ],
 })
 export class UpdateUsersFormComponent {
-  roleOptions = roleOptions;
+  roleOptions = classroomRoleOptions;
   usersForm!: FormGroup;
   userOptions: SelectOption[] = [];
   data?: UpdateUsersFormData;
 
   constructor(
     private readonly formBuilder: FormBuilder,
+    private readonly snackBar: MatSnackBar,
     public readonly classroomService: ClassroomService,
     public readonly programService: ProgramService,
     public readonly courseService: CourseService,
@@ -66,6 +70,12 @@ export class UpdateUsersFormComponent {
 
     await this.fetchClassroomUsers();
     await this.fetchUserOptions();
+  }
+
+  isUserSelected(userId: string) {
+    return !!this.userControls.find(
+      userControl => userControl.get('userId')?.value === userId
+    );
   }
 
   fetchUserOptions() {
@@ -90,6 +100,7 @@ export class UpdateUsersFormComponent {
     this.classroomService
       .getUsers(this.data.classroom.id)
       .pipe(
+        map(users => users.sort((a, b) => a.roleId - b.roleId)),
         tap(users => {
           users.forEach(user => {
             this.addUser(user);
@@ -141,9 +152,11 @@ export class UpdateUsersFormComponent {
     const users = this.getClassroomUsersFromForm();
     this.classroomService
       .updateUsers(this.data.classroom.id, users)
-      .subscribe(newUsers => {
-        // TODO: show snackbar
-        console.log(newUsers);
+      .subscribe(() => {
+        this.displaySnackbar(
+          `Users updated successfully.`,
+          SNACKBAR_SUCCESS_DEFAULTS
+        );
       });
     this.openClassroomForm();
   }
@@ -174,5 +187,16 @@ export class UpdateUsersFormComponent {
 
   openClassroomForm() {
     this.panelService.openFromComponent(ClassroomFormComponent);
+  }
+
+  private displaySnackbar(
+    message: string,
+    customConfig?: SnackbarConfig
+  ): void {
+    this.snackBar.open(
+      message,
+      SNACKBAR_ERROR_DEFAULTS.CLOSE_BUTTON_TEXT,
+      customConfig?.CONFIG ?? SNACKBAR_ERROR_DEFAULTS.CONFIG
+    );
   }
 }
