@@ -13,9 +13,11 @@ import { SelectOption } from 'src/app/shared/interfaces/select-options';
 import { OPanelService } from 'src/app/shared/layouts/app-layout/services/o-panel/o-panel.service';
 import { Classroom } from 'src/app/shared/models/Classroom';
 import { Course } from 'src/app/shared/models/Courses';
+import { CreateMultipleMeeting } from 'src/app/shared/models/Meeting';
 import { Schedule } from 'src/app/shared/models/Schedule';
 import { ClassroomService } from 'src/app/shared/services/classroom.service';
 import { CourseService } from 'src/app/shared/services/course.service';
+import { MeetingService } from 'src/app/shared/services/meeting.service';
 import { ProgramService } from 'src/app/shared/services/program.service';
 import {
   transform12TimeTo24Time,
@@ -58,10 +60,12 @@ export class ClassroomFormComponent implements OnInit {
   defaultDuration?: string;
   data?: ClassroomFormData;
   isEditing = false;
+  duration = 0;
 
   constructor(
     private readonly formBuilder: FormBuilder,
     public readonly classroomService: ClassroomService,
+    public readonly meetingService: MeetingService,
     public readonly programService: ProgramService,
     public readonly courseService: CourseService,
     public readonly panelService: OPanelService
@@ -101,6 +105,7 @@ export class ClassroomFormComponent implements OnInit {
         this.data ? this.data.classroom?.programObject?.id.toString() : '',
         [Validators.required],
       ],
+
       startingDate: [
         this.data ? this.data.classroom?.starts : '',
         [Validators.required],
@@ -177,6 +182,7 @@ export class ClassroomFormComponent implements OnInit {
     if (!course?.duration) return;
 
     this.defaultDuration = course.duration.toString();
+    this.duration = course.duration;
   }
 
   public getFieldError(field: string): string | null {
@@ -197,7 +203,11 @@ export class ClassroomFormComponent implements OnInit {
     if (this.isEditing) {
       this.classroomService.edit(classroom).subscribe(this.requestHandler);
     } else {
-      this.classroomService.create(classroom).subscribe(this.requestHandler);
+      this.classroomService.create(classroom).subscribe(e => {
+        const meeting = this.buildMeetingFromForm(e, classroom);
+        this.meetingService.createmultiple(meeting);
+      });
+      this.panelService.close();
     }
   }
 
@@ -215,7 +225,6 @@ export class ClassroomFormComponent implements OnInit {
       },
       starts: this.classroomForm.get('startingDate')?.value,
     };
-
     const schedule: Schedule[] = this.scheduleControls.map(group => {
       return {
         id: group.get('id')?.value || 0,
@@ -227,6 +236,26 @@ export class ClassroomFormComponent implements OnInit {
     classroom.schedule = schedule;
 
     return classroom;
+  }
+
+  buildMeetingFromForm(data: any, classroom: Classroom) {
+    const meeting: CreateMultipleMeeting = {
+      startdate: data.startDate,
+      quantity: this.duration,
+      classroomId: data.id,
+      schedules: classroom.schedule,
+    };
+
+    const schedule: Schedule[] = this.scheduleControls.map(group => {
+      return {
+        id: group.get('id')?.value || 0,
+        weekdayId: group.get('weekday')?.value,
+        startTime: transform12TimeTo24Time(group.get('startingTime')?.value),
+      };
+    });
+
+    meeting.schedules = schedule;
+    return meeting;
   }
 
   get requestHandler() {

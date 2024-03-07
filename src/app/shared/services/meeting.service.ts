@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { BaseService } from './base.service';
-import { CreateMeeting, Meeting, MeetingFromService } from '../models/Meetings';
+import {
+  CreateMeeting,
+  CreateMultipleMeeting,
+  Meeting,
+  MeetingFromService,
+} from '../models/Meeting';
 import { Observable, map } from 'rxjs';
 import {
   transformMeetingFromService,
@@ -29,6 +34,12 @@ export class MeetingService extends BaseService<
   override create(meeting: CreateMeeting): Observable<CreateMeeting> {
     return this.http.post<CreateMeeting>(
       `${this.baseRoute}${this.meetingPath}`,
+      meeting
+    );
+  }
+  createmultiple(meeting: CreateMultipleMeeting): Observable<Meeting[]> {
+    return this.http.post<Meeting[]>(
+      `${this.baseRoute}${this.meetingPath}/Shedule`,
       meeting
     );
   }
