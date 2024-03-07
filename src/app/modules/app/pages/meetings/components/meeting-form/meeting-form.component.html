@@ -1,3 +1,4 @@
+<script src="meeting-form.component.ts"></script>
 <app-dialog>
   <mat-toolbar ngProjectAs="[header]" class="dialog-title">
     {{ headerTypeLabel }}
@@ -8,7 +9,7 @@
   <form ngProjectAs="[content]" [formGroup]="meetingForm">
     <mat-form-field appearance="outline">
       <mat-label>Classroom</mat-label>
-      <mat-select formControlName="classroom">
+      <mat-select formControlName="classroom" [disabled]="isEdit">
         <mat-option
           *ngFor="let option of classroomOptions"
           [value]="+option.value"
@@ -19,32 +20,36 @@
         {{ getFieldError('classroom') }}
       </mat-error>
     </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Add students</mat-label>
-      <mat-select [multiple]="true" formControlName="students">
-        <mat-option
-          *ngFor="let option of studentOptions"
-          [value]="+option.value">
-          {{ option.label }}
-        </mat-option>
-      </mat-select>
-      <mat-error *ngIf="meetingForm.get('students')?.touched">
-        {{ getFieldError('students') }}
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Add trainer</mat-label>
-      <mat-select formControlName="trainer">
-        <mat-option
-          *ngFor="let option of trainerOptions"
-          [value]="+option.value">
-          {{ option.label }}
-        </mat-option>
-      </mat-select>
-      <mat-error *ngIf="meetingForm.get('trainer')?.touched">
-        {{ getFieldError('trainer') }}
-      </mat-error>
-    </mat-form-field>
+    <ng-container *ngIf="!isEdit">
+      <mat-form-field appearance="outline">
+        <mat-label>Add students</mat-label>
+        <mat-select [multiple]="true" formControlName="students">
+          <mat-option
+            *ngFor="let option of studentOptions"
+            [value]="+option.value">
+            {{ option.label }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="meetingForm.get('students')?.touched">
+          {{ getFieldError('students') }}
+        </mat-error>
+      </mat-form-field>
+    </ng-container>
+    <ng-container *ngIf="!isEdit">
+      <mat-form-field appearance="outline">
+        <mat-label>Add trainer</mat-label>
+        <mat-select formControlName="trainer">
+          <mat-option
+            *ngFor="let option of trainerOptions"
+            [value]="+option.value">
+            {{ option.label }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="meetingForm.get('trainer')?.touched">
+          {{ getFieldError('trainer') }}
+        </mat-error>
+      </mat-form-field>
+    </ng-container>
     <div class="schedule__row">
       <mat-form-field appearance="outline">
         <mat-label>Starting date</mat-label>
