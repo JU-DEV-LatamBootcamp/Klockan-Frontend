@@ -18,5 +18,7 @@ export const environment = {
     countriesEndpoint: '/v1/countries',
     schedulesEndpoint: (classroomId: number) =>
       `/v1/classrooms/${classroomId}/schedules`,
+    classroomUsersEndpoint: (classroomId: number) =>
+      `/v1/classrooms/${classroomId}/users`,
   },
 };

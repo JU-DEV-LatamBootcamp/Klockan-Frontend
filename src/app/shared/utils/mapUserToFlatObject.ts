@@ -7,9 +7,9 @@ export function mapUserToFlatObject({
   avatar,
   email,
   birthdate,
-  city: { name: cityName, code: cityCode },
-  country: { name: countryName, code: countryCode },
-  role: { name: roleName },
+  city: { id: cityId, name: cityName, code: cityCode },
+  country: { id: countryId, name: countryName, code: countryCode },
+  role: { id: roleId, name: roleName },
 }: User): UserFlat {
   return {
     id,
@@ -20,8 +20,11 @@ export function mapUserToFlatObject({
     birthdate,
     city: cityName,
     cityCode,
+    cityId,
     country: countryName,
     countryCode,
+    countryId,
     role: roleName,
+    roleId,
   };
 }

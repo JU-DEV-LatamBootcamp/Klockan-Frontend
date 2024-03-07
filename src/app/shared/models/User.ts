@@ -26,4 +26,7 @@ export interface UserFlat {
   country: string;
   countryCode: string;
   role: string;
+  cityId: number;
+  countryId: number;
+  roleId: number;
 }

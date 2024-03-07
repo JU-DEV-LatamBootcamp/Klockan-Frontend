@@ -13,11 +13,15 @@ import {
   classroomTypeColumns,
 } from './classrooms.constants';
 import { DialogService } from 'src/app/shared/layouts/app-layout/services/dialog/dialog.service';
-import { ClassroomFormComponent } from './components/classroom-form/classroom-form.component';
+import {
+  ClassroomFormComponent,
+  ClassroomFormData,
+} from './components/classroom-form/classroom-form.component';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { PanelService } from 'src/app/shared/layouts/app-layout/services/panel/panel.service';
 import { ErrorMessageComponent } from 'src/app/shared/components/error-message/error-message.component';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
+import { OPanelService } from 'src/app/shared/layouts/app-layout/services/o-panel/o-panel.service';
 
 @Component({
   selector: 'app-classrooms',
@@ -38,7 +42,7 @@ export class ClassroomsComponent implements OnInit {
 
   constructor(
     private readonly dialogService: DialogService,
-    private readonly panelService: PanelService,
+    private readonly panelService: OPanelService,
     private readonly snackBar: MatSnackBar,
     public readonly classroomService: ClassroomService
   ) {}
@@ -77,33 +81,20 @@ export class ClassroomsComponent implements OnInit {
     );
   }
 
-  showClassroomForm(classroom?: Classroom) {
-    this.dialogService
-      .show(
-        ClassroomFormComponent,
-        classroom
-          ? {
-              item: classroom,
-            }
-          : null
-      )
-      .subscribe(res => {
-        if (res) {
-          this.fetchClassrooms();
+  onCreated() {
+    this.fetchClassrooms();
+    this.displaySnackbar(
+      `Classroom created successfully.`,
+      SNACKBAR_SUCCESS_DEFAULTS
+    );
+  }
 
-          if (classroom) {
-            this.displaySnackbar(
-              `Classroom ${res.id} edited.`,
-              SNACKBAR_SUCCESS_DEFAULTS
-            );
-          } else {
-            this.displaySnackbar(
-              `Classroom created successfully.`,
-              SNACKBAR_SUCCESS_DEFAULTS
-            );
-          }
-        }
-      });
+  onEdited(classroom: Classroom) {
+    this.fetchClassrooms();
+    this.displaySnackbar(
+      `Classroom ${classroom.id} edited.`,
+      SNACKBAR_SUCCESS_DEFAULTS
+    );
   }
 
   private displayDeleteSnackbar({ course }: Classroom): void {
@@ -132,5 +123,16 @@ export class ClassroomsComponent implements OnInit {
         this.dialogService.showErrorMessage(ErrorMessageComponent, error.error);
       },
     });
+  }
+
+  openClassroomForm(classroom?: Classroom) {
+    this.panelService.openFromComponent(ClassroomFormComponent);
+    this.panelService.setData<ClassroomFormData>({
+      classroom,
+      onSuccess: classroom
+        ? this.onEdited.bind(this)
+        : this.onCreated.bind(this),
+    });
+    this.panelService.open();
   }
 }
