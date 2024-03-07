@@ -28,14 +28,14 @@ export class MeetingService extends BaseService<Meeting | CreateMeeting> {
 
   override create(meeting: CreateMeeting): Observable<CreateMeeting> {
     return this.http.post<CreateMeeting>(
-      `${this.baseRoute}${this.meetingPath}/Shedule`,
+      `${this.baseRoute}${this.meetingPath}`,
       meeting
     );
   }
 
   createmultiple(meeting: CreateMultipleMeeting): Observable<Meeting[]> {
     return this.http.post<Meeting[]>(
-      `${this.baseRoute}${this.meetingPath}`,
+      `${this.baseRoute}${this.meetingPath}/Shedule`,
       meeting
     );
   }
