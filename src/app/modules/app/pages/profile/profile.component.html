@@ -1,25 +1,58 @@
 <div class="profile-container">
-  <button mat-icon-button class="back-button" (click)="goBack()">
-    <mat-icon>arrow_back</mat-icon>
-  </button>
+  <section id="profile-action-buttons">
+    <button mat-icon-button class="back-button" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      class="back-button"
+      (click)="showEditProfileForm(this.currentUser)">
+      <mat-icon>edit</mat-icon>
+    </button>
+  </section>
   <div class="profile-header">
     <img
       [src]="userDetails.image"
-      alt="{{ userDetails.name }}"
+      alt="{{ userDetails.email }}"
       class="profile-image" />
-    <h1>{{ userDetails.name }}</h1>
-    <p>{{ userDetails.userName }}</p>
+    <h1>{{ this.currentUser.firstName }} {{ this.currentUser.lastName }}</h1>
+    <p>{{ this.currentUser.email }}</p>
   </div>
 
   <div class="profile-body">
     <div class="information">
-      <ng-container *ngFor="let field of infoFields; let last = last">
-        <div class="info-field">
-          <span class="field-title">{{ field.title }}</span>
-          <span class="field-content">{{ userDetails[field.key] }}</span>
-        </div>
-        <mat-divider *ngIf="!last" />
-      </ng-container>
+      <div class="info-field">
+        <span class="field-title">Full Name</span>
+        <span class="field-content"
+          >{{ this.currentUser.firstName }}
+          {{ this.currentUser.lastName }}</span
+        >
+      </div>
+      <mat-divider></mat-divider>
+      <div class="info-field">
+        <span class="field-title">Email</span>
+        <span class="field-content">{{ this.currentUser.email }} </span>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="info-field">
+        <span class="field-title">Birthdate</span>
+        <span class="field-content">{{ this.currentUser.birthdate }} </span>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="info-field">
+        <span class="field-title">Country</span>
+        <span class="field-content">{{ this.currentUser.country }} </span>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="info-field">
+        <span class="field-title">City</span>
+        <span class="field-content">{{ this.currentUser.city }} </span>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="info-field">
+        <span class="field-title">Role</span>
+        <span class="field-content">{{ this.currentUser.role }} </span>
+      </div>
     </div>
   </div>
 </div>

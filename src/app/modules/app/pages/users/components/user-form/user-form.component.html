@@ -42,7 +42,8 @@
           type="email"
           name="email"
           formControlName="email"
-          placeholder="example@mail.com" />
+          placeholder="example@mail.com"
+          [disabled]="data ? true : false" />
         <mat-error *ngIf="userForm.get('email')?.touched">
           {{ getFieldError('email') }}
         </mat-error></mat-form-field
