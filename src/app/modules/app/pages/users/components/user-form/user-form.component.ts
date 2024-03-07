@@ -109,11 +109,9 @@ export class UserFormComponent implements OnInit {
 
   private updateUser(): void {
     const user = this.userForm.value;
-    console.log(user);
     const formattedBirthdate = formatDate(user.birthdate);
     user.birthdate = formattedBirthdate;
     delete user.country;
-    console.log(user);
     this.userService.edit(user).subscribe({
       next: user => {
         this.dialogRef.close(user);
