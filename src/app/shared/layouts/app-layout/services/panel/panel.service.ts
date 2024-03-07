@@ -6,11 +6,15 @@ import {
   ComponentType,
   TemplatePortal,
 } from '@angular/cdk/portal';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: null,
 })
 export class PanelService {
+  private _data$ = new BehaviorSubject<unknown>(null);
+  public readonly data$ = this._data$.asObservable();
+
   constructor(
     private readonly _appLayoutStream: AppLayoutStream,
     private readonly _panelBridgeStream: PanelBridgeStream
@@ -30,9 +34,22 @@ export class PanelService {
   }
 
   toggle() {
-    const panel = this._appLayoutStream.panel;
-    if (!panel) return;
+    this._appLayoutStream.panel?.toggle();
+  }
 
-    panel.toggle();
+  open() {
+    this._appLayoutStream.panel?.open();
+  }
+
+  close() {
+    this._appLayoutStream.panel?.close();
+  }
+
+  setData<T>(data: T) {
+    this._data$.next(data);
+  }
+
+  clearData() {
+    this._data$.next(null);
   }
 }

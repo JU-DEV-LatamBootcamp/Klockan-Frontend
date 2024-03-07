@@ -11,6 +11,7 @@ import {
   transformToUpdateClassroom,
 } from '../utils/classroom-mapper';
 import { Schedule } from '../models/Schedule';
+import { ClassroomUser } from '../models/ClassroomUser';
 
 @Injectable({
   providedIn: 'root',
@@ -53,5 +54,23 @@ export class ClassroomService extends BaseService<Classroom> {
       this.baseRoute + environment.api.schedulesEndpoint(classroomId);
 
     return this.http.get<Schedule[]>(schedulesPath);
+  }
+
+  getUsers(classroomId: number): Observable<ClassroomUser[]> {
+    const usersPath =
+      this.baseRoute + environment.api.classroomUsersEndpoint(classroomId);
+
+    return this.http.get<ClassroomUser[]>(usersPath);
+  }
+
+  updateUsers(
+    classroomId: number,
+    users: ClassroomUser[]
+  ): Observable<ClassroomUser[]> {
+    const usersPath =
+      this.baseRoute + environment.api.classroomUsersEndpoint(classroomId);
+    const body = { users };
+
+    return this.http.put<ClassroomUser[]>(usersPath, body);
   }
 }

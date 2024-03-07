@@ -45,6 +45,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { MainHeaderComponent } from './components/main-header/main-header.component';
 import { UserFormComponent } from './pages/users/components/user-form/user-form.component';
 import { MeetingFormComponent } from './pages/meetings/components/meeting-form/meeting-form.component';
+import { UpdateUsersFormComponent } from './pages/classrooms/components/update-users-form/update-users-form.component';
 
 @NgModule({
   providers: [
@@ -98,6 +99,7 @@ import { MeetingFormComponent } from './pages/meetings/components/meeting-form/m
     UserFormComponent,
     ClassroomFormComponent,
     MeetingFormComponent,
+    UpdateUsersFormComponent,
   ],
   exports: [DeleteConfirmationComponent],
 })

@@ -1,12 +1,20 @@
-<app-dialog size="xl">
-  <mat-toolbar ngProjectAs="[header]" class="dialog-title">
-    {{ title }}
-    <button mat-icon-button mat-dialog-close>
-      <mat-icon>close</mat-icon>
-    </button>
+<div class="panel">
+  <mat-toolbar class="panel__header">
+    <div class="panel__row">
+      <button mat-icon-button (click)="panelService.close()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h2>{{ isEditing ? 'Edit Classroom' : 'Create Classroom' }}</h2>
+    </div>
+
+    <div class="panel__row">
+      <button mat-icon-button *ngIf="isEditing" (click)="openAddUsersForm()">
+        <mat-icon class="material-symbols-outlined">group_add</mat-icon>
+      </button>
+    </div>
   </mat-toolbar>
 
-  <form ngProjectAs="[content]" [formGroup]="classroomForm">
+  <form class="panel__content form" [formGroup]="classroomForm">
     <mat-form-field>
       <mat-label>Program</mat-label>
       <mat-select formControlName="program" placeholder="Choose a program">
@@ -57,7 +65,7 @@
     </mat-form-field>
 
     <div class="schedule__container" formArrayName="schedules">
-      <h2 class="form__title">Schedule</h2>
+      <h2 class="form__title form__title--mt-2">Schedule</h2>
 
       <p class="form__hint" *ngIf="defaultDuration">
         Meeting duration set to {{ defaultDuration }} minutes in selected
@@ -93,25 +101,28 @@
               </mat-error>
             </mat-form-field>
           </div>
-          <mat-form-field appearance="outline">
-            <mat-label>Starting time</mat-label>
-            <input
-              formControlName="startingTime"
-              matInput
-              placeholder="e.g. 4:30 PM"
-              [ngxTimepicker]="startingTimePicker" />
 
-            <mat-error *ngIf="schedule.get('startingTime')?.touched">
-              This field is required
-            </mat-error>
+          <div class="schedule__row">
+            <mat-form-field appearance="outline">
+              <mat-label>Starting time</mat-label>
+              <input
+                formControlName="startingTime"
+                matInput
+                placeholder="e.g. 4:30 PM"
+                [ngxTimepicker]="startingTimePicker" />
 
-            <ngx-material-timepicker
-              #startingTimePicker
-              class="time-picker"
-              [preventOverlayClick]="false"></ngx-material-timepicker>
-          </mat-form-field>
+              <mat-error *ngIf="schedule.get('startingTime')?.touched">
+                This field is required
+              </mat-error>
 
-          <div class="schedule__row"></div>
+              <ngx-material-timepicker
+                #startingTimePicker
+                [classList]="'time-picker'"
+                class="time-picker"
+                [appendToInput]="true"
+                [preventOverlayClick]="false"></ngx-material-timepicker>
+            </mat-form-field>
+          </div>
         </div>
 
         <div class="schedule__actions">
@@ -134,8 +145,10 @@
     </div>
   </form>
 
-  <div ngProjectAs="[actions]" class="dialog-actions">
-    <button mat-button mat-dialog-close class="cancel-button">Cancel</button>
+  <div class="panel__actions">
+    <button mat-button (click)="panelService.close()" class="cancel-button">
+      Cancel
+    </button>
     <button
       mat-button
       class="confirm-button"
@@ -144,4 +157,4 @@
       Confirm
     </button>
   </div>
-</app-dialog>
+</div>
