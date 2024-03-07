@@ -13,9 +13,11 @@ import { weekdayOptions } from 'src/app/shared/constants/weekday-options';
 import { SelectOption } from 'src/app/shared/interfaces/select-options';
 import { Classroom } from 'src/app/shared/models/Classroom';
 import { Course } from 'src/app/shared/models/Courses';
+import { CreateMultipleMeeting } from 'src/app/shared/models/Meetings';
 import { Schedule } from 'src/app/shared/models/Schedule';
 import { ClassroomService } from 'src/app/shared/services/classroom.service';
 import { CourseService } from 'src/app/shared/services/course.service';
+import { MeetingService } from 'src/app/shared/services/meeting.service';
 import { ProgramService } from 'src/app/shared/services/program.service';
 import {
   transform12TimeTo24Time,
@@ -50,6 +52,7 @@ export class ClassroomFormComponent implements OnInit {
 
   constructor(
     public readonly classroomService: ClassroomService,
+    public readonly meetingService: MeetingService,
     public readonly programService: ProgramService,
     public readonly courseService: CourseService,
     private readonly formBuilder: FormBuilder,
@@ -189,7 +192,11 @@ export class ClassroomFormComponent implements OnInit {
       return;
     }
 
-    this.classroomService.create(classroom).subscribe(this.requestHandler);
+    this.classroomService.create(classroom).subscribe(e => {
+      this.requestHandler;
+      const meeting = this.buildMeetingFromForm(e, 5); //5 requiere the use of sessións from from.
+      this.meetingService.createmultiple(meeting).subscribe();
+    });
   }
 
   buildClassroomFromForm() {
@@ -218,6 +225,27 @@ export class ClassroomFormComponent implements OnInit {
     classroom.schedule = schedule;
 
     return classroom;
+  }
+
+  buildMeetingFromForm(data: any, quantity: number) {
+    const meeting: CreateMultipleMeeting = {
+      startdate: this.classroomForm.get('startingDate')?.value,
+      quantity: quantity,
+      classroomId: this.data?.item?.id || -1,
+      schedule: [],
+    };
+
+    const schedule: Schedule[] = this.scheduleControls.map(group => {
+      return {
+        id: group.get('id')?.value || 0,
+        weekdayId: group.get('weekday')?.value,
+        startTime: transform12TimeTo24Time(group.get('startingTime')?.value),
+      };
+    });
+
+    meeting.schedule = schedule;
+
+    return meeting;
   }
 
   get requestHandler() {
