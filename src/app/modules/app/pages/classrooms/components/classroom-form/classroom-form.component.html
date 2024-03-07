@@ -8,7 +8,7 @@
     </div>
 
     <div class="panel__row">
-      <button mat-icon-button *ngIf="isEditing">
+      <button mat-icon-button *ngIf="isEditing" (click)="openAddUsersForm()">
         <mat-icon class="material-symbols-outlined">group_add</mat-icon>
       </button>
     </div>
@@ -65,7 +65,7 @@
     </mat-form-field>
 
     <div class="schedule__container" formArrayName="schedules">
-      <h2 class="form__title">Schedule</h2>
+      <h2 class="form__title form__title--mt-2">Schedule</h2>
 
       <p class="form__hint" *ngIf="defaultDuration">
         Meeting duration set to {{ defaultDuration }} minutes in selected
@@ -101,27 +101,28 @@
               </mat-error>
             </mat-form-field>
           </div>
-          <mat-form-field appearance="outline">
-            <mat-label>Starting time</mat-label>
-            <input
-              formControlName="startingTime"
-              matInput
-              placeholder="e.g. 4:30 PM"
-              [ngxTimepicker]="startingTimePicker" />
 
-            <mat-error *ngIf="schedule.get('startingTime')?.touched">
-              This field is required
-            </mat-error>
+          <div class="schedule__row">
+            <mat-form-field appearance="outline">
+              <mat-label>Starting time</mat-label>
+              <input
+                formControlName="startingTime"
+                matInput
+                placeholder="e.g. 4:30 PM"
+                [ngxTimepicker]="startingTimePicker" />
 
-            <ngx-material-timepicker
-              #startingTimePicker
-              [classList]="'time-picker'"
-              class="time-picker"
-              [appendToInput]="true"
-              [preventOverlayClick]="false"></ngx-material-timepicker>
-          </mat-form-field>
+              <mat-error *ngIf="schedule.get('startingTime')?.touched">
+                This field is required
+              </mat-error>
 
-          <div class="schedule__row"></div>
+              <ngx-material-timepicker
+                #startingTimePicker
+                [classList]="'time-picker'"
+                class="time-picker"
+                [appendToInput]="true"
+                [preventOverlayClick]="false"></ngx-material-timepicker>
+            </mat-form-field>
+          </div>
         </div>
 
         <div class="schedule__actions">

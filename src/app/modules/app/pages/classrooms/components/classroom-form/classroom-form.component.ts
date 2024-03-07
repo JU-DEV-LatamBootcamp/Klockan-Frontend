@@ -21,6 +21,10 @@ import {
   transform12TimeTo24Time,
   transformDateTimeToTimePickerString,
 } from 'src/app/shared/utils/time-mapper';
+import {
+  UpdateUsersFormComponent,
+  UpdateUsersFormData,
+} from '../update-users-form/update-users-form.component';
 
 export type ScheduleForm = FormGroup<{
   id: FormControl<string | null>;
@@ -197,7 +201,7 @@ export class ClassroomFormComponent implements OnInit {
     }
   }
 
-  getClassroomFromForm() {
+  getClassroomFromForm(): Classroom {
     const classroom: Classroom = {
       id: this.data?.classroom?.id || -1,
       courseObject: {
@@ -239,5 +243,9 @@ export class ClassroomFormComponent implements OnInit {
         }
       },
     };
+  }
+
+  openAddUsersForm() {
+    this.panelService.openFromComponent(UpdateUsersFormComponent);
   }
 }
