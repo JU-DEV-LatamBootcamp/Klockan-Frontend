@@ -1,9 +1,17 @@
 <div class="panel">
   <mat-toolbar class="panel__header">
-    {{ title }}
-    <button mat-icon-button mat-dialog-close>
-      <mat-icon>close</mat-icon>
-    </button>
+    <div class="panel__row">
+      <button mat-icon-button (click)="panelService.close()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h2>{{ isEditing ? 'Edit Classroom' : 'Create Classroom' }}</h2>
+    </div>
+
+    <div class="panel__row">
+      <button mat-icon-button *ngIf="isEditing">
+        <mat-icon class="material-symbols-outlined">group_add</mat-icon>
+      </button>
+    </div>
   </mat-toolbar>
 
   <form class="panel__content form" [formGroup]="classroomForm">
@@ -137,7 +145,9 @@
   </form>
 
   <div class="panel__actions">
-    <button mat-button mat-dialog-close class="cancel-button">Cancel</button>
+    <button mat-button (click)="panelService.close()" class="cancel-button">
+      Cancel
+    </button>
     <button
       mat-button
       class="confirm-button"

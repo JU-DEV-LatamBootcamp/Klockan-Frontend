@@ -30,8 +30,8 @@ export type ScheduleForm = FormGroup<{
 
 export type ClassroomFormData = {
   classroom?: Classroom;
-  onConfirm?: () => void;
-  onCancel?: () => void;
+  onSuccess?: (classroom: Classroom) => void;
+  onError?: (error: unknown) => void;
 };
 
 @Component({
@@ -46,7 +46,6 @@ export type ClassroomFormData = {
   ],
 })
 export class ClassroomFormComponent implements OnInit {
-  title!: string;
   classroomForm!: FormGroup;
   programOptions: SelectOption[] = [];
   courseOptions: SelectOption[] = [];
@@ -54,17 +53,18 @@ export class ClassroomFormComponent implements OnInit {
   weekdayOptions = weekdayOptions;
   defaultDuration?: string;
   data?: ClassroomFormData;
+  isEditing = false;
 
   constructor(
+    private readonly formBuilder: FormBuilder,
     public readonly classroomService: ClassroomService,
     public readonly programService: ProgramService,
     public readonly courseService: CourseService,
-    private readonly formBuilder: FormBuilder,
-    private readonly panelService: OPanelService
+    public readonly panelService: OPanelService
   ) {}
   async ngOnInit(): Promise<void> {
     this.data = this.panelService.data as ClassroomFormData;
-    this.title = this.data ? 'Edit Classroom' : 'Create Classroom';
+    this.isEditing = !!this.data.classroom;
     this.initializeForm();
 
     await this.fetchClassroomSchedules();
@@ -188,17 +188,16 @@ export class ClassroomFormComponent implements OnInit {
   }
 
   onSubmit() {
-    const classroom = this.buildClassroomFromForm();
+    const classroom = this.getClassroomFromForm();
 
-    if (this.data) {
+    if (this.isEditing) {
       this.classroomService.edit(classroom).subscribe(this.requestHandler);
-      return;
+    } else {
+      this.classroomService.create(classroom).subscribe(this.requestHandler);
     }
-
-    this.classroomService.create(classroom).subscribe(this.requestHandler);
   }
 
-  buildClassroomFromForm() {
+  getClassroomFromForm() {
     const classroom: Classroom = {
       id: this.data?.classroom?.id || -1,
       courseObject: {
@@ -229,15 +228,15 @@ export class ClassroomFormComponent implements OnInit {
   get requestHandler() {
     return {
       next: (classroom: Classroom) => {
-        // TODO: fix this
-        // this.dialogRef.close(classroom);
         this.panelService.close();
+        if (this.data?.onSuccess) {
+          this.data?.onSuccess(classroom);
+        }
       },
       error: (error: Error) => {
-        console.error(
-          `Error ${this.data ? 'editing' : 'creating'} classroom:`,
-          error
-        );
+        if (this.data?.onError) {
+          this.data?.onError(error);
+        }
       },
     };
   }

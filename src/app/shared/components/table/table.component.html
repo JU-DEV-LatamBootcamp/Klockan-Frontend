@@ -47,7 +47,7 @@
           mat-icon-button
           class="table__button mat-mini-icon-button"
           [disabled]="!onRowEdit.observed"
-          (click)="editRow(row)">
+          (click)="editRow($event, row)">
           <mat-icon class="material-symbols-outlined" fontIcon="edit" />
         </button>
         <button
@@ -55,7 +55,7 @@
           mat-icon-button
           class="table__button mat-mini-icon-button"
           [disabled]="!onRowDelete.observed"
-          (click)="deleteRow(row)">
+          (click)="deleteRow($event, row)">
           <mat-icon class="material-symbols-outlined" fontIcon="delete" />
         </button>
       </div>
