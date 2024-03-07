@@ -13,7 +13,7 @@ import { map } from 'rxjs/operators';
 import {
   CreateMeeting,
   Meeting,
-} from '../../../../../../shared/models/Meetings';
+} from '../../../../../../shared/models/Meeting';
 import getTimeOnlyFromString from '../../../../../../shared/utils/date-only-formater';
 
 @Component({

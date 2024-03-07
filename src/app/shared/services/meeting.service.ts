@@ -6,7 +6,7 @@ import {
   CreateMultipleMeeting,
   Meeting,
   MeetingFromService,
-} from '../models/Meetings';
+} from '../models/Meeting';
 import { Observable, map } from 'rxjs';
 import { transformMeetingFromService } from '../utils/meeting-mapper';
 

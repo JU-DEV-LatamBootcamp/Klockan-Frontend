@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { meetingCommonColumns, meetingTypeColumns } from './meeting.constants';
-import { Meeting } from 'src/app/shared/models/Meetings';
+import { Meeting } from 'src/app/shared/models/Meeting';
 import { MeetingService } from 'src/app/shared/services/meeting.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { API_ERROR_MESSAGE } from 'src/app/shared/constants/api.constants';

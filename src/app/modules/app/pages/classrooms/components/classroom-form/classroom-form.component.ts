@@ -13,7 +13,7 @@ import { SelectOption } from 'src/app/shared/interfaces/select-options';
 import { OPanelService } from 'src/app/shared/layouts/app-layout/services/o-panel/o-panel.service';
 import { Classroom } from 'src/app/shared/models/Classroom';
 import { Course } from 'src/app/shared/models/Courses';
-import { CreateMultipleMeeting } from 'src/app/shared/models/Meetings';
+import { CreateMultipleMeeting } from 'src/app/shared/models/Meeting';
 import { Schedule } from 'src/app/shared/models/Schedule';
 import { ClassroomService } from 'src/app/shared/services/classroom.service';
 import { CourseService } from 'src/app/shared/services/course.service';

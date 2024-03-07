@@ -1,4 +1,4 @@
-import { Meeting, MeetingFromService } from '../models/Meetings';
+import { Meeting, MeetingFromService } from '../models/Meeting';
 
 export function transformMeetingFromService(
   meetingFromService: MeetingFromService[]
