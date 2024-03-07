@@ -11,6 +11,7 @@ import { CountriesService } from 'src/app/shared/services/countries.service';
 import { UserService } from 'src/app/shared/services/user.service';
 import { userRoles } from '../../users.constants';
 import { formatDate } from 'src/app/shared/utils/date-formatter';
+import { KeycloakService } from 'src/app/core/services/keycloak/keycloak.service';
 
 @Component({
   selector: 'app-user-form',
@@ -28,14 +29,18 @@ export class UserFormComponent implements OnInit {
   countries: Country[] = [];
   cities: City[] = [];
   roles: Role[] = userRoles;
+  userRoles: string[] | undefined;
 
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly userService: UserService,
     private readonly countriesService: CountriesService,
+    private readonly keycloakService: KeycloakService,
     private readonly dialogRef: MatDialogRef<UserFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: User
-  ) {}
+  ) {
+    this.userRoles = this.keycloakService.getUserDetails()?.roles;
+  }
 
   ngOnInit(): void {
     this.initializeForm();
@@ -80,7 +85,11 @@ export class UserFormComponent implements OnInit {
 
   public onSubmit(): void {
     if (this.userForm.valid) {
-      this.createUser();
+      if (this.data) {
+        this.updateUser();
+      } else {
+        this.createUser();
+      }
     } else this.userForm.markAllAsTouched();
   }
 
@@ -89,6 +98,21 @@ export class UserFormComponent implements OnInit {
     const formattedBirthdate = formatDate(user.birthdate);
     user.birthdate = formattedBirthdate;
     this.userService.create(user).subscribe({
+      next: user => {
+        this.dialogRef.close(user);
+      },
+      error: error => {
+        console.error('Error creating user ', error);
+      },
+    });
+  }
+
+  private updateUser(): void {
+    const user = this.userForm.value;
+    const formattedBirthdate = formatDate(user.birthdate);
+    user.birthdate = formattedBirthdate;
+    delete user.country;
+    this.userService.edit(user).subscribe({
       next: user => {
         this.dialogRef.close(user);
       },
