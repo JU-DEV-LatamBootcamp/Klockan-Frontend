@@ -35,15 +35,14 @@
       >
     </div>
     <div class="fields-container">
-      <mat-form-field class="email-field">
+      <mat-form-field class="email-field" *ngIf="!data">
         <mat-label for="email">Email</mat-label>
         <input
           matInput
           type="email"
           name="email"
           formControlName="email"
-          placeholder="example@mail.com"
-          [disabled]="data ? true : false" />
+          placeholder="example@mail.com" />
         <mat-error *ngIf="userForm.get('email')?.touched">
           {{ getFieldError('email') }}
         </mat-error></mat-form-field
@@ -87,7 +86,9 @@
         </mat-error></mat-form-field
       >
     </div>
-    <mat-form-field class="role-field">
+    <mat-form-field
+      class="role-field"
+      *ngIf="this.userRoles?.includes('admin')">
       <mat-label for="roleId">Role</mat-label>
       <mat-select formControlName="roleId">
         <mat-option *ngFor="let role of roles" [value]="role.id">

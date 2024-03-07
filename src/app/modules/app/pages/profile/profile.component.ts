@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { BASE_PROFILE } from './profile.constants';
 import { KeycloakService } from 'src/app/core/services/keycloak/keycloak.service';
 import { ProfileFromKeycloak } from 'src/app/core/services/keycloak/keycloak.types';
-import { UserFlat } from 'src/app/shared/models/User';
+import { User, UserFlat } from 'src/app/shared/models/User';
 import { ProfileService } from 'src/app/core/services/profile/profile.service';
 import { mapUserToFlatObject } from 'src/app/shared/utils/mapUserToFlatObject';
 import { DialogService } from 'src/app/shared/layouts/app-layout/services/dialog/dialog.service';
@@ -15,6 +15,11 @@ import {
   SnackbarConfig,
 } from 'src/app/shared/constants/snackbar.constants';
 import { OPanelService } from 'src/app/shared/layouts/app-layout/services/o-panel/o-panel.service';
+import { City } from 'src/app/shared/models/City';
+import { Country } from 'src/app/shared/models/Country';
+import { Role } from 'src/app/shared/models/Role';
+import { userRoles } from '../users/users.constants';
+import { CountriesService } from 'src/app/shared/services/countries.service';
 
 @Component({
   selector: 'app-profile',
@@ -25,6 +30,9 @@ export class ProfileComponent {
   keycloackProfile!: ProfileFromKeycloak | null;
   userDetails: Profile = BASE_PROFILE; // just for default avatar image
   currentUser!: UserFlat;
+  countries: Country[] = [];
+  cities: City[] = [];
+  roles: Role[] = userRoles;
 
   constructor(
     private readonly router: Router,
@@ -32,6 +40,7 @@ export class ProfileComponent {
     private readonly profileService: ProfileService,
     private readonly oPanelService: OPanelService,
     private readonly dialogService: DialogService,
+    private readonly countriesService: CountriesService,
     public readonly snackBar: MatSnackBar
   ) {
     this.getCurrentUser();
@@ -46,20 +55,26 @@ export class ProfileComponent {
   }
 
   showEditProfileForm(user: UserFlat) {
+    const userInfo = {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      birthdate: user.birthdate,
+      city: user.cityId,
+      country: user.countryId,
+      role: user.roleId,
+    };
     this.dialogService
-      .show(UserFormComponent, user ?? null)
+      .show(UserFormComponent, userInfo ?? null)
       .subscribe(result => {
         if (result) {
           this.displayCreateSnackbar(result);
-          this.fetchUsers();
         }
       });
   }
-  fetchUsers() {
-    throw new Error('Method not implemented.');
-  }
 
-  private displayCreateSnackbar({ firstName, lastName }: UserFlat): void {
+  private displayCreateSnackbar({ firstName, lastName }: User): void {
     this.displaySnackbar(
       `User ${firstName} ${lastName} edited.`,
       SNACKBAR_SUCCESS_DEFAULTS
