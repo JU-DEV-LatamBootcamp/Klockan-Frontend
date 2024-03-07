@@ -23,3 +23,8 @@ export interface CreateMeeting {
   trainerId: number;
   users: number[];
 }
+
+export interface UpdateMeeting {
+  date: string;
+  time: string;
+}

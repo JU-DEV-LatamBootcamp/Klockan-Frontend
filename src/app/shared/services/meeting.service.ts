@@ -3,12 +3,17 @@ import { environment } from 'src/environments/environment';
 import { BaseService } from './base.service';
 import { CreateMeeting, Meeting, MeetingFromService } from '../models/Meetings';
 import { Observable, map } from 'rxjs';
-import { transformMeetingFromService } from '../utils/meeting-mapper';
+import {
+  transformMeetingFromService,
+  transformToUpdateMeeting,
+} from '../utils/meeting-mapper';
 
 @Injectable({
   providedIn: 'root',
 })
-export class MeetingService extends BaseService<Meeting | CreateMeeting> {
+export class MeetingService extends BaseService<
+  Meeting | Partial<CreateMeeting>
+> {
   meetingPath = environment.api.meetingsEndpoint;
 
   override getAll(): Observable<Meeting[]> {
@@ -28,9 +33,13 @@ export class MeetingService extends BaseService<Meeting | CreateMeeting> {
     );
   }
 
-  override edit(entity: Meeting): Observable<Meeting> {
-    alert('Editing MEETING' + entity.id);
-    throw new Error('Method not implemented.');
+  override edit(meeting: Meeting): Observable<Meeting> {
+    const body = transformToUpdateMeeting(meeting);
+
+    return this.http.put<Meeting>(
+      `${this.baseRoute}${this.meetingPath}/${meeting.id}`,
+      body
+    );
   }
   override delete(entity: Meeting): Observable<Meeting> {
     alert('Deleting MEETING' + entity.id);
