@@ -26,5 +26,6 @@
     [columns]="columns"
     [commonColumns]="commonColumns"
     (onRowDelete)="showDeleteDialog($event)"
-    (onRowEdit)="showClassroomForm($event)"></app-table>
+    (onRowEdit)="showClassroomForm($event)"
+    (rowInspect)="navigateToDetailsPage($event)"></app-table>
 </ng-template>

@@ -9,6 +9,7 @@ export interface ClassroomFromService {
   startDate?: string;
   program?: Program;
   course?: Course;
+  schedule?: Schedule[];
 }
 
 export interface Classroom {

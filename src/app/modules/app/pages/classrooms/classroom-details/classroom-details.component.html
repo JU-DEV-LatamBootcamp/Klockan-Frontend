@@ -1,0 +1,67 @@
+<main class="main">
+  <div class="main__header">
+    <app-main-header title="Classroom Details"></app-main-header>
+
+    <div class="main__content">
+      <div class="spinner" *ngIf="isLoading && !errorOcurred; else details">
+        <mat-spinner mode="indeterminate" diameter="70" />
+      </div>
+    </div>
+  </div>
+</main>
+
+<ng-template #details>
+  <h1>Classroom #{{ classroom.id }}</h1>
+  <strong>Start Date:</strong> {{ classroom.starts | date }}
+  <br />
+  <strong>Course:</strong> {{ classroom.course }}
+  <br />
+  <strong>Program:</strong> {{ classroom.program }}
+  <br />
+  <strong></strong>
+  <br />
+  <h2>Schedule</h2>
+  <mat-list>
+    <div *ngFor="let weekday of weekdays | keyvalue">
+      <div mat-subheader>{{ weekday.value }}</div>
+      <div
+        *ngIf="getSchedulesForDay(weekday.value).length > 0; else noSchedules">
+        <mat-list-item
+          *ngFor="let schedule of getSchedulesForDay(weekday.value)">
+          <div matListItemIcon><mat-icon>schedule</mat-icon></div>
+          <div matListItemTitle>{{ schedule }}</div>
+        </mat-list-item>
+      </div>
+      <ng-template #noSchedules>
+        <mat-list-item>
+          <div matListItemIcon><mat-icon>arrow_right</mat-icon></div>
+          <div matListItemTitle>No schedules</div>
+        </mat-list-item>
+      </ng-template>
+    </div>
+  </mat-list>
+  <h2>Classroom Users</h2>
+  <div id="user-list" *ngIf="classroomUsers.length > 0; else noUsers">
+    <mat-card class="user-card" *ngFor="let user of classroomUsers">
+      <mat-card-content class="user-info">
+        <img
+          [src]="user.avatar"
+          [alt]="'Avatar for user ' + user.firstName + ' ' + user.lastName"
+          class="user-avatar" />
+        <strong>{{ user.firstName }} {{ user.lastName }} </strong>
+        <span>{{ user.role.name }}</span>
+      </mat-card-content>
+      <mat-card-actions>
+        <button
+          mat-icon-button
+          color="accent"
+          (click)="onRemoveUserButtonClick(user)">
+          <mat-icon>person_remove</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <ng-template #noUsers>
+    <p>This classroom has no users assigned</p>
+  </ng-template>
+</ng-template>

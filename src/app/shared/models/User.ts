@@ -1,4 +1,5 @@
 import { City } from './City';
+import { Classroom } from './Classroom';
 import { Country } from './Country';
 import { Role } from './Role';
 
@@ -11,6 +12,12 @@ export interface User {
   birthdate: string;
   city: City;
   country: Country;
+  role: Role;
+}
+
+export interface ClassroomUser {
+  classroom: Classroom;
+  user: User;
   role: Role;
 }
 

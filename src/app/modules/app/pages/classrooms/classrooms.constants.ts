@@ -28,6 +28,7 @@ export const classroomCommonColumns: TableComponentCommonColumns = {
     options: {
       delete: true,
       edit: true,
+      inspect: true,
     },
   },
 };

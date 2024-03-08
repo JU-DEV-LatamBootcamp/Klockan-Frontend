@@ -8,6 +8,7 @@ import { MeetingsComponent } from './pages/meetings/meetings.component';
 import { UsersComponent } from './pages/users/users.component';
 import { ClassroomsComponent } from './pages/classrooms/classrooms.component';
 import { validateRoleGuard } from 'src/app/core/guards/validate-role/validate-role.guard';
+import { ClassroomDetailsComponent } from './pages/classrooms/classroom-details/classroom-details.component';
 
 const routes: Routes = [
   {
@@ -40,6 +41,7 @@ const routes: Routes = [
         path: 'classrooms',
         component: ClassroomsComponent,
       },
+      { path: 'classrooms/:id', component: ClassroomDetailsComponent },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },

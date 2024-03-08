@@ -18,6 +18,7 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { PanelService } from 'src/app/shared/layouts/app-layout/services/panel/panel.service';
 import { ErrorMessageComponent } from 'src/app/shared/components/error-message/error-message.component';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-classrooms',
@@ -40,7 +41,9 @@ export class ClassroomsComponent implements OnInit {
     private readonly dialogService: DialogService,
     private readonly panelService: PanelService,
     private readonly snackBar: MatSnackBar,
-    public readonly classroomService: ClassroomService
+    public readonly classroomService: ClassroomService,
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -132,5 +135,9 @@ export class ClassroomsComponent implements OnInit {
         this.dialogService.showErrorMessage(ErrorMessageComponent, error.error);
       },
     });
+  }
+
+  navigateToDetailsPage(classroom: Classroom) {
+    this.router.navigate([classroom.id], { relativeTo: this.activatedRoute });
   }
 }

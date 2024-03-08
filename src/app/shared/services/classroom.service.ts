@@ -9,6 +9,8 @@ import {
   transformToCreateClassroom,
   transformToUpdateClassroom,
 } from '../utils/classroom-mapper';
+import { User } from '../models/User';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -64,6 +66,39 @@ export class ClassroomService extends BaseService<Classroom> {
     return this.http.delete<Classroom>(
       `${this.baseRoute}${this.classroomPath}/${entity.id}`,
       { headers }
+    );
+  }
+
+  removeUserFromClassroom(
+    classroomId: number,
+    userId: number
+  ): Observable<User> {
+    const token = this.oAuthService.getAccessToken();
+    const headers = super.createHeaders(token);
+
+    return this.http.delete<User>(
+      `${this.baseRoute}${this.classroomPath}/${classroomId}/${userId}`,
+      { headers }
+    );
+  }
+
+  get(id: number): Observable<ClassroomFromService> {
+    const token = this.oAuthService.getAccessToken();
+    const headers = super.createHeaders(token);
+
+    return this.http.get<ClassroomFromService>(
+      `${this.baseRoute}${this.classroomPath}/${id}`,
+      { headers }
+    );
+  }
+
+  getUsers(id: number): Observable<User[]> {
+    const token = this.oAuthService.getAccessToken();
+    const headers = super.createHeaders(token);
+
+    return this.http.get<User[]>(
+      `${this.baseRoute}${this.classroomPath}/${id}/attendees`,
+      { headers, params: new HttpParams().set('classroomId', id) }
     );
   }
 }
