@@ -1,0 +1,28 @@
+.card-wrapper
+  display: grid
+  grid-template-columns: repeat(3,1fr)
+  grid-column-start: 1
+  grid-column-end: 3
+  place-content: center
+  grid-area: auto
+  gap: 1rem
+
+mat-card
+  max-width: 400px
+  min-width: 230px
+  min-height: fit-content
+  max-height: 300px
+  margin: 10px
+  padding: 1%
+  mat-card: hover mat-card-actions
+  display: flex
+  & > mat-card-actions
+    align-self: flex-end
+
+.composed-title
+  font-size: 30px
+  display: flex
+  & > .faint-card-title
+    font: bold
+    color: gray
+    margin-right: 0.6rem

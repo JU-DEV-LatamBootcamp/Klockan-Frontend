@@ -13,4 +13,13 @@ describe('ClassroomService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  /* it('getById() should be returning data', () => {
+    expect(service).toBeTruthy();
+    service.getById(1, true).subscribe({
+      next: classroom => {
+        expect(classroom).not.toBeNull();
+      },
+    });
+  }); */
 });

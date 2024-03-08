@@ -13,7 +13,7 @@
   </div>
 
   <div class="main__content">
-    <div class="spinner" *ngIf="isLoading; else table">
+    <div class="spinner" *ngIf="isLoading; else meetingCardSet">
       <mat-progress-spinner
         mode="indeterminate"
         diameter="70"></mat-progress-spinner>
@@ -21,10 +21,8 @@
   </div>
 </main>
 
-<ng-template #table>
-  <app-table
-    [data]="meetings"
-    [columns]="columns"
-    [commonColumns]="commonColumns"
-    (onRowEdit)="showMeetingForm($event)"></app-table>
+<ng-template #meetingCardSet>
+  <app-meeting-card-display
+    [meetings]="meetings"
+    (onMeetingEdit)="showMeetingForm($event)"></app-meeting-card-display>
 </ng-template>

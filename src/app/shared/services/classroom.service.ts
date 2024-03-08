@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 import { Classroom, ClassroomFromService } from '../models/Classroom';
 import {
   transformClassroomFromService,
+  transformClassroomFromServiceArray,
   transformToCreateClassroom,
   transformToUpdateClassroom,
 } from '../utils/classroom-mapper';
@@ -19,12 +20,21 @@ import { ClassroomUser } from '../models/ClassroomUser';
 export class ClassroomService extends BaseService<Classroom> {
   classroomPath = environment.api.classroomsEndpoint;
 
+  getById(id: number, populate: boolean): Observable<Classroom> {
+    return this.http
+      .get<ClassroomFromService>(
+        `${this.baseRoute}${this.classroomPath}/${id}`,
+        { params: { populate } }
+      )
+      .pipe(map(classroom => transformClassroomFromService(classroom)));
+  }
+
   override getAll(): Observable<Classroom[]> {
     return this.http
       .get<ClassroomFromService[]>(`${this.baseRoute}${this.classroomPath}`)
       .pipe(
         map(coursesFromService =>
-          transformClassroomFromService(coursesFromService)
+          transformClassroomFromServiceArray(coursesFromService)
         )
       );
   }

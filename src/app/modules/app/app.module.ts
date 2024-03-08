@@ -46,6 +46,8 @@ import { MainHeaderComponent } from './components/main-header/main-header.compon
 import { UserFormComponent } from './pages/users/components/user-form/user-form.component';
 import { MeetingFormComponent } from './pages/meetings/components/meeting-form/meeting-form.component';
 import { UpdateUsersFormComponent } from './pages/classrooms/components/update-users-form/update-users-form.component';
+import { MatCardModule } from '@angular/material/card';
+import { MeetingCardDisplayComponent } from './pages/meetings/components/meeting-card-display/meeting-card-display.component';
 
 @NgModule({
   providers: [
@@ -67,6 +69,7 @@ import { UpdateUsersFormComponent } from './pages/classrooms/components/update-u
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
+    MatCardModule,
     TableComponent,
     FormsModule,
     ReactiveFormsModule,
@@ -100,6 +103,8 @@ import { UpdateUsersFormComponent } from './pages/classrooms/components/update-u
     ClassroomFormComponent,
     MeetingFormComponent,
     UpdateUsersFormComponent,
+    MeetingCardDisplayComponent,
+    MeetingCardDisplayComponent,
   ],
   exports: [DeleteConfirmationComponent],
 })

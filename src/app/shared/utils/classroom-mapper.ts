@@ -6,17 +6,25 @@ import {
 import { Schedule } from '../models/Schedule';
 import { transformStringDateToDateOnly } from './date-mapper';
 
-export function transformClassroomFromService(
+export function transformClassroomFromServiceArray(
   classroomsFromService: ClassroomFromService[]
 ): Classroom[] {
-  return classroomsFromService.map(({ id, startDate, program, course }) => ({
-    id,
-    course: course?.name,
-    program: program?.name,
-    starts: startDate,
-    courseObject: course,
-    programObject: program,
-  }));
+  return classroomsFromService.map(classroom =>
+    transformClassroomFromService(classroom)
+  );
+}
+
+export function transformClassroomFromService(
+  classroomsFromService: ClassroomFromService
+): Classroom {
+  return {
+    id: classroomsFromService.id,
+    course: classroomsFromService.course?.name,
+    program: classroomsFromService.program?.name,
+    starts: classroomsFromService.startDate,
+    courseObject: classroomsFromService.course,
+    programObject: classroomsFromService.program,
+  };
 }
 
 export function transformToClassroomFromService(
