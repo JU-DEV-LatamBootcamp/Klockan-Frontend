@@ -203,10 +203,12 @@ export class ClassroomFormComponent implements OnInit {
     if (this.isEditing) {
       this.classroomService.edit(classroom).subscribe(this.requestHandler);
     } else {
-      this.classroomService.create(classroom).subscribe(e => {
+      this.classroomService.create(classroom).subscribe((e: any) => {
         const meeting = this.buildMeetingFromForm(e, classroom);
 
-        this.meetingService.createmultiple(meeting);
+        this.meetingService
+          .createmultiple(meeting)
+          .subscribe((response: any) => console.log(response));
       });
     }
 
