@@ -21,6 +21,7 @@ import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
 } from '@angular/material-moment-adapter';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { MatCardModule } from '@angular/material/card';
 
 // Components
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
@@ -45,6 +46,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { MainHeaderComponent } from './components/main-header/main-header.component';
 import { UserFormComponent } from './pages/users/components/user-form/user-form.component';
 import { MeetingFormComponent } from './pages/meetings/components/meeting-form/meeting-form.component';
+import { ClassroomDetailsComponent } from './pages/classrooms/classroom-details/classroom-details.component';
 import { UpdateUsersFormComponent } from './pages/classrooms/components/update-users-form/update-users-form.component';
 
 @NgModule({
@@ -78,6 +80,7 @@ import { UpdateUsersFormComponent } from './pages/classrooms/components/update-u
     MatNativeDateModule,
     MatMomentDateModule,
     NgxMaterialTimepickerModule,
+    MatCardModule,
   ],
   declarations: [
     ButtonComponent,
@@ -99,6 +102,7 @@ import { UpdateUsersFormComponent } from './pages/classrooms/components/update-u
     UserFormComponent,
     ClassroomFormComponent,
     MeetingFormComponent,
+    ClassroomDetailsComponent,
     UpdateUsersFormComponent,
   ],
   exports: [DeleteConfirmationComponent],

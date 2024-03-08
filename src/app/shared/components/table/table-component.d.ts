@@ -34,6 +34,7 @@ export type TableComponentColumn = {
 export type TableComponentActionHeaderOptions = {
   edit?: boolean;
   delete?: boolean;
+  inspect?: boolean;
 };
 
 export type TableComponentCommonColumns = Omit<

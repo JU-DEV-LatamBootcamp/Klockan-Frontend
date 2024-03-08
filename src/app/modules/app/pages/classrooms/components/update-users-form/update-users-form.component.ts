@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -48,7 +48,7 @@ export type UpdateUsersFormData = {
     },
   ],
 })
-export class UpdateUsersFormComponent {
+export class UpdateUsersFormComponent implements OnInit {
   roleOptions = classroomRoleOptions;
   usersForm!: FormGroup;
   userOptions: SelectOption[] = [];
@@ -100,10 +100,13 @@ export class UpdateUsersFormComponent {
     this.classroomService
       .getUsers(this.data.classroom.id)
       .pipe(
-        map(users => users.sort((a, b) => a.roleId - b.roleId)),
+        map(users => users.sort((a, b) => a.role.id - b.role.id)),
         tap(users => {
           users.forEach(user => {
-            this.addUser(user);
+            this.addUser({
+              userId: user.id,
+              roleId: user.role.id,
+            });
           });
         })
       )

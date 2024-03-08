@@ -40,6 +40,7 @@ export class TableComponent<T> implements OnInit, AfterViewInit {
   @Input() data: T[] = [];
   @Output() onRowDelete: EventEmitter<T> = new EventEmitter<T>();
   @Output() onRowEdit: EventEmitter<T> = new EventEmitter<T>();
+  @Output() rowInspect: EventEmitter<T> = new EventEmitter<T>();
   @Output() onRowClicked: EventEmitter<T> = new EventEmitter<T>();
   dataSource!: MatTableDataSource<T>;
   headerRow: string[] = [];
@@ -91,6 +92,10 @@ export class TableComponent<T> implements OnInit, AfterViewInit {
   deleteRow(event: Event, row: T) {
     event.stopPropagation();
     this.onRowDelete.emit(row);
+  }
+
+  inspectRow(row: T) {
+    this.rowInspect.emit(row);
   }
 
   clickedRow(row: T) {

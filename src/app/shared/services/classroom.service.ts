@@ -10,6 +10,8 @@ import {
   transformToCreateClassroom,
   transformToUpdateClassroom,
 } from '../utils/classroom-mapper';
+import { User } from '../models/User';
+import { HttpClient } from '@angular/common/http';
 import { Schedule } from '../models/Schedule';
 import { ClassroomUser } from '../models/ClassroomUser';
 
@@ -18,6 +20,10 @@ import { ClassroomUser } from '../models/ClassroomUser';
 })
 export class ClassroomService extends BaseService<Classroom> {
   classroomPath = environment.api.classroomsEndpoint;
+
+  constructor(http: HttpClient) {
+    super(http);
+  }
 
   override getAll(): Observable<Classroom[]> {
     return this.http
@@ -49,18 +55,32 @@ export class ClassroomService extends BaseService<Classroom> {
     );
   }
 
+  removeUserFromClassroom(
+    classroomId: number,
+    userId: number
+  ): Observable<User> {
+    return this.http.delete<User>(
+      `${this.baseRoute}${this.classroomPath}/${classroomId}/${userId}`
+    );
+  }
+
+  get(id: number): Observable<ClassroomFromService> {
+    return this.http.get<ClassroomFromService>(
+      `${this.baseRoute}${this.classroomPath}/${id}`
+    );
+  }
+
+  getUsers(id: number): Observable<User[]> {
+    return this.http.get<User[]>(
+      `${this.baseRoute}${this.classroomPath}/${id}/attendees`
+    );
+  }
+
   getSchedules(classroomId: number) {
     const schedulesPath =
       this.baseRoute + environment.api.schedulesEndpoint(classroomId);
 
     return this.http.get<Schedule[]>(schedulesPath);
-  }
-
-  getUsers(classroomId: number): Observable<ClassroomUser[]> {
-    const usersPath =
-      this.baseRoute + environment.api.classroomUsersEndpoint(classroomId);
-
-    return this.http.get<ClassroomUser[]>(usersPath);
   }
 
   updateUsers(
