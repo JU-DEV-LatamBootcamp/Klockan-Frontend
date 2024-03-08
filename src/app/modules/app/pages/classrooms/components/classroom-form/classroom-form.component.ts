@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { map, tap ,concat} from 'rxjs';
+import { map, tap, concat, concatMap } from 'rxjs';
 import { weekdayOptions } from 'src/app/shared/constants/weekday-options';
 import { SelectOption } from 'src/app/shared/interfaces/select-options';
 import { OPanelService } from 'src/app/shared/layouts/app-layout/services/o-panel/o-panel.service';
@@ -203,12 +203,18 @@ export class ClassroomFormComponent implements OnInit {
     if (this.isEditing) {
       this.classroomService.edit(classroom).subscribe(this.requestHandler);
     } else {
-      const meeting = this.buildMeetingFromForm(e, classroom);
-      concat(
-        this.classroomService.create(classroom),
-        this.meetingService.createmultiple(meeting)
-        ).subscribe();
-      
+      const createWithMeetings$ = this.classroomService.create(classroom).pipe(
+        concatMap(createdClassroom => {
+          const meeting = this.buildMeetingFromForm(
+            createdClassroom,
+            classroom
+          );
+          return this.meetingService.createmultiple(meeting);
+        })
+      );
+
+      createWithMeetings$.subscribe();
+
       this.panelService.close();
     }
   }
