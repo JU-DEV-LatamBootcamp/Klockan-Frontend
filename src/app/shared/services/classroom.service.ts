@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from './base.service';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
+
+import { environment } from 'src/environments/environment';
 import { Classroom, ClassroomFromService } from '../models/Classroom';
 import {
   transformClassroomFromService,
@@ -10,7 +11,9 @@ import {
   transformToUpdateClassroom,
 } from '../utils/classroom-mapper';
 import { User } from '../models/User';
-import { HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { Schedule } from '../models/Schedule';
+import { ClassroomUser } from '../models/ClassroomUser';
 
 @Injectable({
   providedIn: 'root',
@@ -18,14 +21,13 @@ import { HttpParams } from '@angular/common/http';
 export class ClassroomService extends BaseService<Classroom> {
   classroomPath = environment.api.classroomsEndpoint;
 
-  override getAll(): Observable<Classroom[]> {
-    const token = this.oAuthService.getAccessToken();
-    const headers = super.createHeaders(token);
+  constructor(http: HttpClient) {
+    super(http);
+  }
 
+  override getAll(): Observable<Classroom[]> {
     return this.http
-      .get<ClassroomFromService[]>(`${this.baseRoute}${this.classroomPath}`, {
-        headers,
-      })
+      .get<ClassroomFromService[]>(`${this.baseRoute}${this.classroomPath}`)
       .pipe(
         map(coursesFromService =>
           transformClassroomFromService(coursesFromService)
@@ -34,38 +36,22 @@ export class ClassroomService extends BaseService<Classroom> {
   }
 
   override create(classroom: Classroom): Observable<Classroom> {
-    const token = this.oAuthService.getAccessToken();
     const body = transformToCreateClassroom(classroom);
-    const headers = super.createHeaders(token);
 
-    return this.http.post<Classroom>(
-      this.baseRoute + this.classroomPath,
-      body,
-      {
-        headers,
-      }
-    );
+    return this.http.post<Classroom>(this.baseRoute + this.classroomPath, body);
   }
 
   override edit(classroom: Classroom): Observable<Classroom> {
-    const token = this.oAuthService.getAccessToken();
     const body = transformToUpdateClassroom(classroom);
-    const headers = super.createHeaders(token);
-
     return this.http.put<Classroom>(
       `${this.baseRoute}${this.classroomPath}/${classroom.id}`,
-      body,
-      { headers }
+      body
     );
   }
 
   override delete(entity: Classroom): Observable<Classroom> {
-    const token = this.oAuthService.getAccessToken();
-    const headers = super.createHeaders(token);
-
     return this.http.delete<Classroom>(
-      `${this.baseRoute}${this.classroomPath}/${entity.id}`,
-      { headers }
+      `${this.baseRoute}${this.classroomPath}/${entity.id}`
     );
   }
 
@@ -73,32 +59,38 @@ export class ClassroomService extends BaseService<Classroom> {
     classroomId: number,
     userId: number
   ): Observable<User> {
-    const token = this.oAuthService.getAccessToken();
-    const headers = super.createHeaders(token);
-
     return this.http.delete<User>(
-      `${this.baseRoute}${this.classroomPath}/${classroomId}/${userId}`,
-      { headers }
+      `${this.baseRoute}${this.classroomPath}/${classroomId}/${userId}`
     );
   }
 
   get(id: number): Observable<ClassroomFromService> {
-    const token = this.oAuthService.getAccessToken();
-    const headers = super.createHeaders(token);
-
     return this.http.get<ClassroomFromService>(
-      `${this.baseRoute}${this.classroomPath}/${id}`,
-      { headers }
+      `${this.baseRoute}${this.classroomPath}/${id}`
     );
   }
 
   getUsers(id: number): Observable<User[]> {
-    const token = this.oAuthService.getAccessToken();
-    const headers = super.createHeaders(token);
-
     return this.http.get<User[]>(
-      `${this.baseRoute}${this.classroomPath}/${id}/attendees`,
-      { headers, params: new HttpParams().set('classroomId', id) }
+      `${this.baseRoute}${this.classroomPath}/${id}/attendees`
     );
+  }
+
+  getSchedules(classroomId: number) {
+    const schedulesPath =
+      this.baseRoute + environment.api.schedulesEndpoint(classroomId);
+
+    return this.http.get<Schedule[]>(schedulesPath);
+  }
+
+  updateUsers(
+    classroomId: number,
+    users: ClassroomUser[]
+  ): Observable<ClassroomUser[]> {
+    const usersPath =
+      this.baseRoute + environment.api.classroomUsersEndpoint(classroomId);
+    const body = { users };
+
+    return this.http.put<ClassroomUser[]>(usersPath, body);
   }
 }

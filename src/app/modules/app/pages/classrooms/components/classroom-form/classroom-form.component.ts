@@ -1,28 +1,44 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
-  AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { map, tap } from 'rxjs';
 import { weekdayOptions } from 'src/app/shared/constants/weekday-options';
 import { SelectOption } from 'src/app/shared/interfaces/select-options';
+import { OPanelService } from 'src/app/shared/layouts/app-layout/services/o-panel/o-panel.service';
 import { Classroom } from 'src/app/shared/models/Classroom';
 import { Course } from 'src/app/shared/models/Courses';
+import { CreateMultipleMeeting } from 'src/app/shared/models/Meeting';
+import { Schedule } from 'src/app/shared/models/Schedule';
 import { ClassroomService } from 'src/app/shared/services/classroom.service';
 import { CourseService } from 'src/app/shared/services/course.service';
+import { MeetingService } from 'src/app/shared/services/meeting.service';
 import { ProgramService } from 'src/app/shared/services/program.service';
-import { transform24TimeTo12Time } from 'src/app/shared/utils/date-mapper';
+import {
+  transform12TimeTo24Time,
+  transformDateTimeToTimePickerString,
+} from 'src/app/shared/utils/time-mapper';
+import {
+  UpdateUsersFormComponent,
+  UpdateUsersFormData,
+} from '../update-users-form/update-users-form.component';
 
 export type ScheduleForm = FormGroup<{
+  id: FormControl<string | null>;
   weekday: FormControl<string | null>;
   startingTime: FormControl<string | null>;
 }>;
+
+export type ClassroomFormData = {
+  classroom?: Classroom;
+  onSuccess?: (classroom: Classroom) => void;
+  onError?: (error: unknown) => void;
+};
 
 @Component({
   selector: 'app-classroom-form',
@@ -36,35 +52,62 @@ export type ScheduleForm = FormGroup<{
   ],
 })
 export class ClassroomFormComponent implements OnInit {
-  title!: string;
   classroomForm!: FormGroup;
   programOptions: SelectOption[] = [];
   courseOptions: SelectOption[] = [];
   courses: Course[] = [];
   weekdayOptions = weekdayOptions;
   defaultDuration?: string;
+  data?: ClassroomFormData;
+  isEditing = false;
+  duration = 0;
 
   constructor(
+    private readonly formBuilder: FormBuilder,
     public readonly classroomService: ClassroomService,
+    public readonly meetingService: MeetingService,
     public readonly programService: ProgramService,
     public readonly courseService: CourseService,
-    private readonly formBuilder: FormBuilder,
-    private readonly dialogRef: MatDialogRef<ClassroomFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { item: Classroom }
+    public readonly panelService: OPanelService
   ) {}
+  async ngOnInit(): Promise<void> {
+    this.data = this.panelService.data as ClassroomFormData;
+    this.isEditing = !!this.data.classroom;
+    this.initializeForm();
+
+    await this.fetchClassroomSchedules();
+    await this.fetchCourseOptions();
+    await this.fetchProgramOptions();
+  }
+
+  private fetchClassroomSchedules() {
+    if (!this.data?.classroom) return;
+
+    this.classroomService
+      .getSchedules(this.data.classroom.id)
+      .subscribe(schedules => {
+        schedules.forEach(schedule => {
+          schedule.startTime = transformDateTimeToTimePickerString(
+            schedule.startTime
+          );
+          this.addSchedule(schedule);
+        });
+      });
+  }
 
   private initializeForm(): void {
     this.classroomForm = this.formBuilder.group({
       course: [
-        this.data ? this.data.item.courseObject?.id?.toString() : '',
+        this.data ? this.data.classroom?.courseObject?.id?.toString() : '',
         [Validators.required],
       ],
       program: [
-        this.data ? this.data.item.programObject?.id.toString() : '',
+        this.data ? this.data.classroom?.programObject?.id.toString() : '',
         [Validators.required],
       ],
+
       startingDate: [
-        this.data ? this.data.item.starts : '',
+        this.data ? this.data.classroom?.starts : '',
         [Validators.required],
       ],
       schedules: new FormArray<ScheduleForm>([]),
@@ -75,26 +118,21 @@ export class ClassroomFormComponent implements OnInit {
     return this.classroomForm.get('schedules') as FormArray<ScheduleForm>;
   }
 
-  addSchedule() {
-    const schedule: ScheduleForm = this.formBuilder.group({
-      weekday: ['', [Validators.required]],
-      startingTime: ['', [Validators.required]],
+  addSchedule(schedule: Schedule | null = null) {
+    const scheduleGroup: ScheduleForm = this.formBuilder.group({
+      id: [schedule?.id ? schedule.id.toString() : ''],
+      weekday: [
+        schedule ? schedule.weekdayId.toString() : '',
+        [Validators.required],
+      ],
+      startingTime: [schedule ? schedule.startTime : '', [Validators.required]],
     });
 
-    this.schedules.push(schedule);
+    this.schedules.push(scheduleGroup);
   }
 
   get scheduleControls(): FormGroup[] {
     return this.schedules.controls as FormGroup[];
-  }
-
-  async ngOnInit(): Promise<void> {
-    // IMPROVEMENT: this data should be managed in a stream serivce of courses and programs
-    this.title = this.data ? 'Edit Classroom' : 'Create Classroom';
-    this.initializeForm();
-
-    await this.fetchCourseOptions();
-    await this.fetchProgramOptions();
   }
 
   fetchCourseOptions() {
@@ -144,6 +182,7 @@ export class ClassroomFormComponent implements OnInit {
     if (!course?.duration) return;
 
     this.defaultDuration = course.duration.toString();
+    this.duration = course.duration;
   }
 
   public getFieldError(field: string): string | null {
@@ -159,19 +198,22 @@ export class ClassroomFormComponent implements OnInit {
   }
 
   onSubmit() {
-    const classroom = this.buildClassroomFromForm();
+    const classroom = this.getClassroomFromForm();
 
-    if (this.data) {
+    if (this.isEditing) {
       this.classroomService.edit(classroom).subscribe(this.requestHandler);
-      return;
+    } else {
+      this.classroomService.create(classroom).subscribe(e => {
+        const meeting = this.buildMeetingFromForm(e, classroom);
+        this.meetingService.createmultiple(meeting);
+      });
+      this.panelService.close();
     }
-
-    this.classroomService.create(classroom).subscribe(this.requestHandler);
   }
 
-  buildClassroomFromForm() {
+  getClassroomFromForm(): Classroom {
     const classroom: Classroom = {
-      id: this.data?.item?.id || -1,
+      id: this.data?.classroom?.id || -1,
       courseObject: {
         id: this.classroomForm.get('course')?.value,
         name: '',
@@ -183,11 +225,11 @@ export class ClassroomFormComponent implements OnInit {
       },
       starts: this.classroomForm.get('startingDate')?.value,
     };
-
-    const schedule = this.scheduleControls.map(group => {
+    const schedule: Schedule[] = this.scheduleControls.map(group => {
       return {
+        id: group.get('id')?.value || 0,
         weekdayId: group.get('weekday')?.value,
-        startTime: transform24TimeTo12Time(group.get('startingTime')?.value),
+        startTime: transform12TimeTo24Time(group.get('startingTime')?.value),
       };
     });
 
@@ -196,17 +238,43 @@ export class ClassroomFormComponent implements OnInit {
     return classroom;
   }
 
+  buildMeetingFromForm(data: any, classroom: Classroom) {
+    const meeting: CreateMultipleMeeting = {
+      startdate: data.startDate,
+      quantity: this.duration,
+      classroomId: data.id,
+      schedules: classroom.schedule,
+    };
+
+    const schedule: Schedule[] = this.scheduleControls.map(group => {
+      return {
+        id: group.get('id')?.value || 0,
+        weekdayId: group.get('weekday')?.value,
+        startTime: transform12TimeTo24Time(group.get('startingTime')?.value),
+      };
+    });
+
+    meeting.schedules = schedule;
+    return meeting;
+  }
+
   get requestHandler() {
     return {
       next: (classroom: Classroom) => {
-        this.dialogRef.close(classroom);
+        this.panelService.close();
+        if (this.data?.onSuccess) {
+          this.data?.onSuccess(classroom);
+        }
       },
       error: (error: Error) => {
-        console.error(
-          `Error ${this.data ? 'editing' : 'creating'} classroom:`,
-          error
-        );
+        if (this.data?.onError) {
+          this.data?.onError(error);
+        }
       },
     };
+  }
+
+  openAddUsersForm() {
+    this.panelService.openFromComponent(UpdateUsersFormComponent);
   }
 }

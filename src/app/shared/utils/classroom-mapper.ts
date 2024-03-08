@@ -3,7 +3,8 @@ import {
   ClassroomFromService,
   UpdateClassroom,
 } from '../models/Classroom';
-import { transformDateToDateOnly } from './date-mapper';
+import { Schedule } from '../models/Schedule';
+import { transformStringDateToDateOnly } from './date-mapper';
 
 export function transformClassroomFromService(
   classroomsFromService: ClassroomFromService[]
@@ -37,9 +38,7 @@ export function transformToCreateClassroom(
   return {
     courseId: parseInt(classroom.courseObject?.id?.toString() || '-1'),
     programId: parseInt(classroom.programObject?.id.toString() || '-1'),
-    startDate: transformDateToDateOnly(
-      new Date(classroom.starts || '2024-01-01')
-    ),
+    startDate: transformStringDateToDateOnly(classroom.starts || '2024-01-01'),
     schedule: classroom.schedule || [],
   };
 }
@@ -50,9 +49,19 @@ export function transformToUpdateClassroom(
   return {
     courseId: parseInt(classroom.courseObject?.id?.toString() || '-1'),
     programId: parseInt(classroom.programObject?.id.toString() || '-1'),
-    startDate: transformDateToDateOnly(
-      new Date(classroom.starts || '2024-01-01')
-    ),
-    schedule: classroom.schedule || [],
+    startDate: transformStringDateToDateOnly(classroom.starts || '2024-01-01'),
+    schedule:
+      classroom.schedule?.map(s => {
+        const schedule: Schedule = {
+          startTime: s.startTime,
+          weekdayId: s.weekdayId,
+        };
+
+        if (s.id) {
+          schedule.id = s.id;
+        }
+
+        return schedule;
+      }) || [],
   };
 }

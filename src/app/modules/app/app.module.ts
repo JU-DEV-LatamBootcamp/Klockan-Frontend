@@ -16,6 +16,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import {
+  MatMomentDateModule,
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+} from '@angular/material-moment-adapter';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { MatCardModule } from '@angular/material/card';
 
@@ -43,9 +47,12 @@ import { MainHeaderComponent } from './components/main-header/main-header.compon
 import { UserFormComponent } from './pages/users/components/user-form/user-form.component';
 import { MeetingFormComponent } from './pages/meetings/components/meeting-form/meeting-form.component';
 import { ClassroomDetailsComponent } from './pages/classrooms/classroom-details/classroom-details.component';
+import { UpdateUsersFormComponent } from './pages/classrooms/components/update-users-form/update-users-form.component';
 
 @NgModule({
-  providers: [],
+  providers: [
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+  ],
   imports: [
     CommonModule,
     AppRoutingModule,
@@ -71,6 +78,7 @@ import { ClassroomDetailsComponent } from './pages/classrooms/classroom-details/
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatMomentDateModule,
     NgxMaterialTimepickerModule,
     MatCardModule,
   ],
@@ -95,6 +103,7 @@ import { ClassroomDetailsComponent } from './pages/classrooms/classroom-details/
     ClassroomFormComponent,
     MeetingFormComponent,
     ClassroomDetailsComponent,
+    UpdateUsersFormComponent,
   ],
   exports: [DeleteConfirmationComponent],
 })

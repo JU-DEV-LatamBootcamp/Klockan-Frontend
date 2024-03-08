@@ -1,3 +1,5 @@
+import { Schedule } from './Schedule';
+
 export interface MeetingFromService {
   id: number;
   sessionNumber: number;
@@ -22,4 +24,15 @@ export interface CreateMeeting {
   classroomId: number;
   trainerId: number;
   users: number[];
+}
+
+export interface UpdateMeeting {
+  date: string;
+  time: string;
+}
+export interface CreateMultipleMeeting {
+  startdate: string;
+  quantity: number;
+  classroomId: number;
+  schedules?: Schedule[];
 }

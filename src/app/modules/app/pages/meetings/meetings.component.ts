@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { meetingCommonColumns, meetingTypeColumns } from './meeting.constants';
-import { Meeting } from 'src/app/shared/models/Meetings';
+import { Meeting } from 'src/app/shared/models/Meeting';
 import { MeetingService } from 'src/app/shared/services/meeting.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { API_ERROR_MESSAGE } from 'src/app/shared/constants/api.constants';
@@ -61,14 +61,20 @@ export class MeetingsComponent implements OnInit {
     );
   }
 
-  public showCreateDialog(): void {
-    this.dialogService.show(MeetingFormComponent).subscribe(result => {
-      if (result) this.createMeeting(result);
-    });
+  public showMeetingForm(meeting?: Meeting): void {
+    this.dialogService
+      .show(MeetingFormComponent, meeting ? { item: meeting } : null)
+      .subscribe(result => {
+        this.fetchData();
+        if (!meeting) {
+          if (result) this.showSnackbar(result, 'Meeting created');
+        } else {
+          if (result) this.showSnackbar(result, 'Meeting edited');
+        }
+      });
   }
 
-  public createMeeting({ id }: Meeting): void {
-    this.displaySnackbar(`Meeting created`, SNACKBAR_SUCCESS_DEFAULTS);
-    this.fetchData();
+  public showSnackbar({ id }: Meeting, message: string): void {
+    this.displaySnackbar(message, SNACKBAR_SUCCESS_DEFAULTS);
   }
 }

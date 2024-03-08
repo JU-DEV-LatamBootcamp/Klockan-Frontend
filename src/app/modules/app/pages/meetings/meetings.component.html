@@ -1,10 +1,11 @@
+<script src="meetings.component.ts"></script>
 <main class="main">
   <div class="main__header">
     <app-main-header title="Meetings">
       <button
         class="theme-button"
         mat-raised-button
-        (click)="showCreateDialog()">
+        (click)="showMeetingForm()">
         <mat-icon class="material-symbols-outlined" fontIcon="add" />
         <span>New Meeting</span>
       </button>
@@ -24,5 +25,6 @@
   <app-table
     [data]="meetings"
     [columns]="columns"
-    [commonColumns]="commonColumns"></app-table>
+    [commonColumns]="commonColumns"
+    (onRowEdit)="showMeetingForm($event)"></app-table>
 </ng-template>

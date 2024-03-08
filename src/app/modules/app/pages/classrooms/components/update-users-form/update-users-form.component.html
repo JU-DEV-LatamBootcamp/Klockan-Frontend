@@ -1,0 +1,98 @@
+<div class="panel">
+  <mat-toolbar class="panel__header">
+    <div class="panel__row">
+      <button mat-icon-button (click)="openClassroomForm()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h2>Edit Users</h2>
+    </div>
+  </mat-toolbar>
+
+  <form class="panel__content form" [formGroup]="usersForm">
+    <div class="user__container" formArrayName="users">
+      <h2 class="form__title">Users</h2>
+
+      <p class="form__hint">
+        Here you can add, edit and remove users associated with this classroom.
+      </p>
+
+      <div
+        class="user"
+        *ngFor="let user of userControls; let i = index"
+        [formGroup]="user"
+        [ngClass]="{
+          'user--p-sm':
+            user.get('roleId')?.valid || user.get('roleId')?.untouched
+        }">
+        <div class="user__content">
+          <div class="user__row">
+            <mat-form-field>
+              <mat-label>User</mat-label>
+
+              <mat-select formControlName="userId" placeholder="Choose a user">
+                <mat-option
+                  *ngFor="let option of userOptions"
+                  [value]="option.value"
+                  [disabled]="isUserSelected(option.value)"
+                  >{{ option.label }}</mat-option
+                >
+              </mat-select>
+
+              <mat-error *ngIf="user.get('userId')?.touched">
+                This field is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="schedule__row">
+            <mat-form-field>
+              <mat-label>Role</mat-label>
+
+              <mat-select formControlName="roleId" placeholder="Choose a role">
+                <mat-option
+                  *ngFor="let option of roleOptions"
+                  [value]="option.value"
+                  >{{ option.label }}</mat-option
+                >
+              </mat-select>
+
+              <mat-error *ngIf="user.get('roleId')?.touched">
+                This field is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="user__actions">
+          <button mat-icon-button (click)="users.removeAt(i)">
+            <mat-icon class="material-symbols-outlined" fontIcon="delete" />
+          </button>
+        </div>
+      </div>
+
+      <div class="user__container-actions">
+        <button
+          mat-stroked-button
+          color="primary"
+          type="button"
+          (click)="addUser()">
+          <mat-icon class="material-symbols-outlined" fontIcon="add" />
+          <span>Add User</span>
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <div class="panel__actions">
+    <button mat-button (click)="openClassroomForm()" class="cancel-button">
+      Cancel
+    </button>
+    <button
+      mat-button
+      class="confirm-button"
+      (click)="onSubmit()"
+      [disabled]="!usersForm.valid">
+      Confirm
+    </button>
+  </div>
+</div>

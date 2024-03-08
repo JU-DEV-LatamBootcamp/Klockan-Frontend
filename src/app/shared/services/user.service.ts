@@ -12,24 +12,17 @@ export class UserService extends BaseService<User> {
   usersPath = environment.api.usersEndpoint;
 
   override getAll(): Observable<User[]> {
-    const token = this.oAuthService.getAccessToken();
-    const headers = super.createHeaders(token);
-    return this.http.get<User[]>(this.baseRoute + this.usersPath, {
-      headers,
-    });
+    return this.http.get<User[]>(this.baseRoute + this.usersPath);
   }
 
   override create(entity: User): Observable<User> {
-    const token = this.oAuthService.getAccessToken();
-    const headers = super.createHeaders(token);
-
-    return this.http.post<User>(`${this.baseRoute}${this.usersPath}`, entity, {
-      headers,
-    });
+    return this.http.post<User>(`${this.baseRoute}${this.usersPath}`, entity);
   }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   override edit(entity: User): Observable<User> {
-    throw new Error('Method not implemented.');
+    return this.http.put<User>(`${this.baseRoute}${this.usersPath}`, entity);
   }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   override delete(entity: User): Observable<User> {
     throw new Error('Method not implemented.');
   }

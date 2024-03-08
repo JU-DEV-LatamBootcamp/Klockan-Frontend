@@ -79,7 +79,6 @@ export class ProgramFormComponent implements OnInit, OnDestroy {
       const {
         item: { id },
       } = this.data;
-      console.log({ id, ...this.programForm.value });
       this.programService.edit({ id, ...this.programForm.value }).subscribe({
         next: program => {
           this.dialogRef.close(program);

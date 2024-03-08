@@ -21,7 +21,6 @@ import {
 import { commonHeaders } from './table-component.constants';
 import { MatButtonModule } from '@angular/material/button';
 
-// TODO: actions when no action is enable
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -42,6 +41,7 @@ export class TableComponent<T> implements OnInit, AfterViewInit {
   @Output() onRowDelete: EventEmitter<T> = new EventEmitter<T>();
   @Output() onRowEdit: EventEmitter<T> = new EventEmitter<T>();
   @Output() rowInspect: EventEmitter<T> = new EventEmitter<T>();
+  @Output() onRowClicked: EventEmitter<T> = new EventEmitter<T>();
   dataSource!: MatTableDataSource<T>;
   headerRow: string[] = [];
   commonHeaders: TableComponentHeaderObject<string> = commonHeaders;
@@ -84,15 +84,21 @@ export class TableComponent<T> implements OnInit, AfterViewInit {
     };
   }
 
-  editRow(row: T) {
+  editRow(event: Event, row: T) {
+    event.stopPropagation();
     this.onRowEdit.emit(row);
   }
 
-  deleteRow(row: T) {
+  deleteRow(event: Event, row: T) {
+    event.stopPropagation();
     this.onRowDelete.emit(row);
   }
 
   inspectRow(row: T) {
     this.rowInspect.emit(row);
+  }
+
+  clickedRow(row: T) {
+    this.onRowClicked.emit(row);
   }
 }

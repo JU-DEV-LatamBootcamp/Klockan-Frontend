@@ -1,6 +1,11 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MeetingService } from '../../../../../../shared/services/meeting.service';
 import { Classroom } from '../../../../../../shared/models/Classroom';
@@ -13,7 +18,7 @@ import { map } from 'rxjs/operators';
 import {
   CreateMeeting,
   Meeting,
-} from '../../../../../../shared/models/Meetings';
+} from '../../../../../../shared/models/Meeting';
 import getTimeOnlyFromString from '../../../../../../shared/utils/date-only-formater';
 
 @Component({
@@ -30,6 +35,7 @@ export class MeetingFormComponent implements OnInit, OnDestroy {
   headerTypeLabel = 'Create Meeting';
   meetingForm!: FormGroup;
   todayDate: Date = new Date();
+  isEdit = false;
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -40,18 +46,24 @@ export class MeetingFormComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data: { item: Meeting }
   ) {}
 
-  get requestHandler() {
+  get requestHandler(): any {
     return {
-      next: (meeting: CreateMeeting) => {
+      next: (meeting: CreateMeeting | Meeting) => {
         this.dialogRef.close(meeting);
       },
       error: (error: Error) => {
-        console.error(`Error creating classroom:`, error);
+        console.error(
+          `Error ${this.data ? 'editing' : 'creating'} meeting:`,
+          error
+        );
       },
     };
   }
 
   ngOnInit(): void {
+    this.headerTypeLabel = this.data ? 'Edit meeting' : 'Create Meeting';
+    this.isEdit = !!this.data;
+    console.log(this.data);
     this.initializeForm();
     this.fetchUsersOptions();
     this.fetchClassroomOptions();
@@ -64,24 +76,30 @@ export class MeetingFormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    if (!this.meetingForm.invalid) {
-      const formData = this.meetingForm.value;
-      const meeting = {
-        date: this.formatDateToDateOnly(formData.startingDate),
-        time: getTimeOnlyFromString(formData.startingTime),
-        classroomId: formData.classroom,
-        trainerId: formData.trainer,
-        users: formData.students,
-      };
-      this.meetingService.create(meeting).subscribe({
-        next: meeting => {
-          this.dialogRef.close(meeting);
-        },
-      });
+    const formData = this.meetingForm.value;
+
+    if (!this.data) {
+      if (!this.meetingForm.invalid) {
+        const meeting = {
+          date: this.formatDateToDateOnly(formData.startingDate),
+          time: getTimeOnlyFromString(formData.startingTime),
+          classroomId: formData.classroom,
+          trainerId: formData.trainer,
+          users: formData.students,
+        };
+        this.meetingService.create(meeting).subscribe(this.requestHandler);
+      } else {
+        Object.keys(this.meetingForm.controls).forEach(key => {
+          this.meetingForm?.get(key)?.markAsTouched();
+        });
+      }
     } else {
-      Object.keys(this.meetingForm.controls).forEach(key => {
-        this.meetingForm?.get(key)?.markAsTouched();
-      });
+      const meeting: Meeting = {
+        ...this.data.item,
+        time: formData.startingTime,
+        date: formData.startingDate,
+      };
+      this.meetingService.edit(meeting).subscribe(this.requestHandler);
     }
   }
 
@@ -98,12 +116,26 @@ export class MeetingFormComponent implements OnInit, OnDestroy {
   }
 
   private initializeForm(): void {
+    const classroomControl = new FormControl(
+      {
+        value: this.data ? this.data.item.classroom : '',
+        disabled: this.isEdit,
+      },
+      Validators.required
+    );
+
     this.meetingForm = this.formBuilder.group({
-      classroom: [null, Validators.required],
+      classroom: classroomControl,
       students: [[]],
-      trainer: [null, Validators.required],
-      startingDate: [null, Validators.required],
-      startingTime: [null, Validators.required],
+      trainer: [null, !this.isEdit ? Validators.required : null],
+      startingDate: [
+        this.data ? this.data.item.date : null,
+        Validators.required,
+      ],
+      startingTime: [
+        this.data ? this.transformTime(this.data.item.time.toString()) : null,
+        Validators.required,
+      ],
     });
   }
 
@@ -166,5 +198,14 @@ export class MeetingFormComponent implements OnInit, OnDestroy {
 
   private formatDateToDateOnly(date: Date): string {
     return date.toISOString().split('T')[0];
+  }
+
+  transformTime(meetingTime: string): string {
+    const time = new Date('2000-01-01T' + meetingTime);
+    return time.toLocaleString('en-US', {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true,
+    });
   }
 }

@@ -2,7 +2,7 @@ import {
   TableComponentCommonColumns,
   TableComponentTypeColumn,
 } from 'src/app/shared/components/table/table-component';
-import { Meeting } from 'src/app/shared/models/Meetings';
+import { Meeting } from 'src/app/shared/models/Meeting';
 
 export const meetingTypeColumns: TableComponentTypeColumn<Meeting>[] = [
   {

@@ -4,7 +4,7 @@
       <button
         class="theme-button"
         mat-raised-button
-        (click)="showClassroomForm()">
+        (click)="openClassroomForm()">
         <mat-icon class="material-symbols-outlined" fontIcon="add" />
         <span>New Classroom</span>
       </button>
@@ -26,6 +26,7 @@
     [columns]="columns"
     [commonColumns]="commonColumns"
     (onRowDelete)="showDeleteDialog($event)"
-    (onRowEdit)="showClassroomForm($event)"
-    (rowInspect)="navigateToDetailsPage($event)"></app-table>
+    (rowInspect)="navigateToDetailsPage($event)"
+    (onRowEdit)="openClassroomForm($event)"
+    (onRowClicked)="openClassroomForm($event)"></app-table>
 </ng-template>
