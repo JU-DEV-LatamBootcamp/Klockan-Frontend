@@ -61,6 +61,7 @@ export class ClassroomFormComponent implements OnInit {
   data?: ClassroomFormData;
   isEditing = false;
   duration = 0;
+  sessions = 0;
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -183,6 +184,7 @@ export class ClassroomFormComponent implements OnInit {
 
     this.defaultDuration = course.duration.toString();
     this.duration = course.duration;
+    this.sessions = course.sessions || 0;
   }
 
   public getFieldError(field: string): string | null {
@@ -245,7 +247,7 @@ export class ClassroomFormComponent implements OnInit {
   buildMeetingFromForm(data: any, classroom: Classroom) {
     const meeting: CreateMultipleMeeting = {
       startdate: data.startDate,
-      quantity: this.duration,
+      quantity: this.sessions,
       classroomId: data.id,
       schedules: classroom.schedule,
     };
