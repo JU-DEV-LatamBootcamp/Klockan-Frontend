@@ -1,4 +1,5 @@
 import { Schedule } from './Schedule';
+import { Course } from './Courses';
 
 export interface MeetingFromService {
   id: number;
@@ -16,6 +17,11 @@ export interface Meeting {
   classroom: number;
   users?: number[];
   trainer?: number;
+}
+
+export interface MeetingCardData extends Meeting {
+  course?: Course;
+  program?: string;
 }
 
 export interface CreateMeeting {
