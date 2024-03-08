@@ -203,20 +203,16 @@ export class ClassroomFormComponent implements OnInit {
     if (this.isEditing) {
       this.classroomService.edit(classroom).subscribe(this.requestHandler);
     } else {
-      const createWithMeetings$ = this.classroomService.create(classroom).pipe(
-        concatMap(createdClassroom => {
-          const meeting = this.buildMeetingFromForm(
-            createdClassroom,
-            classroom
-          );
-          return this.meetingService.createmultiple(meeting);
-        })
-      );
+      this.classroomService.create(classroom).subscribe((e: any) => {
+        const meeting = this.buildMeetingFromForm(e, classroom);
 
-      createWithMeetings$.subscribe();
-
-      this.panelService.close();
+        this.meetingService
+          .createmultiple(meeting)
+          .subscribe((response: any) => console.log(response));
+      });
     }
+
+    this.panelService.close();
   }
 
   getClassroomFromForm(): Classroom {
