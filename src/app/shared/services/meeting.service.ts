@@ -39,7 +39,7 @@ export class MeetingService extends BaseService<
   }
   createmultiple(meeting: CreateMultipleMeeting): Observable<Meeting[]> {
     return this.http.post<Meeting[]>(
-      `${this.baseRoute}${this.meetingPath}/Shedule`,
+      `${this.baseRoute}${this.meetingPath}/schedule`,
       meeting
     );
   }
